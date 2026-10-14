@@ -4,7 +4,7 @@
    "date": "2026-10-10",
    "holders": 23974675,
    "revenue": 25241852,
-   "tvl": 55280900
+   "tvl": 101801365
   },
   {
    "date": "2026-10-11",
@@ -26,7 +26,7 @@
   }
  ],
  "data_through": "2026-10-13",
- "fetched_at": "2026-10-14T05:18:51Z",
+ "fetched_at": "2026-10-14T05:24:57Z",
  "sources": {
   "holders": "https://api.llama.fi/summary/fees/papertrade?dataType=dailyHoldersRevenue",
   "revenue": "https://api.llama.fi/summary/fees/papertrade?dataType=dailyRevenue",
@@ -34,15 +34,15 @@
  },
  "today_so_far": {
   "date": "2026-10-14",
-  "holders": 3561704,
-  "revenue": 3885976,
-  "tvl": 65825367
+  "holders": 3281225,
+  "revenue": 3593109,
+  "tvl": 65553320
  },
  "totals": {
-  "holders_24h": 3561704,
-  "holders_all_time": 37500425,
-  "revenue_24h": 3885976,
-  "revenue_all_time": 40911227,
-  "tvl_now": 65825367.81135
+  "holders_24h": 3281225,
+  "holders_all_time": 37219946,
+  "revenue_24h": 3593109,
+  "revenue_all_time": 40618360,
+  "tvl_now": 65553320.14984
  }
 }
