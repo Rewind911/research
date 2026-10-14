@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Insaaf's Research</title>
+<meta name="description" content="Research notes and valuation models by Insaaf. Every number is sourced.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a plain research index; newest first, one row per study. */
+:root{--bg:#f2f3ef;--surface:#fcfcfa;--ink:#121417;--ink2:#454950;--muted:#7b8088;--line:#d9dcd4;--accent:#2a78d6;
+--display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;--body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0f1012;--surface:#18191c;--ink:#eef0eb;--ink2:#c0c4c9;--muted:#8c9198;--line:#2d2f33;--accent:#5598e7;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1012;--surface:#18191c;--ink:#eef0eb;--ink2:#c0c4c9;--muted:#8c9198;--line:#2d2f33;--accent:#5598e7;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+main{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:48px 72px;display:grid;gap:28px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,6vw,48px);line-height:1.05;letter-spacing:-0.02em;margin:0}
+.lede{color:var(--ink2);margin:8px 0 0;max-width:60ch}
+.tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+a.item{display:grid;gap:6px;padding:18px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);text-decoration:none;transition:border-color .15s}
+a.item:hover{border-color:var(--ink2)}
+a.item:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.item h2{font-family:var(--display);font-weight:800;font-size:21px;margin:0;line-height:1.15}
+.item p{margin:0;color:var(--ink2);font-size:14px}
+.item .go{color:var(--accent);font-weight:600;font-size:13px}
+footer{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="tag">research.2rewind.com</div>
+    <h1>Insaaf's Research</h1>
+    <p class="lede">Valuations and deep dives, built from evidence. Every number links to where it came from.</p>
+  </header>
+  <ol>
+    <li><a class="item" href="/paper-valuation/">
+      <span class="tag">14 Oct 2026 · Crypto · Valuation</span>
+      <h2>PAPER Value Model</h2>
+      <p>What Papertrade's PAPER token could be worth, and when, built from how similar launches really performed.</p>
+      <span class="go">Open the model →</span>
+    </a></li>
+  </ol>
+  <footer>Not financial advice.</footer>
+</main>
+</body>
+</html>
