@@ -224,13 +224,29 @@ ul.plain{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px;max-widt
 .src{display:grid;gap:4px;font-size:13px}
 .src a{color:var(--ink2)}
 footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+/* tracking */
+.upd{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.upd b{color:var(--ink);font-weight:600}
+.trk{display:grid;gap:2px;padding:9px 12px;border-radius:4px;background:var(--bg);border-left:3px solid var(--ink);font-size:13.5px;color:var(--ink)}
+.trk .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.trk b{font-weight:600}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tcard{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:6px;padding:12px 14px;display:grid;gap:6px;align-content:start;background:var(--surface)}
+.tcard h3{font-family:var(--body);font-weight:600;font-size:13.5px}
+.tcard .big{font-family:var(--display);font-weight:800;font-size:28px;line-height:1;letter-spacing:-0.03em;font-variant-numeric:tabular-nums}
+.tcard p{font-size:12.5px;color:var(--ink2)}
+.tcard p b{color:var(--ink)}
+.tchip{justify-self:start;font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--c);color:var(--onfill)}
+.tchart{border:1px solid var(--line);border-radius:6px;padding:10px 8px 4px;background:var(--surface)}
+.tchart svg{display:block;max-width:100%}
+.trev{font-size:12.5px;color:var(--ink2);padding:8px 12px;border-radius:4px;background:var(--part-bg)}
 </style>
 
 <div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
 
 <main class="wrap">
   <header class="top">
-    <div class="tag">Papertrade · PAPER token · data as of 14 Oct 2026, day 4 of trading</div>
+    <div class="tag">Papertrade · PAPER token · forecast made 14 Oct 2026, day 4 of trading</div>
     <h1>PAPER Value Model</h1>
     <div class="keys">Tap any underlined number to see where it comes from:
       <span class="k m"><i></i>measured</span>
@@ -238,11 +254,19 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
       <span class="k e"><i></i>model result</span>
     </div>
     <div class="tape" id="tape" aria-label="Forecast summary"></div>
+    <div class="upd" id="upd" aria-live="polite">Loading today's numbers…</div>
   </header>
 
   <section class="panel" id="summary" aria-label="Executive summary">
     <div class="tag">Executive summary · tap any box for the details</div>
     <div class="dash" id="dash"></div>
+  </section>
+
+  <section class="panel" id="track" aria-label="Forecast against actual">
+    <div class="tag">Tracking · is the forecast holding?</div>
+    <h2>What has actually happened since the forecast</h2>
+    <p class="lede">The forecast was fixed on 14 Oct 2026 and is not re-tuned. Every day the live numbers are laid against it, plus the model's own dated tests. The cases describe revenue <em>after the launch rush fades</em> (similar tokens took 1–9 months), so early readings run high; the dated tests are the sharper check.</p>
+    <div id="trackIn"><p class="cap">Loading today's numbers…</p></div>
   </section>
 
   <section class="panel" id="worth" aria-label="Value and assumptions">
@@ -408,6 +432,11 @@ const DEFS={bull:{ret:34,mult:12},base:{ret:10,mult:6},bear:{ret:2,mult:3}};
 const SRCOF={bull:{ret:"lighter",mult:"hype"},base:{ret:"jup",mult:"pump"},bear:{ret:"aster",mult:"gains"}};
 const LIKE={bull:"Keeps revenue like Lighter, valued like Hyperliquid in year 1",base:"Keeps revenue like the middle of 8 similar tokens, valued like Pump.fun",bear:"Keeps revenue like Aster and Gains, valued like Gains"};
 let I,S,pick;
+let LIVE=null,LIVEERR=null;
+const FROZEN={"2026-10-11":2615540,"2026-10-12":4647494,"2026-10-13":6076502}; // what the feed said on 14 Oct, the days the reference run-rate was built from
+const FORECAST_DAY="2026-10-13"; // last complete day the forecast used
+const pd=str=>{const [y,m,d]=str.split("-").map(Number);return Date.UTC(y,m-1,d);};
+const pct=x=>(x*100).toFixed(x*100>=10?0:1)+"%";
 function reset(){I={...DEF};S={bull:{...DEFS.bull},base:{...DEFS.base},bear:{...DEFS.bear}};pick={r:S.base.ret,m:S.base.mult};}
 reset();
 
@@ -468,6 +497,7 @@ function render(){
      <span class="a blue">${ev(fmtP(v("base",12)),"e","jup")} <span style="font-size:15px;font-family:var(--body);font-weight:500;color:var(--ink2);letter-spacing:0">by Oct 2027, base case</span></span>
      <span class="s">Not today's price. Fair value from the cash it pays stakers. <b>${fmtU(M.base.total)}</b> for all PAPER.<div class="path">${path}</div></span>
      <span class="stopln"><span class="sl">Stop farming PAPER</span><span>${stopDate("base")?`around <b>${dstr(stopDate("base"))}</b>, when $1 lost earns under <b>${r1(stopO("base"))}</b> PAPER. Today: ${ev("~"+Math.round(rateNow),"m","rate")}.`:`<b>already not worth it</b> in this case.`}</span></span>
+     ${trackStrip()}
      <span class="cmp">${["bull","bear"].map(s=>`<span><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${ev(fmtP(v(s,12)),"e",s==="bull"?"lighter":"aster")}</b> · stop farming ${stopDate(s)?"~"+dstr(stopDate(s)):"<strong>already not worth it</strong>"}</span>`).join("")}</span>
      <span class="go">Try your own assumptions</span></a>
    <a class="tile" href="#dates"><span class="q">Can I buy or sell PAPER today?</span><span class="a">Not yet</span>
@@ -561,6 +591,7 @@ function render(){
   // sticky
   document.getElementById("stickyIn").innerHTML=`<span class="nm">PAPER forecast · Oct 2027</span>`+SC.map(s=>`<span><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${fmtP(v(s,12))}</b></span>`).join("")+`<span><span class="dot" style="--c:var(--ref)"></span>Market bet <b>${fmtP(polyP)}</b></span>`;
   document.getElementById("tape").innerHTML=document.getElementById("stickyIn").innerHTML;
+  if(LIVE)renderTrack();
 
   // estimates
   document.getElementById("ests").innerHTML=`
@@ -571,6 +602,74 @@ function render(){
     <li><b>Middle case revenue kept (10%).</b> Halfway between edgeX (8%) and Jupiter (13%), the middle two of 8 similar tokens. Pump.fun is left out because its platform ran for 18 months before its token, so it had no launch rush to fade.</li>`;
 }
 
+function liveStats(){
+  if(!LIVE||!Array.isArray(LIVE.daily)||!LIVE.daily.length) return null;
+  const ser=LIVE.daily.filter(x=>x.revenue!=null);
+  if(!ser.length) return null;
+  const last=ser[ser.length-1];
+  const w=ser.filter(x=>x.date!=="2026-10-10").slice(-7);
+  const a7=w.reduce((s,x)=>s+x.revenue,0)/Math.max(w.length,1);
+  const cum=ser.reduce((s,x)=>s+x.revenue,0);
+  const ref=I.R0*1e6, share=a7/ref;
+  const daily={};SC.forEach(s=>daily[s]=calc(S[s].ret,S[s].mult).daily);
+  let near="bull",best=Infinity;SC.forEach(s=>{const d=Math.abs(Math.log(a7/daily[s]));if(d<best){best=d;near=s;}});
+  const above=a7>=daily.bull;
+  const cumStar=120e6*(Math.sqrt(100/10)-1)/I.hr;
+  const starDate=a7>0?pd(last.date)+(cumStar-cum)/a7*DAY:null;
+  const caseStar={};SC.forEach(s=>{const d=calc(S[s].ret,S[s].mult).whenRate(10);caseStar[s]=d<=0?ASOF:ASOF+d*DAY;});
+  let starNear="bull";best=Infinity;SC.forEach(s=>{const d=Math.abs((starDate||0)-caseStar[s]);if(d<best){best=d;starNear=s;}});
+  const restart={};SC.forEach(s=>restart[s]=oct17+5e6/Math.max(daily[s],1)*DAY);
+  const hs=last.holders!=null&&last.revenue?last.holders/last.revenue:null;
+  const revs=Object.entries(FROZEN).map(([d,v])=>{const x=ser.find(y=>y.date===d);return x&&Math.abs(x.revenue-v)/v>0.02?{d,was:v,now:x.revenue}:null;}).filter(Boolean);
+  const tvl=(LIVE.totals&&LIVE.totals.tvl_now)||last.tvl||null;
+  return {ser,last,w,a7,cum,ref,share,daily,near,above,cumStar,starDate,caseStar,starNear,restart,hs,revs,tvl,today:LIVE.today_so_far||null};
+}
+function trackStrip(){
+  const t=liveStats();
+  if(!t) return LIVEERR?`<span class="trk"><span class="sl">Tracking</span><span>Today's numbers could not be loaded. Forecast shown as made on 14 Oct 2026.</span></span>`:"";
+  return `<span class="trk"><span class="sl">Tracking · data through ${dshort(pd(t.last.date))}</span><span>Last ${t.w.length} days averaged <b>${fmtU(t.a7)}/day</b>, ${pct(t.share)} of the reference. ${t.above?"Above all three cases so far, as expected this early.":`Nearest the <b>${NAME[t.near].toLowerCase()} case</b>.`}</span></span>`;
+}
+function trackChart(t){
+  const W=720,H=236,L=56,R=124,T=16,B=32,pw=W-L-R,ph=H-T-B;
+  const pts=t.ser.map(x=>({d:x.date,v:x.revenue,p:false}));
+  if(t.today&&t.today.revenue)pts.push({d:t.today.date,v:t.today.revenue,p:true});
+  const lv=[{v:t.ref,c:"var(--ink)",l:"Reference",d:""},{v:t.daily.bull,c:"var(--bull)",l:"Bull",d:"5 4"},{v:t.daily.base,c:"var(--base)",l:"Base",d:"5 4"},{v:t.daily.bear,c:"var(--bear)",l:"Bear",d:"5 4"}];
+  const vals=pts.map(p=>p.v).concat(lv.map(l=>l.v)).filter(v=>v>0);
+  const lo=Math.pow(10,Math.floor(Math.log10(Math.min(...vals)))),hi=Math.pow(10,Math.ceil(Math.log10(Math.max(...vals))));
+  const Y=v=>T+ph-(Math.log10(Math.max(v,lo))-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo))*ph;
+  const n=pts.length,slot=pw/Math.max(n,12),bw=Math.min(26,slot*.68),X=i=>L+slot*i+slot/2;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Daily revenue against the reference and the three cases">`;
+  for(let e=Math.log10(lo);e<=Math.log10(hi);e++){const v=Math.pow(10,e);s+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${fmtU(v)}</text>`;}
+  lv.forEach(l=>{s+=`<line x1="${L}" x2="${W-R}" y1="${Y(l.v)}" y2="${Y(l.v)}" stroke="${l.c}" stroke-width="1.5"${l.d?` stroke-dasharray="${l.d}"`:""}/><text x="${W-R+6}" y="${Y(l.v)+4}" font-size="10.5" font-weight="600" fill="${l.c}" font-family="JetBrains Mono,monospace">${l.l} ${fmtU(l.v)}</text>`;});
+  pts.forEach((p,i)=>{const y=Y(p.v);
+    s+=`<rect x="${(X(i)-bw/2).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${(T+ph-y).toFixed(1)}" rx="2" fill="${p.p?"none":"var(--ink2)"}" stroke="var(--ink2)" stroke-width="${p.p?1.5:0}"${p.p?' stroke-dasharray="3 3"':""}/>`;
+    if(n<=20||i%Math.ceil(n/14)===0)s+=`<text x="${X(i)}" y="${H-B+15}" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${dshort(pd(p.d)).replace(" ","\u00a0")}</text>`;
+    if(n<=14)s+=`<text x="${X(i)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--ink)" font-family="JetBrains Mono,monospace">${fmtU(p.v)}</text>`;});
+  s+=`<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--line)"/></svg>`;
+  return s;
+}
+function renderTrack(){
+  const upd=document.getElementById("upd"),box=document.getElementById("trackIn");
+  const t=liveStats();
+  if(!t){const m=LIVEERR?"Today's numbers could not be loaded. The forecast is shown as made on 14 Oct 2026.":"Loading today's numbers…";upd.textContent=m;box.innerHTML=`<p class="cap">${m}</p>`;return;}
+  const fd=new Date(LIVE.fetched_at).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"});
+  upd.innerHTML=`<b>Updated ${fd} Dubai</b> · data through ${dstr(pd(t.last.date))}${t.today&&t.today.revenue!=null?` · today so far ${fmtU(t.today.revenue)}`:""} · refreshes daily around 10:15 Dubai`;
+  const card=(c,h,big,p,chip)=>`<div class="tcard" style="--c:var(--${c})"><h3>${h}</h3><div class="big">${big}</div><p>${p}</p>${chip?`<span class="tchip">${chip}</span>`:""}</div>`;
+  const before17=t.last.date<"2026-10-17";
+  const starTxt=t.starDate?(t.starDate-ASOF>730*DAY?"not for 2+ years":dstr(t.starDate)):"–";
+  const cs=s=>t.caseStar[s]-ASOF>730*DAY?"2028 or later":dstr(t.caseStar[s]);
+  box.innerHTML=`
+   <div class="tcards">
+    ${card(t.above?"bull":t.near,"Revenue level",`${fmtU(t.a7)}/day`,`Average of the last ${t.w.length} complete days (launch day left out), <b>${pct(t.share)}</b> of the $${I.R0.toFixed(2)}M reference. After the rush fades the cases need <b>${S.bull.ret}%</b> (bull), <b>${S.base.ret}%</b> (base), <b>${S.bear.ret}%</b> (bear).`,t.above?"Above all three cases so far":`Nearest the ${NAME[t.near].toLowerCase()} case`)}
+    ${card(t.starNear,"Cumulative revenue and the mint-rate test",fmtU(t.cum),`Through ${dshort(pd(t.last.date))}. The mint rate drops under 10 PAPER per $1 once this passes <b>${fmtU(t.cumStar)}</b>. At the last ${t.w.length}-day pace that lands around <b>${starTxt}</b>. Model dates: bull ${cs("bull")}, base ${cs("base")}, bear ${cs("bear")}.`,`On the ${NAME[t.starNear].toLowerCase()} path`)}
+    ${card(before17?"ref":(t.hs!=null&&t.hs>=0.8?"bull":"part"),"Stakers' share and the 17 Oct test",t.hs!=null?pct(t.hs):"–",`Share of the last day's revenue paid to stakers. From 17 Oct the pool refills to $10M first, so this should drop, then recover when the pool is full. Recovery by ~${dshort(t.restart.bull)} = bull, ~${dshort(t.restart.base)} = base, ~${dshort(t.restart.bear)} = bear.`,before17?"Test starts 17 Oct":(t.hs!=null&&t.hs>=0.8?"Pool refilled":"Pool refilling"))}
+    ${card(t.tvl>=138e6?"bull":"ref","Money on platform",t.tvl?fmtU(t.tvl):"–",`The bull case needs it back above <b>$138M</b> (the pre-launch deposits) by 30 Nov. It was $64M on 13 Oct.`,t.tvl?(t.tvl>=138e6?"Bull tell met":`${pct(t.tvl/138e6)} of the bull target`):"")}
+   </div>
+   <div class="tchart">${trackChart(t)}</div>
+   <p class="cap">Bars: Papertrade's daily revenue (trader losses), log scale. Dashed outline: today so far. Lines: the reference run-rate and the daily revenue each case assumes after the rush fades.</p>
+   ${t.revs.length?`<div class="trev">DefiLlama has revised ${t.revs.map(r=>`${dshort(pd(r.d))} from ${fmtU(r.was)} to ${fmtU(r.now)}`).join(", ")} since the forecast was made. The forecast keeps its 14 Oct inputs; the tracker uses today's figures.</div>`:""}
+   <p class="cap">Raw data: <a href="/data/papertrade.json">papertrade.json</a> · <a href="/data/snapshots.csv">daily snapshots</a>. Source: DefiLlama's feed of Papertrade's on-chain revenue, staker payouts and money on platform, fetched daily by this site.</p>`;
+}
 function buildInputs(){
   const shared=[["R0","Daily revenue today","$M/day","m","defi"],["hold","Share paid to stakers","%","m","hold"],["cum0","Revenue so far","$M","m","cum"],["hr","Supply tuning","×","e","hr"],["poly","Market bet, all PAPER","$M","m","poly"],["hedge","Hedged farming cost per $1","$","m","hedge"]];
   let h=`<thead><tr><th>Assumption</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th><th>Where it comes from</th></tr></thead><tbody>`;
@@ -644,7 +743,8 @@ document.addEventListener("click",e=>{const el=e.target.closest(".ev");if(el){e.
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){pinned=null;pop.hidden=true;}});
 window.addEventListener("scroll",()=>{if(pinned){pinned=null;pop.hidden=true;}document.getElementById("sticky").hidden=document.getElementById("summary").getBoundingClientRect().bottom>0;},{passive:true});
 
-buildInputs();render();
+buildInputs();render();renderTrack();
+fetch("/data/papertrade.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(new Error("HTTP "+r.status))).then(d=>{LIVE=d;render();renderTrack();}).catch(e=>{LIVEERR=e;render();renderTrack();});
 })();
 </script>
 

@@ -1,0 +1,34 @@
+name: Update Papertrade data
+
+# Daily at 06:15 UTC (10:15 Dubai), after DefiLlama has closed the previous UTC day.
+# Also runnable by hand from the Actions tab. Commits data/ only; GitHub Pages republishes on push.
+on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch Papertrade data
+        run: python3 scripts/fetch_papertrade.py
+      - name: Commit and push if changed
+        run: |
+          git config user.name "research-data-bot"
+          git config user.email "research-data-bot@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No change in data."
+          else
+            git commit -m "Data: Papertrade through $(python3 -c 'import json;print(json.load(open("data/papertrade.json"))["data_through"])')"
+            git push
+          fi
