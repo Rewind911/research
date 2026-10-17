@@ -1,0 +1,26 @@
+{
+  "study": "paper-valuation",
+  "horizon": "Oct 2027",
+  "versions": [
+    {
+      "v": 1,
+      "date": "2026-10-14",
+      "data_through": "2026-10-13",
+      "inputs": {"R0": 4.4465, "hold": 85, "cum0": 38.58, "hr": 3.0, "poly": 100, "hedge": 0.14},
+      "cases": {"bull": [34, 12], "base": [10, 6], "bear": [2, 3]},
+      "ref_days": {"2026-10-11": 2615540, "2026-10-12": 4647494, "2026-10-13": 6076502},
+      "page": "/paper-valuation/v1/",
+      "note": "First version. Reference = average of 11–13 Oct as the feed stood on 14 Oct; stakers' share 85%; supply tuning 3.0 estimated from two press figures; market bet ~$100M on $9K traded. 64 links audited, 23 corrections from the draft."
+    },
+    {
+      "v": 2,
+      "date": "2026-10-17",
+      "data_through": "2026-10-16",
+      "inputs": {"R0": 6.2905, "hold": 91, "cum0": 55.18, "hr": 4.0, "poly": 200, "hedge": 0.14},
+      "cases": {"bull": [34, 12], "base": [10, 6], "bear": [2, 3]},
+      "ref_days": {"2026-10-14": 5929148, "2026-10-15": 7489719, "2026-10-16": 5452568},
+      "page": "/paper-valuation/",
+      "note": "Same method, inputs re-read on 17 Oct: reference = average of 14–16 Oct; stakers' share 91%; revenue so far $55.2M; supply tuning 4.0 read from the live contract's high-water mark; market bet ~$200M on $132K traded. Method unchanged."
+    }
+  ]
+}

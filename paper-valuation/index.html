@@ -281,6 +281,18 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 .st-hit{--pb:var(--has-bg);--pc:var(--has)}
 .st-ontrack{--pb:#e4ecfb;--pc:var(--base)}
 .st-offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.was{display:block;font-size:12.5px;color:var(--ink2);font-family:var(--body);font-weight:500;letter-spacing:0;margin-top:4px}
+.was b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.scrub{display:grid;gap:8px;padding:10px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink)}
+.scrub-row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px}
+.scrub-row .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scrub-row label b{font-family:var(--mono);font-weight:600}
+.scrub-row input[type=range]{flex:1 1 220px;min-width:160px;accent-color:var(--base)}
+.scrub-row button{font-family:var(--body);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:4px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.scrub-row button:hover{background:var(--ink);color:var(--surface)}
+.scrub-row button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.scrub-ban{font-size:13px;color:var(--ink);padding:8px 10px;border-radius:4px;background:var(--part-bg)}
+.drift{display:grid;gap:6px}
 </style>
 
 <div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
@@ -296,8 +308,12 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
     </div>
     <div class="tape" id="tape" aria-label="Forecast summary"></div>
     <div class="upd" id="upd" aria-live="polite">Loading today's numbers…</div>
-    <div class="ver"><span class="fc">Version 2</span> <b>updated 17 Oct 2026</b> · inputs re-read, same method · <a href="/paper-valuation/v1/">Version 1 (14 Oct 2026)</a> kept as published · <span id="closest">Tracking closest to: loading…</span></div>
-    <a class="scline" href="#scorecard"><span class="sl">Scorecard · Version 2</span><span>Calls so far: <b>1 hit · 1 missed · 5 on track · 2 off track</b> · what changed and why ↓ · next version <b>20 Oct</b></span></a>
+    <div class="ver"><span class="fc">Living research</span> <b id="verLbl">Version 2 · updated 17 Oct 2026</b> · same method, inputs re-read as reality comes in · <span id="closest">Tracking closest to: loading…</span> · <a href="/paper-valuation/v1/">earlier versions</a></div>
+    <div class="scrub" id="scrub" hidden>
+      <div class="scrub-row"><span class="sl">Scrub through time</span><label for="asof">As of <b id="asofLbl">today</b></label><input type="range" id="asof" min="0" max="3" step="1" value="3" aria-label="View the page as it stood on a date"><button type="button" id="replay">▶ Replay from launch</button><button type="button" id="asofToday">Today</button></div>
+      <div class="scrub-ban" id="viewBan" hidden></div>
+    </div>
+    <a class="scline" href="#scorecard"><span class="sl">Scorecard</span><span>Calls so far: <b id="tallyTop">1 hit · 1 missed · 5 on track · 2 off track</b> · how the call has moved, what changed and why ↓ · next version <b>20 Oct</b></span></a>
   </header>
 
   <section class="panel" id="summary" aria-label="Executive summary">
@@ -311,32 +327,23 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
     <h2>Is the forecast holding?</h2>
     <div class="sc-verdict">
       <span class="sc-k">Tracking closest to</span><span class="sc-v" id="closest2"><b>Bull</b>, on revenue: the live daily average is above even the bull case's requirement. Too early to count: the launch rush has not faded.</span>
-      <span class="sc-k">Calls so far</span><span class="sc-v"><span class="st st-hit">1 hit</span> <span class="st st-missed">1 missed</span> <span class="st st-ontrack">5 on track</span> <span class="st st-offtrack">2 off track</span></span>
+      <span class="sc-k">Calls so far</span><span class="sc-v" id="tally"><span class="st st-hit">1 hit</span> <span class="st st-missed">1 missed</span> <span class="st st-ontrack">5 on track</span> <span class="st st-offtrack">2 off track</span></span>
       <span class="sc-k">This version</span><span class="sc-v">Same method, inputs re-read on 17 Oct. Bull <b>$0.72</b>, base <b>$0.11</b>, bear <b>$0.013</b> per PAPER by Oct 2027. Version 1 said $0.49 / $0.081 / $0.011.</span>
       <span class="sc-k">Next version</span><span class="sc-v"><b>20 Oct</b>: first reading of the payout-bar test. Then weekly through November.</span>
     </div>
     <p class="lede">Three days after Version 1, Papertrade is making more money, not less: <b>$6.3M a day</b> on 14–16 Oct against the $4.45M a day Version 1 started from, with <b>91%</b> of it paid to stakers against the 85% assumed. Polymarket's median one-day-after-launch value moved from about $100M to about <b>$200M</b> on fourteen times the volume. Two things went the other way: PAPER supply is growing faster than Version 1 assumed (<b>8.45B</b> on the live contract against 7.2B modelled), and DefiLlama revised down the three days the first reference was built on. Re-run on today's inputs, the same model lands higher. The first real test starts when the pool's payout bar doubles after 18:45 UTC on 17 Oct.</p>
 
-    <h3>1. Calls so far</h3>
-    <p class="cap">Every dated call from Version 1, marked against the evidence. Misses stay here in every later version. Full version note with every source: <a href="/paper-valuation/updates/2026-10-17-version-02.md">version 2</a>; the page as it stood: <a href="/paper-valuation/v1/">Version 1</a>.</p>
-    <div class="tablewrap"><table class="sc-table wide">
-      <thead><tr><th>Call (made 14 Oct)</th><th>Status</th><th>Evidence, 17 Oct</th></tr></thead>
-      <tbody>
-        <tr><td><b>Base case: $0.081 per PAPER by Oct 2027</b></td><td><span class="st st-ontrack">On track</span></td><td>Revenue and the stakers' share are both above the base inputs; re-run today the same method gives $0.11. Nothing resolves before mid-November</td></tr>
-        <tr><td><b>Bull case: $0.49</b></td><td><span class="st st-ontrack">On track</span></td><td>Revenue is above the bull case's requirement so far ($6.3M a day against $1.5M after the rush). Too early to count; the rush has not faded</td></tr>
-        <tr><td><b>Bear case: $0.011</b></td><td><span class="st st-offtrack">Off track</span></td><td>Reality sits above the bear inputs on every line. The market bet ($0.025 on live supply) is still nearer bear than base</td></tr>
-        <tr><td><b>17 Oct: pool's payout bar doubles to $10M</b></td><td><span class="st st-ontrack">On track</span></td><td>Scheduled for after 18:45 UTC. At 04:46 UTC the on-chain cap still read $5M, the pool held $4.96M, the queue was $0. Marked hit or missed on 18 Oct</td></tr>
-        <tr><td><b>Surplus payouts restart by ~20 Oct (bull), ~28 Oct (base), ~12 Dec (bear)</b></td><td><span class="st st-ontrack">On track</span></td><td>At today's $6.3M a day the pool refills in about a day, so the first reading will likely say "bull" without separating the cases. The reading that counts comes after the rush fades</td></tr>
-        <tr><td><b>Mint rate under 10 PAPER per $1: bull ~14 Nov, base ~29 Jan 2027</b></td><td><span class="st st-ontrack">On track</span></td><td>Running early. The live contract puts the rate at ~12 per $1 on 17 Oct (16.6 reported 16 Oct)</td></tr>
-        <tr><td><b>Farming stop line, base case: ~12 PAPER per $1 around 2 Jan 2027</b></td><td><span class="st st-missed">Missed</span></td><td>Came 2½ months early: the rate reached ~12 per $1 by 17 Oct because the curve counts gross flow into the pool, not net losses. Version 2's base stop line is 8.8 per $1, around 11 Nov 2026</td></tr>
-        <tr><td><b>Money on platform back above $138M by 30 Nov</b></td><td><span class="st st-offtrack">Off track</span></td><td>$68.6M on 17 Oct, up 7% since 13 Oct. Half the way with six weeks left</td></tr>
-        <tr><td><b>Payout queue stays at zero</b></td><td><span class="st st-hit">Hit so far</span></td><td>$0 throughout 10–17 Oct (PaperDash)</td></tr>
-      </tbody>
-    </table></div>
+    <h3>1. How the call has moved</h3>
+    <div class="drift" id="drift"></div>
+    <p class="cap">Each version re-runs the same model on inputs re-read that day; the lines step at each version. Dots: the market's bet (Polymarket median on the supply of the day). Use the scrubber at the top to see any day as it stood.</p>
+
+    <h3>2. Calls so far</h3>
+    <p class="cap">Every dated call, marked against the evidence as of the day in view. Misses stay here in every later version. Full version note with every source: <a href="/paper-valuation/updates/2026-10-17-version-02.md">version 2</a>; the page as it stood: <a href="/paper-valuation/v1/">Version 1</a>.</p>
+    <div id="callsBox"><p class="cap">Loading the calls…</p></div>
 
     <div class="two">
       <div>
-        <h3>2. What changed</h3>
+        <h3>3. What changed</h3>
         <div class="sc-dev">
           <div class="sc-row"><div class="sc-when">17 Oct · v2</div><div><b>New data:</b> three more complete days ($5.93M, $7.49M, $5.45M); live contract readings (supply 8.45B, 99.2% staked, high-water mark $222M, cap $5M, pool $4.96M, queue $0); Polymarket re-priced ($100M strike 79%, was 47%; $132K traded, was $9K); DefiLlama revised 12 Oct to $3.93M (was $4.65M) and 13 Oct to $4.52M (was $6.08M).</div></div>
           <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $4.45M → $6.29M a day (same method: the last three complete days); share to stakers 85% → 91%; revenue so far $38.6M → $55.2M; supply tuning 3.0 → 4.0, read from the contract instead of estimated from press figures; market bet $100M → $200M.</div></div>
@@ -346,7 +353,7 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
         </div>
       </div>
       <div>
-        <h3>3. What we got wrong in Version 1</h3>
+        <h3>4. What we got wrong in Version 1</h3>
         <ol class="sc-wrong">
           <li><span><b>The reference was built on figures the feed later revised.</b> The same three days now give $3.69M a day, 17% below the $4.45M used. Version 2 uses the three newest complete days and the tracker flags any revision to them.</span></li>
           <li><span><b>The supply tuning was too low.</b> 3.0 × revenue against 4.0 on the live contract; 7.16B modelled against 8.45B minted. Version 2 reads it from the contract's <code>tailProgress</code>. Our best reading of why: the curve counts gross flow into the pool, not net losses. The docs still cannot be read as text, so this stays an inference.</span></li>
@@ -357,7 +364,7 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
       </div>
     </div>
 
-    <h3>4. What moved: Version 1 against Version 2</h3>
+    <h3>5. What moved: Version 1 against Version 2</h3>
     <div class="tablewrap"><table class="sc-table wide">
       <thead><tr><th>Input</th><th>Version 1 (14 Oct)</th><th>Version 2 (17 Oct)</th><th>Source</th><th></th></tr></thead>
       <tbody>
@@ -374,7 +381,7 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
     </table></div>
     <p class="cap">+ better for PAPER's value · − worse · 0 neutral. Retention (34% / 10% / 2%) and multiples (12× / 6× / 3×) are unchanged: they come from the comparables, not from Papertrade's week.</p>
 
-    <h3>5. What happened, day by day</h3>
+    <h3>6. What happened, day by day</h3>
     <div class="sc-dev">
       <div class="sc-row"><div class="sc-when">14 Oct</div><div><span class="st st-zero">0</span> Revenue $5.93M. Papertrade #3 in crypto by daily revenue, behind Tether and Circle. <span class="cap">DefiLlama</span></div></div>
       <div class="sc-row"><div class="sc-when">15 Oct</div><div><span class="st st-plus">+</span> Best day since launch: $7.49M, #2 by daily revenue, ahead of Circle. Cumulative net trader losses reported at $49.5M (one outlet, source unnamed). <span class="cap">DefiLlama · TokenPost · MarsBit</span></div></div>
@@ -386,14 +393,14 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 
     <div class="two">
       <div>
-        <h3>6. What would change the call</h3>
+        <h3>7. What would change the call</h3>
         <div class="box"><ul>
           <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue above $2.1M a day for 30 days after the mint rate is under 10 per $1; money on platform above $138M by 30 Nov; a dated transfer unlock, listing or distribution deal.</span></li>
           <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear:</b> revenue below $0.63M a day for 30 days after mid-November; surplus payouts still paused in December; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027, ahead of even the bull path.</span></li>
         </ul></div>
       </div>
       <div>
-        <h3>7. Update schedule and versions</h3>
+        <h3>8. Update schedule and versions</h3>
         <div class="tablewrap"><table class="sc-table">
           <thead><tr><th>Date</th><th>What</th></tr></thead>
           <tbody>
@@ -537,7 +544,7 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 
 <script>
 (function(){
-const ASOF=Date.UTC(2026,9,17), DAY=864e5; // Version 2: inputs read on 17 Oct 2026
+let ASOF=Date.UTC(2026,9,17); const DAY=864e5; // set per version by applyVersion()
 const SC=["bull","base","bear"];
 const NAME={bull:"Bull",base:"Base",bear:"Bear",mine:"Your pick"};
 const T={m:"Measured",c:"From similar launches",e:"Model result"};
@@ -582,18 +589,115 @@ const SRC={
 };
 const ev=(txt,t,k)=>`<span class="ev ${t}" tabindex="0" data-t="${t}" data-src="${SRC[k].replace(/"/g,"&quot;")}">${txt}</span>`;
 
-const DEF={R0:6.2905,hold:91,cum0:55.18,hr:4.0,poly:200,hedge:0.14};
-const DEFS={bull:{ret:34,mult:12},base:{ret:10,mult:6},bear:{ret:2,mult:3}};
+let DEF={R0:6.2905,hold:91,cum0:55.18,hr:4.0,poly:200,hedge:0.14}; // Version 2 defaults; versions.json overrides
+let DEFS={bull:{ret:34,mult:12},base:{ret:10,mult:6},bear:{ret:2,mult:3}};
 const SRCOF={bull:{ret:"lighter",mult:"hype"},base:{ret:"jup",mult:"pump"},bear:{ret:"aster",mult:"gains"}};
 const LIKE={bull:"Keeps revenue like Lighter, valued like Hyperliquid in year 1",base:"Keeps revenue like the middle of 8 similar tokens, valued like Pump.fun",bear:"Keeps revenue like Aster and Gains, valued like Gains"};
 let I,S,pick;
 let LIVE=null,LIVEERR=null;
-const FROZEN={"2026-10-14":5929148,"2026-10-15":7489719,"2026-10-16":5452568}; // what the feed said on 17 Oct, the days Version 2's reference is built from
-const FORECAST_DAY="2026-10-16"; // last complete day Version 2 used
+let FROZEN={"2026-10-14":5929148,"2026-10-15":7489719,"2026-10-16":5452568}; // what the feed said on the version date, for the days its reference is built from
+let FORECAST_DAY="2026-10-16"; // last complete day the version used
 const pd=str=>{const [y,m,d]=str.split("-").map(Number);return Date.UTC(y,m-1,d);};
 const pct=x=>(x*100).toFixed(x*100>=10?0:1)+"%";
 function reset(){I={...DEF};S={bull:{...DEFS.bull},base:{...DEFS.base},bear:{...DEFS.bear}};pick={r:S.base.ret,m:S.base.mult};}
 reset();
+// Time machine. versions.json holds every version's inputs; calls.json every dated call. setView(date) re-renders the page as it stood that day.
+let VERSIONS=null,CALLS=null,FULL_LIVE=null,VIEW=null,CURV=null,replayTimer=null;
+function applyVersion(ver){CURV=ver;ASOF=pd(ver.date);DEF={...ver.inputs};DEFS={bull:{ret:ver.cases.bull[0],mult:ver.cases.bull[1]},base:{ret:ver.cases.base[0],mult:ver.cases.base[1]},bear:{ret:ver.cases.bear[0],mult:ver.cases.bear[1]}};FROZEN=ver.ref_days||{};FORECAST_DAY=ver.data_through;reset();}
+const utcMidnight=ms=>{const d=new Date(ms);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate());};
+function setView(ms){
+  if(!VERSIONS||!FULL_LIVE)return;
+  const start=pd(VERSIONS.versions[0].date),today=utcMidnight(Date.now());
+  ms=Math.min(Math.max(utcMidnight(ms),start),today);VIEW=ms;
+  const iso=new Date(ms).toISOString().slice(0,10),isToday=ms>=today;
+  const ver=VERSIONS.versions.filter(v=>pd(v.date)<=ms).slice(-1)[0]||VERSIONS.versions[0];
+  applyVersion(ver);
+  const rows=(FULL_LIVE.daily||[]).filter(x=>isToday||x.date<iso);
+  const hist=(FULL_LIVE.contract_history||[]).filter(h=>h.date<=iso);
+  LIVE={...FULL_LIVE,daily:rows,today_so_far:isToday?FULL_LIVE.today_so_far:null,fetched_at:isToday?FULL_LIVE.fetched_at:null,
+    totals:isToday?FULL_LIVE.totals:{...(FULL_LIVE.totals||{}),tvl_now:rows.length?rows[rows.length-1].tvl:null},
+    contract:hist.length?hist[hist.length-1]:null,contract_history:hist};
+  buildInputs();render();renderTrack();renderCalls();renderDrift();
+  const lbl=document.getElementById("asofLbl"),sl=document.getElementById("asof"),ban=document.getElementById("viewBan"),vl=document.getElementById("verLbl");
+  if(lbl)lbl.textContent=isToday?"today":dstr(ms);
+  if(sl){sl.max=Math.round((today-start)/DAY);sl.value=Math.round((ms-start)/DAY);}
+  if(vl)vl.textContent=`Version ${ver.v} · updated ${dstr(pd(ver.date))}`;
+  if(ban){ban.hidden=isToday;ban.innerHTML=`You are viewing the page as it stood on <b>${dstr(ms)}</b>: Version ${ver.v} inputs, data through ${rows.length?dshort(pd(rows[rows.length-1].date)):"–"}. The text blocks describe the current version; every number, card and call is as of that day. <a href="#" id="backToday">Back to today</a>`;const bt=document.getElementById("backToday");if(bt)bt.addEventListener("click",e=>{e.preventDefault();stopReplay();setView(Date.now());});}
+  if(history.replaceState){const u=new URL(location.href);if(isToday)u.searchParams.delete("asof");else u.searchParams.set("asof",iso);history.replaceState(null,"",u);}
+}
+function stopReplay(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}const b=document.getElementById("replay");if(b)b.textContent="▶ Replay from launch";}
+function initScrub(){
+  const sc=document.getElementById("scrub");if(!sc)return;sc.hidden=false;
+  const sl=document.getElementById("asof"),start=pd(VERSIONS.versions[0].date);
+  sl.addEventListener("input",()=>{stopReplay();setView(start+(+sl.value)*DAY);});
+  document.getElementById("asofToday").addEventListener("click",()=>{stopReplay();setView(Date.now());});
+  document.getElementById("replay").addEventListener("click",function(){
+    if(replayTimer){stopReplay();return;}
+    let ms=start;setView(ms);this.textContent="■ Stop";
+    replayTimer=setInterval(()=>{ms+=DAY;if(ms>utcMidnight(Date.now())){stopReplay();setView(Date.now());return;}setView(ms);},700);
+  });
+}
+// Calls: auto rules read the daily data and the contract snapshots; manual ones carry a dated history of judgments.
+const fmtMetric=(m,v)=>m==="holder_share"?pct(v):m==="mint_rate"?v.toFixed(1)+" PAPER per $1":m==="supply"||m==="staked"?(v/1e9).toFixed(2)+"B PAPER":fmtU(v);
+function evalCall(c,ms){
+  const iso=new Date(ms).toISOString().slice(0,10);
+  const manual=(c.history||[]).filter(h=>h.date<=iso).slice(-1)[0]||null;
+  let st=manual?manual.status:"on track",evd=manual?manual.evidence:"",auto=false,when=null;
+  if(c.kind==="auto"&&c.rule&&LIVE){
+    const r=c.rule,series=[];
+    if(r.metric==="tvl")(LIVE.daily||[]).forEach(x=>{if(x.tvl!=null)series.push({date:x.date,v:x.tvl});});
+    else if(r.metric==="holder_share")(LIVE.daily||[]).forEach(x=>{if(x.revenue&&x.holders!=null)series.push({date:x.date,v:x.holders/x.revenue});});
+    else(LIVE.contract_history||[]).forEach(h=>{if(h[r.metric]!=null)series.push({date:h.date,v:h[r.metric]});});
+    const cmp=v=>r.op===">="?v>=r.value:r.op==="<"?v<r.value:r.op==="<="?v<=r.value:r.op==="=="?Math.abs(v-r.value)<1e-9:v>r.value;
+    const win=series.filter(x=>(!r.after||x.date>=r.after)&&x.date<=iso);
+    if(r.continuous){
+      const bad=win.find(x=>!cmp(x.v));
+      if(bad){st="missed";when=bad.date;evd=`Broke on ${dshort(pd(bad.date))}: ${fmtMetric(r.metric,bad.v)}. Checked from the daily data.`;auto=true;}
+      else if(win.length){st="hit";when=win[win.length-1].date;evd=`Held through ${dshort(pd(when))}: ${fmtMetric(r.metric,win[win.length-1].v)}. Checked from the daily data.`;auto=true;}
+    }else{
+      const first=win.find(x=>cmp(x.v));
+      if(first){st="hit";when=first.date;evd=`Met on ${dshort(pd(first.date))}: ${fmtMetric(r.metric,first.v)}. Checked from the daily data.`;auto=true;}
+      else if(r.by&&iso>r.by){st="missed";when=r.by;const last=win[win.length-1];evd=`Not met by ${dshort(pd(r.by))}${last?`; last reading ${fmtMetric(r.metric,last.v)} on ${dshort(pd(last.date))}`:""}. Checked from the daily data.`;auto=true;}
+      else if(win.length){const last=win[win.length-1];evd=(evd?evd+" ":"")+`Latest reading: ${fmtMetric(r.metric,last.v)} on ${dshort(pd(last.date))}.`;}
+    }
+  }
+  return {st,evd,auto,when};
+}
+const stClass=st=>st==="hit"?"st-hit":st==="missed"?"st-missed":st==="off track"?"st-offtrack":"st-ontrack";
+function renderCalls(){
+  const box=document.getElementById("callsBox");if(!box||!CALLS)return;
+  const ms=VIEW||utcMidnight(Date.now()),iso=new Date(ms).toISOString().slice(0,10);
+  const rows=CALLS.calls.filter(c=>c.made<=iso).map(c=>({c,...evalCall(c,ms)}));
+  const tally={hit:0,missed:0,"on track":0,"off track":0};rows.forEach(r=>tally[r.st]=(tally[r.st]||0)+1);
+  const tTxt=`${tally.hit} hit · ${tally.missed} missed · ${tally["on track"]} on track · ${tally["off track"]} off track`;
+  const tHtml=`<span class="st st-hit">${tally.hit} hit</span> <span class="st st-missed">${tally.missed} missed</span> <span class="st st-ontrack">${tally["on track"]} on track</span> <span class="st st-offtrack">${tally["off track"]} off track</span>`;
+  const t1=document.getElementById("tally"),t2=document.getElementById("tallyTop");if(t1)t1.innerHTML=tHtml;if(t2)t2.textContent=tTxt;
+  box.innerHTML=`<div class="tablewrap"><table class="sc-table wide"><thead><tr><th>Call (made ${dshort(pd(CALLS.calls[0].made))})</th><th>Status</th><th>Evidence, as of ${dshort(ms)}</th></tr></thead><tbody>`+
+    rows.map(r=>`<tr><td><b>${r.c.text}</b>${r.c.due?`<span class="cap"> · by ${dshort(pd(r.c.due))}</span>`:""}</td><td><span class="st ${stClass(r.st)}">${r.st}${r.st==="hit"&&r.c.rule&&r.c.rule.continuous?" so far":""}</span>${r.auto?`<span class="cap"> self-checked</span>`:""}</td><td>${r.evd||"–"}</td></tr>`).join("")+`</tbody></table></div>
+    <p class="cap">${CALLS.calls.filter(c=>c.kind==="auto").length} of ${CALLS.calls.length} calls check themselves from the daily data and the contract read; the rest carry a dated judgment with its evidence. Misses stay here in every later version.</p>`;
+}
+// Drift: what we said, over time. Step lines per case across versions; the market's bet as dots; the day in view as a marker.
+const verValue=(ver,sc)=>{const [ret,mult]=ver.cases[sc],inp=ver.inputs;const daily=inp.R0*1e6*ret/100,total=daily*365*inp.hold/100*mult,d=12*30.42-4,H=inp.hr*(inp.cum0+daily*d/1e6)*1e6;return total/(0.2e9+12e9*H/(120e6+H));};
+const verPoly=ver=>{const H=ver.inputs.hr*ver.inputs.cum0*1e6;return ver.inputs.poly*1e6/(0.2e9+12e9*H/(120e6+H));};
+function renderDrift(){
+  const el=document.getElementById("drift");if(!el||!VERSIONS)return;
+  const vs=VERSIONS.versions,W=720,H=230,L=52,R=16,T=22,B=30,pw=W-L-R,ph=H-T-B;
+  const x0=pd(vs[0].date),x1=Math.max(utcMidnight(Date.now()),pd(vs[vs.length-1].date))+2*DAY;
+  const X=ms=>L+(ms-x0)/(x1-x0)*pw;
+  const vals=vs.flatMap(v=>SC.map(sc=>verValue(v,sc)).concat([verPoly(v)]));
+  const lo=Math.pow(10,Math.floor(Math.log10(Math.min(...vals)))),hi=Math.pow(10,Math.ceil(Math.log10(Math.max(...vals))));
+  const Y=v=>T+ph-(Math.log10(v)-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo))*ph;
+  let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Value per PAPER by case, as called in each version, over time">`;
+  for(let e=Math.log10(lo);e<=Math.log10(hi);e++){const v=Math.pow(10,e);g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${fmtP(v)}</text>`;}
+  SC.forEach(sc=>{let dpath="";vs.forEach((v,i)=>{const xa=X(pd(v.date)),xb=i+1<vs.length?X(pd(vs[i+1].date)):W-R,y=Y(verValue(v,sc));dpath+=`${i?"L":"M"}${xa.toFixed(1)},${y.toFixed(1)} L${xb.toFixed(1)},${y.toFixed(1)} `;});
+    g+=`<path d="${dpath}" fill="none" stroke="var(--${sc})" stroke-width="2.2"/>`;
+    const last=vs[vs.length-1];g+=`<text x="${W-R-4}" y="${Y(verValue(last,sc))-5}" text-anchor="end" font-size="10.5" font-weight="600" fill="var(--${sc})" font-family="JetBrains Mono,monospace">${NAME[sc]} ${fmtP(verValue(last,sc))}</text>`;});
+  vs.forEach(v=>{const x=X(pd(v.date));g+=`<line x1="${x}" x2="${x}" y1="${T-4}" y2="${T+ph}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${x+3}" y="${T+6}" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">v${v.v} · ${dshort(pd(v.date))}</text>`;
+    g+=`<circle cx="${x}" cy="${Y(verPoly(v))}" r="4" fill="var(--ref)"/><text x="${x+6}" y="${Y(verPoly(v))+4}" font-size="10" fill="var(--ref)" font-family="JetBrains Mono,monospace">market bet ${fmtP(verPoly(v))}</text>`;});
+  if(VIEW){const x=X(VIEW);g+=`<line x1="${x}" x2="${x}" y1="${T}" y2="${T+ph}" stroke="var(--ink)" stroke-width="1.5"/><text x="${x}" y="${H-8}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--ink)" font-family="JetBrains Mono,monospace">${dshort(VIEW)}</text>`;}
+  g+=`<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--line)"/><text x="${L}" y="${H-8}" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${dshort(x0)}</text><text x="${W-R}" y="${H-8}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${dshort(x1)}</text></svg>`;
+  el.innerHTML=g;
+}
 
 const Hof=cumM=>Math.max(0,I.hr*cumM*1e6);
 const supply=cumM=>{const H=Hof(cumM);return 0.2e9+12e9*H/(120e6+H);};
@@ -649,7 +753,7 @@ function render(){
   const path=[[1,"Nov 2026"],[3,"Jan 2027"],[6,"Apr 2027"],[12,"Oct 2027"]].map(([m,l],i)=>`<div class="${i===3?"end":""}"><span>${l}</span><b>${fmtP(v("base",m))}</b></div>`).join("");
   document.getElementById("dash").innerHTML=`
    <a class="tile hero" href="#worth"><span class="q"><span class="fc">Forecast</span> What will 1 PAPER be worth?</span>
-     <span class="a blue">${ev(fmtP(v("base",12)),"e","jup")} <span style="font-size:15px;font-family:var(--body);font-weight:500;color:var(--ink2);letter-spacing:0">by Oct 2027, base case</span></span>
+     <span class="a blue">${ev(fmtP(v("base",12)),"e","jup")} <span style="font-size:15px;font-family:var(--body);font-weight:500;color:var(--ink2);letter-spacing:0">by Oct 2027, base case</span></span>${(()=>{if(!VERSIONS||!CURV)return"";const i=VERSIONS.versions.findIndex(x=>x.v===CURV.v);if(i<1)return"";const p=VERSIONS.versions[i-1];return `<span class="was">was <b>${fmtP(verValue(p,"base"))}</b> in Version ${p.v} (${dshort(pd(p.date))}); same method, inputs re-read</span>`;})()}
      <span class="s">Not today's price. Fair value from the cash it pays stakers. <b>${fmtU(M.base.total)}</b> for all PAPER.<div class="path">${path}</div></span>
      <span class="stopln"><span class="sl">Stop farming PAPER</span><span>${stopDate("base")?`around <b>${dstr(stopDate("base"))}</b>, when $1 lost earns under <b>${r1(stopO("base"))}</b> PAPER. Today: ${ev("~"+Math.round(rateNow),"m","rate")}.`:`<b>already not worth it</b> in this case.`}</span></span>
      ${trackStrip()}
@@ -807,9 +911,9 @@ function renderTrack(){
   const upd=document.getElementById("upd"),box=document.getElementById("trackIn");
   const t=liveStats();
   if(!t){const m=LIVEERR?"Today's numbers could not be loaded. The forecast is shown as made on 17 Oct 2026 (Version 2).":"Loading today's numbers…";upd.textContent=m;box.innerHTML=`<p class="cap">${m}</p>`;return;}
-  const fd=new Date(LIVE.fetched_at).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"});
+  const fd=LIVE.fetched_at?new Date(LIVE.fetched_at).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}):null;
   const cl=document.getElementById("closest"),cl2=document.getElementById("closest2");const nearName=NAME[t.above?"bull":t.near];const clTxt=`Tracking closest to: <b>${nearName}</b> · ${fmtU(t.a7)} a day over the last ${t.w.length} days${t.above?`, above even the bull case's ${fmtU(t.daily.bull)} a day after the rush`:`; the ${nearName.toLowerCase()} case needs ${fmtU(t.daily[t.near])} a day after the rush`}`;if(cl)cl.innerHTML=clTxt;if(cl2)cl2.innerHTML=clTxt.replace("Tracking closest to: ","")+". Too early to count while the launch rush lasts.";
-  upd.innerHTML=`<b>Updated ${fd} Dubai</b> · data through ${dstr(pd(t.last.date))}${t.today&&t.today.revenue!=null?` · today so far ${fmtU(t.today.revenue)}`:""} · refreshes daily around 10:15 Dubai`;
+  upd.innerHTML=fd?`<b>Updated ${fd} Dubai</b> · data through ${dstr(pd(t.last.date))}${t.today&&t.today.revenue!=null?` · today so far ${fmtU(t.today.revenue)}`:""} · refreshes daily around 10:15 Dubai`:`<b>As of ${dstr(VIEW)}</b> · data through ${dstr(pd(t.last.date))} · the page as it stood that day`;
   const card=(c,h,big,p,chip)=>`<div class="tcard" style="--c:var(--${c})"><h3>${h}</h3><div class="big">${big}</div><p>${p}</p>${chip?`<span class="tchip">${chip}</span>`:""}</div>`;
   const before17=t.last.date<"2026-10-17";
   const starTxt=t.starDate?(t.starDate-ASOF>730*DAY?"not for 2+ years":dstr(t.starDate)):"–";
@@ -900,7 +1004,12 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"){pinned=null;pop.hid
 window.addEventListener("scroll",()=>{if(pinned){pinned=null;pop.hidden=true;}document.getElementById("sticky").hidden=document.getElementById("summary").getBoundingClientRect().bottom>0;},{passive:true});
 
 buildInputs();render();renderTrack();
-fetch("/data/papertrade.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(new Error("HTTP "+r.status))).then(d=>{LIVE=d;render();renderTrack();}).catch(e=>{LIVEERR=e;render();renderTrack();});
+const J=u=>fetch(u,{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(new Error(u+" HTTP "+r.status)));
+Promise.all([J("/data/papertrade.json"),J("versions.json").catch(()=>null),J("calls.json").catch(()=>null)]).then(([d,vs,cs])=>{
+  FULL_LIVE=d;LIVE=d;VERSIONS=vs;CALLS=cs;
+  if(vs&&vs.versions&&vs.versions.length){initScrub();const q=new URLSearchParams(location.search).get("asof");setView(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)?pd(q):Date.now());}
+  else{render();renderTrack();renderCalls();}
+}).catch(e=>{LIVEERR=e;render();renderTrack();});
 })();
 </script>
 
