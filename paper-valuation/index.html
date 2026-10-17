@@ -596,7 +596,7 @@ details.cl-ev p{margin-top:2px}
           </div>
           <div class="cs-read">
             <span class="cs-k" id="tallyWhen">Calls scored so far</span>
-            <div class="cs-pips" id="tallyPips" role="img" aria-label="9 calls: 1 hit, 1 missed, 5 on track, 2 off track">
+            <div class="cs-pips" id="tallyPips" role="img" aria-label="10 calls: 1 hit, 1 missed, 6 on track, 2 off track">
               <span class="cs-pip ontrack" title="Base case $0.081: on track"></span>
               <span class="cs-pip ontrack" title="Bull case $0.49: on track"></span>
               <span class="cs-pip offtrack" title="Bear case $0.011: off track"></span>
@@ -660,7 +660,7 @@ details.cl-ev p{margin-top:2px}
     <h2>Is the forecast holding?</h2>
     <div class="sc-verdict">
       <span class="sc-k">Tracking closest to</span><span class="sc-v" id="closest2"><b>Bull</b>, on revenue: the live daily average is above even the bull case's requirement. Too early to count: the launch rush has not faded.</span>
-      <span class="sc-k">Calls so far</span><span class="sc-v" id="tally"><span class="st st-hit">1 hit</span> <span class="st st-missed">1 missed</span> <span class="st st-ontrack">5 on track</span> <span class="st st-offtrack">2 off track</span></span>
+      <span class="sc-k">Calls so far</span><span class="sc-v" id="tally"><span class="st st-hit">1 hit</span> <span class="st st-missed">1 missed</span> <span class="st st-ontrack">6 on track</span> <span class="st st-offtrack">2 off track</span></span>
       <span class="sc-k">This version</span><span class="sc-v">Same method, inputs re-read on 17 Oct. Bull <b>$0.72</b>, base <b>$0.11</b>, bear <b>$0.013</b> per PAPER by Oct 2027. Version 1 said $0.49 / $0.081 / $0.011.</span>
       <span class="sc-k">Next version</span><span class="sc-v"><b>20 Oct</b>: first reading of the payout-bar test. Then weekly through November.</span>
     </div>
@@ -687,6 +687,7 @@ details.cl-ev p{margin-top:2px}
       <div>
         <h3>4. What changed</h3>
         <div class="sc-dev">
+          <div class="sc-row"><div class="sc-when">17 Oct · 10:47 UTC</div><div><b>Tell logged, no re-run:</b> the house pool read <b>$4.83M</b>, under the $5M bar, so stakers have had only the 1% win fee since about midnight UTC ($20K paid between 04:46 and 10:47, against $51.2M all time). A quiet Saturday: Bitcoin $81.5K, down 0.7% on the day; traders ahead $1.0M on open trades. About $172K of net losses tops the pool over the bar again, and the bar doubles to $10M after 18:45 UTC. One self-checking call added: stakers' share back above 80% on a closed day by <b>28 Oct</b>, the base-case date; if not, the base case comes down. One quiet day is not new evidence; the forecast was not touched. <span class="cap">PaperDash API · CoinGecko</span></div></div>
           <div class="sc-row"><div class="sc-when">17 Oct · v2</div><div><b>New data:</b> three more complete days ($5.93M, $7.49M, $5.45M); live contract readings (supply 8.45B, 99.2% staked, high-water mark $222M, cap $5M, pool $4.96M, queue $0); Polymarket re-priced ($100M strike 79%, was 47%; $132K traded, was $9K); DefiLlama revised 12 Oct to $3.93M (was $4.65M) and 13 Oct to $4.52M (was $6.08M).</div></div>
           <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $4.45M → $6.29M a day (same method: the last three complete days); share to stakers 85% → 91%; revenue so far $38.6M → $55.2M; supply tuning 3.0 → 4.0, read from the contract instead of estimated from press figures; market bet $100M → $200M.</div></div>
           <div class="sc-row"><div class="sc-when"></div><div><b>Outputs moved:</b> bull $0.49 → $0.72; base $0.081 → $0.11; bear $0.0105 → $0.013. The method is unchanged: the same comparables' retention and multiples, the same published supply curve. The supply tuning is an input re-read from the contract, not a method change.</div></div>
@@ -723,6 +724,7 @@ details.cl-ev p{margin-top:2px}
       <div class="sc-row"><div class="sc-when">16 Oct</div><div><span class="st st-zero">0</span> Revenue $5.45M. New PAPER minted that day halved to 313M (678M the day before). Reported mint rate 16.6 per $1. PaperStrategy, a wrapper that stakes PAPER, re-rated to a $9.6M market cap, which implies at most ~$0.062 per PAPER (an upper bound). The largest tracked farmer wallet turned a $762K profit. <span class="cap">DefiLlama · PaperDash · ChainCatcher · Odaily · Lookonchain</span></div></div>
       <div class="sc-row"><div class="sc-when">17 Oct 04:46 UTC</div><div><span class="st st-zero">0</span> Live contract: cap $5M, pool $4.96M, queue $0, supply 8.45B, 99.2% staked, high-water mark $222M, open interest $562M, 21,453 accounts, $1.24T traded since launch. <span class="cap">PaperDash API</span></div></div>
       <div class="sc-row"><div class="sc-when">17 Oct 04:52 UTC</div><div><span class="st st-plus">+</span> Polymarket re-priced: $100M strike 79% (47% at Version 1), $150M 64.5%, $200M 52.5%, $250M 44%; $132K traded. The rules now define "launch" as the token being publicly tradable. <span class="cap">Polymarket</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 10:47 UTC</div><div><span class="st st-minus">−</span> The pool slipped under the bar: $4.83M against the $5M cap (it read $5.00M at 10:48 UTC on 16 Oct). Funds $3.83M plus open house PnL −$1.00M; queue $0; cap still $5M until the scheduled change. Stakers' payouts all time $51.20M, up $20K in six hours. <span class="cap">PaperDash API</span></div></div>
       <div class="sc-row"><div class="sc-when">14–17 Oct</div><div><span class="st st-zero">0</span> No incident, pause, outage, exploit, refund or official announcement found in a sweep of 28 sources. The cap change remains scheduled for after 18:45 UTC on 17 Oct. <span class="cap">Research desk</span></div></div>
     </div>
 
@@ -731,7 +733,7 @@ details.cl-ev p{margin-top:2px}
         <h3>What would change the call</h3>
         <div class="box"><ul>
           <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue above $2.1M a day for 30 days after the mint rate is under 10 per $1; money on platform above $138M by 30 Nov; a dated transfer unlock, listing or distribution deal.</span></li>
-          <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear:</b> revenue below $0.63M a day for 30 days after mid-November; surplus payouts still paused in December; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027, ahead of even the bull path.</span></li>
+          <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear:</b> revenue below $0.63M a day for 30 days after mid-November; stakers' share still under 80% on 28 Oct (the tell logged 17 Oct); surplus payouts still paused in December; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027, ahead of even the bull path.</span></li>
         </ul></div>
       </div>
       <div>
@@ -741,6 +743,7 @@ details.cl-ev p{margin-top:2px}
           <tbody>
             <tr><td class="num">18 Oct</td><td>Mark the payout-bar call hit or missed (cap reads $10M?)</td></tr>
             <tr><td class="num">20 Oct</td><td><b>Version 3</b>: first reading of the payout-bar test; the mint-rate line</td></tr>
+            <tr><td class="num">28 Oct</td><td>The tell resolves itself: stakers' share back above 80% on a closed day (base or better), or not</td></tr>
             <tr><td class="num">weekly</td><td>A version every week through November, data re-read each time</td></tr>
             <tr><td class="num">11 Nov</td><td>Base-case farming stop line (Version 2)</td></tr>
             <tr><td class="num">30 Nov</td><td>The $138M money check; the open-contract and builder-code phases</td></tr>
