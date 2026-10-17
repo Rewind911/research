@@ -313,32 +313,260 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 .moment.on{outline:3px solid var(--has);outline-offset:1px;transform:translateY(-1px)}
 .moment:not(.ctx):hover{border-color:var(--ink)}
 .moment:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ---- the call sheet (design pass, 17 Oct 2026) ---- */
+/* ==========================================================================
+   The call sheet: top of the PAPER Value Model page.
+   One block answers four questions: what we say, how reality is running,
+   how our calls have scored, and what we said on any earlier day (the record).
+   Uses only the page's existing tokens (:root in index.html). Single light theme.
+   Prefix "cs-" for the sheet and "rec-" for the record line, to avoid the
+   page's existing .st / .on / .now / .moment classes.
+   ========================================================================== */
+
+/* Sheet: one white sheet with the ink rule the tape used to carry */
+.cs{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:0 0 6px 6px;box-shadow:var(--sheet);display:grid;min-width:0;transition:background-color .35s}
+.cs-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:0;min-width:0}
+.cs-call{display:grid;gap:8px;align-content:start;padding:clamp(16px,3vw,26px);min-width:0}
+.cs-side{display:grid;align-content:start;border-left:1px solid var(--line);min-width:0}
+.cs-read{display:grid;gap:6px;padding:16px clamp(16px,2.4vw,22px);min-width:0}
+.cs-read + .cs-read{border-top:1px solid var(--line)}
+@media (max-width:820px){.cs-body{grid-template-columns:minmax(0,1fr)}.cs-side{border-left:none;border-top:1px solid var(--line)}}
+
+/* Small uppercase label used for every reading */
+.cs-k{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* The call itself */
+.cs-when{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--base)}
+.cs-val{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.cs-val .n{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,76px);line-height:.95;letter-spacing:-0.04em;color:var(--base);font-variant-numeric:tabular-nums}
+.cs-val .u{font-size:15px;color:var(--ink2);max-width:22ch;line-height:1.3}
+.cs-val .u b{color:var(--ink);font-weight:600}
+.cs-was{font-size:14px;color:var(--ink2);max-width:56ch}
+.cs-was b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.cs-delta{display:inline-block;font-family:var(--mono);font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px;background:var(--has-bg);color:var(--has);vertical-align:1px}
+.cs-delta.dn{background:var(--lacks-bg);color:var(--lacks)}
+/* #tape is filled by render() with the sticky row; inside the sheet its "PAPER forecast" name is redundant */
+.cs .tape{border:none;background:none;padding:6px 0 0;border-top:1px dashed var(--line);font-size:12.5px;gap:4px 16px}
+.cs .tape .nm{display:none}
+
+/* Reality reading */
+.cs-big{font-family:var(--display);font-weight:800;font-size:clamp(19px,2.3vw,23px);line-height:1.1;letter-spacing:-0.015em;text-wrap:balance}
+.cs-big.bull{color:var(--bull)}.cs-big.base{color:var(--base)}.cs-big.bear{color:var(--bear)}
+.cs-sub{font-size:13.5px;color:var(--ink2)}
+.cs-sub b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+
+/* Calls reading: one square per call, coloured by status, in the order of calls.json */
+.cs-pips{display:flex;flex-wrap:wrap;gap:4px}
+.cs-pip{width:16px;height:16px;border-radius:3px;background:var(--pb);box-shadow:inset 0 0 0 1.5px var(--pc)}
+.cs-pip.hit{--pb:var(--has);--pc:var(--has)}
+.cs-pip.missed{--pb:var(--lacks);--pc:var(--lacks)}
+.cs-pip.ontrack{--pb:var(--surface);--pc:var(--base)}
+.cs-pip.offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.cs-tally{font-size:13.5px;color:var(--ink2)}
+.cs-tally b{font-weight:600;color:var(--ink)}
+.cs-link{font-size:13px;font-weight:600;color:var(--base);text-decoration:none;justify-self:start;border-radius:2px}
+.cs-link:hover{text-decoration:underline;text-underline-offset:3px}
+.cs-link:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ---------- The record: the line of dated moments ---------- */
+.rec{display:grid;gap:10px;padding:14px clamp(16px,3vw,26px) 16px;border-top:1px solid var(--line);background:var(--bg);min-width:0}
+.rec-head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.rec-head .cs-k{color:var(--ink)}
+.rec-hint{font-size:13px;color:var(--ink2);margin-right:auto}
+.rec-btns{display:flex;gap:6px;flex-wrap:wrap}
+.rec-btn{font-family:var(--body);font-size:13px;font-weight:600;min-height:36px;padding:6px 12px;border-radius:4px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.rec-btn:hover{background:var(--ink);color:var(--surface)}
+.rec-btn:disabled{opacity:.4;cursor:default;background:var(--surface);color:var(--ink)}
+.rec-btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.rec-btn.play[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+
+/* Track: equal spacing per date (order matters more than distance), scrolls sideways on its own when narrow */
+.rec-track{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:30px 2px 4px;margin:0 -2px;scrollbar-width:thin}
+.rec-line{list-style:none;margin:0;padding:0;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(104px,1fr);min-width:max-content}
+@media (min-width:821px){.rec-line{min-width:100%}}
+.rec-stop{position:relative;scroll-snap-align:center;min-width:0}
+/* the line between stops: solid for what has happened, dashed for what is ahead */
+.rec-stop::before{content:"";position:absolute;top:9px;left:0;right:0;border-top:2px solid var(--ink)}
+.rec-stop:first-child::before{left:50%}
+.rec-stop:last-child::before{right:50%}
+.rec-stop.ahead::before{border-top:2px dashed var(--muted)}
+.rec-stop.is-today::before{right:50%}
+.rec-stop.is-today::after{content:"";position:absolute;top:9px;left:50%;right:0;border-top:2px dashed var(--muted)}
+.rec-stop.is-today:last-child::after{display:none}
+
+.rec-hit{all:unset;box-sizing:border-box;position:relative;display:grid;justify-items:center;gap:5px;width:100%;padding:0 4px 4px;text-align:center;border-radius:6px;cursor:pointer;color:var(--ink)}
+span.rec-hit{cursor:default}
+.rec-hit:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.rec-dot{width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--ink);position:relative;z-index:1;transition:transform .2s}
+button.rec-hit:hover .rec-dot{transform:scale(1.18)}
+.rec-stop.context .rec-dot{width:14px;height:14px;margin-top:3px;border-color:var(--muted);background:var(--bg)}
+.rec-stop.event .rec-dot{background:var(--ink)}
+.rec-stop.key .rec-dot{background:var(--part-bg);border-color:var(--part)}
+.rec-stop.version .rec-dot{border-radius:3px;transform:rotate(45deg) scale(.86);background:var(--base);border-color:var(--base)}
+.rec-stop.version button.rec-hit:hover .rec-dot{transform:rotate(45deg)}
+.rec-stop.ahead .rec-dot{border-style:dashed;border-color:var(--muted);background:var(--bg)}
+.rec-stop.is-today .rec-dot{box-shadow:0 0 0 4px var(--surface),0 0 0 6px var(--ink)}
+.rec-stop.is-today:not(.version):not(.event):not(.key) .rec-dot{background:var(--ink)}
+.rec-date{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.rec-what{font-size:12.5px;line-height:1.25;font-weight:600;max-width:15ch;text-wrap:balance}
+.rec-what small{display:block;font-weight:500;color:var(--ink2);font-size:12px}
+.rec-val{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--base)}
+.rec-stop.context .rec-what,.rec-stop.ahead .rec-what{color:var(--ink2);font-weight:500}
+.rec-stop.ahead .rec-date{color:var(--muted)}
+
+/* "You are here" pin over the stop in view */
+.rec-pin{position:absolute;top:-27px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;padding:2px 7px;border-radius:3px;background:var(--ink);color:var(--surface);pointer-events:none}
+.rec-pin::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;background:inherit;transform:translateX(-50%) rotate(45deg)}
+.rec-stop.is-view .rec-what{color:var(--ink)}
+
+/* Caption under the line: what that moment was. Polite live region. */
+.rec-cap{font-size:13.5px;color:var(--ink);min-height:1.5em;max-width:78ch}
+.rec-cap b{font-family:var(--mono);font-weight:600}
+.cs-foot{padding:10px clamp(16px,3vw,26px) 12px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:12px;color:var(--ink2)}
+.cs-foot .upd{font-size:12px}
+.cs-foot a{color:var(--ink2)}
+
+/* ---------- Reading a past day ---------- */
+/* The banner is the first thing inside the sheet; the whole sheet takes the paper tint so the state is visible without reading */
+.cs-ban{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:10px clamp(16px,3vw,26px);background:var(--ink);color:var(--surface);font-size:13.5px}
+.cs-ban b{font-family:var(--mono);font-weight:600}
+.cs-ban .sp{margin-right:auto;min-width:0;flex:1 1 40ch}
+.cs-ban a{color:var(--surface);font-size:12.5px}
+.cs-ban .rec-btn{border-color:var(--surface);background:var(--surface);color:var(--ink)}
+.cs-ban .rec-btn:hover{background:var(--bg)}
+.cs-ban .rec-btn:focus-visible{outline-color:var(--surface)}
+.cs.is-past{background:var(--part-bg)}
+.cs.is-past .cs-when{color:var(--part)}
+.cs.is-past .cs-side{border-color:rgba(122,82,0,.22)}
+.cs.is-past .cs-read + .cs-read{border-color:rgba(122,82,0,.22)}
+.cs.is-past .rec-pin{background:var(--part)}
+/* What happened next: the hindsight box, only on a past day */
+.cs-next{display:grid;gap:4px;padding:10px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink);font-size:13.5px;color:var(--ink2);max-width:60ch}
+.cs-next b{color:var(--ink);font-weight:600}
+
+/* Sticky bar while reading a past day (add class .past to #sticky; JS prepends the chip) */
+#sticky.past{background:var(--part-bg)}
+.past-chip{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--ink);color:var(--surface);white-space:nowrap}
+.past-chip a{color:var(--surface);margin-left:6px}
+
+/* Replay: number change is a short rise; nothing moves for readers who ask for less motion */
+.cs-val .n.swap{animation:cs-rise .45s ease-out}
+.rec-cap.swap{animation:cs-fade .45s ease-out}
+@keyframes cs-rise{from{opacity:.15;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes cs-fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.cs-val .n.swap,.rec-cap.swap{animation:none}.cs{transition:none}}
+
+/* Phone */
+@media (max-width:560px){
+  .cs-val .u{max-width:none;flex-basis:100%}
+  .rec-head{display:grid;grid-template-columns:1fr;gap:8px}
+  .rec-btns{display:grid;grid-template-columns:1fr 1fr 1fr}
+  .rec-long{display:none}
+  .rec-btn{justify-content:center;padding:6px 8px}
+  .rec-line{grid-auto-columns:96px}
+}
+.rec-what .rec-val{display:block}
 </style>
 
 <div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
 
 <main class="wrap">
   <header class="top">
-    <div class="tag" id="topTag">Papertrade · PAPER token · Version 2, 17 Oct 2026, day 7 of trading · earlier versions kept at /v1/</div>
+    <div class="tag" id="topTag">Papertrade · PAPER token · Personal research, re-run as reality comes in</div>
     <h1>PAPER Value Model</h1>
+  
+    <section class="cs" id="sheet" aria-labelledby="sayWhen">
+      <div class="cs-ban" id="viewBan" role="status" hidden>
+        <span class="sp">Reading this page as it stood on <b>15 Oct 2026</b>. Numbers, cards and calls are as they were that day; the written analysis is today's.</span>
+        <a id="recLink" href="?asof=2026-10-15">Link to this day</a>
+        <button type="button" class="rec-btn" id="backToday">Back to today, 17 Oct</button>
+      </div>
+  
+      <div class="cs-body">
+        <div class="cs-call">
+          <div class="cs-when" id="sayWhen">Our call today · 17 Oct</div>
+          <div class="cs-val">
+            <span class="n" id="sayVal">$0.11</span>
+            <span class="u" id="sayUnit">per PAPER by <b>Oct 2027</b>, base case</span>
+          </div>
+          <p class="cs-was" id="sayWas">First said <b>$0.081</b> on 14 Oct. Re-run on 17 Oct with three more days of data, same method. <span class="cs-delta">+36%</span></p>
+          <div class="tape" id="tape" aria-label="All three cases and the market's bet">
+            <span><span class="dot" style="--c:var(--bull)"></span>Bull <b>$0.72</b></span>
+            <span><span class="dot" style="--c:var(--base)"></span>Base <b>$0.11</b></span>
+            <span><span class="dot" style="--c:var(--bear)"></span>Bear <b>$0.013</b></span>
+            <span><span class="dot" style="--c:var(--ref)"></span>Market bet <b>$0.025</b></span>
+          </div>
+          <div class="cs-next" id="sayNext" hidden>
+            <span class="cs-k">What happened next</span>
+            <span><b>17 Oct:</b> re-run on new data, base case $0.081 → <b>$0.11</b>.</span>
+            <span><b>1 call since marked missed:</b> the farming stop line came 2½ months early.</span>
+          </div>
+        </div>
+  
+        <div class="cs-side">
+          <div class="cs-read">
+            <span class="cs-k">Reality so far</span>
+            <div class="cs-big bull" id="closestBig">Revenue is running ahead of even the bull case</div>
+            <p class="cs-sub" id="closest"><b>$5.0M</b> a day over the last 6 days. The bull case needs <b>$2.1M</b> once the rush fades. Too early to count while the launch rush lasts.</p>
+          </div>
+          <div class="cs-read">
+            <span class="cs-k" id="tallyWhen">Calls scored so far</span>
+            <div class="cs-pips" id="tallyPips" role="img" aria-label="9 calls: 1 hit, 1 missed, 5 on track, 2 off track">
+              <span class="cs-pip ontrack" title="Base case $0.081: on track"></span>
+              <span class="cs-pip ontrack" title="Bull case $0.49: on track"></span>
+              <span class="cs-pip offtrack" title="Bear case $0.011: off track"></span>
+              <span class="cs-pip ontrack" title="Payout bar doubles on 17 Oct: on track"></span>
+              <span class="cs-pip ontrack" title="Surplus payouts restart: on track"></span>
+              <span class="cs-pip ontrack" title="Mint rate under 10 per $1: on track"></span>
+              <span class="cs-pip missed" title="Farming stop line, base case: missed"></span>
+              <span class="cs-pip offtrack" title="Money on platform above $138M by 30 Nov: off track"></span>
+              <span class="cs-pip hit" title="Payout queue stays at zero: hit so far"></span>
+            </div>
+            <p class="cs-tally" id="tallyTop"><b>1</b> hit · <b>1</b> missed · <b>5</b> on track · <b>2</b> off track</p>
+            <a class="cs-link" href="#scorecard">Every call, and what we got wrong ↓</a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="rec" id="storyWrap" hidden>
+        <div class="rec-head">
+          <span class="cs-k">The record</span>
+          <span class="rec-hint">Tap a date to see this page as it stood that day.</span>
+          <div class="rec-btns">
+            <button type="button" class="rec-btn" id="recPrev" aria-label="Show the page as it stood at the previous date">← Earlier</button>
+            <button type="button" class="rec-btn" id="recNext" aria-label="Show the page as it stood at the next date" disabled>Later →</button>
+            <button type="button" class="rec-btn play" id="watch" aria-label="Replay the record from 14 Oct" aria-pressed="false">▶ Replay<span class="rec-long"> from 14 Oct</span></button>
+          </div>
+        </div>
+        <div class="rec-track">
+          <ol class="rec-line" id="story" aria-label="Dated moments in this study">
+            <li class="rec-stop context past"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">10 Oct</span><span class="rec-what">Launch</span></span></li>
+            <li class="rec-stop context past"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">11 Oct</span><span class="rec-what">The rush fades</span></span></li>
+            <li class="rec-stop version past"><button type="button" class="rec-hit" aria-label="14 Oct: first published, base case $0.081. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">14 Oct</span><span class="rec-what">First published<span class="rec-val">$0.081</span></span></button></li>
+            <li class="rec-stop event past"><button type="button" class="rec-hit" aria-label="15 Oct: best day since launch. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">15 Oct</span><span class="rec-what">Best day since launch</span></button></li>
+            <li class="rec-stop version past is-today is-view"><button type="button" class="rec-hit" aria-current="date" aria-label="17 Oct, today: re-run, base case $0.11; payout bar doubles. Showing today."><span class="rec-pin">You are here</span><span class="rec-dot"></span><span class="rec-date">17 Oct · today</span><span class="rec-what">Re-run<span class="rec-val">$0.11</span><small>Payout bar doubles</small></span></button></li>
+            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">20 Oct</span><span class="rec-what">Next re-run<small>in 3 days</small></span></span></li>
+            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">11 Nov</span><span class="rec-what">Base-case stop line</span></span></li>
+            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">30 Nov</span><span class="rec-what">$138M money check</span></span></li>
+          </ol>
+        </div>
+        <p class="rec-cap" id="recCap" aria-live="polite"><b>Next:</b> 20 Oct, the first reading of how fast stakers' payouts restart after the bar doubled. The model is re-run on that day's data.</p>
+      </div>
+      <div class="cs-foot">
+        <span class="upd" id="upd">Loading today's numbers…</span>
+        <span><span id="verLbl">Version 2 · published 17 Oct 2026</span> · <a href="/paper-valuation/v1/">Version 1 as published</a></span>
+      </div>
+    </section>
+  </header>
+
+  <section class="panel" id="summary" aria-label="Executive summary">
+    <div class="tag">Executive summary · tap any box for the details</div>
     <div class="keys">Tap any underlined number to see where it comes from:
       <span class="k m"><i></i>measured</span>
       <span class="k c"><i></i>from similar launches</span>
       <span class="k e"><i></i>model result</span>
     </div>
-    <div class="tape" id="tape" aria-label="Forecast summary"></div>
-    <div class="upd" id="upd" aria-live="polite">Loading today's numbers…</div>
-    <div class="ver"><span class="fc">Living research</span> <b id="verLbl">Version 2 · updated 17 Oct 2026</b> · same method, inputs re-read as reality comes in · <span id="closest">Tracking closest to: loading…</span> · <a href="/paper-valuation/v1/">earlier versions</a></div>
-    <div class="story" id="storyWrap" hidden>
-      <div class="story-head"><span class="sl">The story so far</span><span class="cap">Tap a moment to see this page as it stood that day.</span><button type="button" id="watch">▶ Watch it unfold</button></div>
-      <div class="story-track" id="story" role="list"></div>
-      <div class="scrub-ban" id="viewBan" hidden></div>
-    </div>
-    <a class="scline" href="#scorecard"><span class="sl">Scorecard</span><span>Calls so far: <b id="tallyTop">1 hit · 1 missed · 5 on track · 2 off track</b> · how the call has moved, what changed and why ↓ · next version <b>20 Oct</b></span></a>
-  </header>
-
-  <section class="panel" id="summary" aria-label="Executive summary">
-    <div class="tag">Executive summary · tap any box for the details</div>
     <div class="dash" id="dash"></div>
   </section>
 
@@ -639,14 +867,33 @@ function setView(ms){
     totals:isToday?FULL_LIVE.totals:{...(FULL_LIVE.totals||{}),tvl_now:rows.length?rows[rows.length-1].tvl:null},
     contract:hist.length?hist[hist.length-1]:null,contract_history:hist};
   buildInputs();render();renderTrack();renderCalls();renderDrift();
-  const ban=document.getElementById("viewBan"),vl=document.getElementById("verLbl");
-  if(vl)vl.textContent=`Version ${ver.v} · updated ${dstr(pd(ver.date))}`;
-  const tt=document.getElementById("topTag");if(tt)tt.textContent=`Papertrade · PAPER token · Version ${ver.v}, ${dstr(pd(ver.date))} · day ${Math.round((ms-Date.UTC(2026,9,10))/DAY)+1} of trading${isToday?"":" · as it stood"} · earlier versions kept at /v1/`;
-  if(ban){const m=moments().filter(e=>e.clickable&&e.ms<=ms).slice(-1)[0];ban.hidden=isToday;ban.innerHTML=`<b>${dstr(ms)}</b>${m&&m.ms===ms?` · ${m.title}. ${m.text||""}`:""} You are looking at this page as it stood that day (Version ${ver.v}, data through ${rows.length?dshort(pd(rows[rows.length-1].date)):"–"}); the written sections describe the current version. <a href="#" id="backToday">Back to today</a>`;const bt=document.getElementById("backToday");if(bt)bt.addEventListener("click",e=>{e.preventDefault();stopReplay();setView(Date.now());});}
+  const ban=document.getElementById("viewBan"),vl=document.getElementById("verLbl"),$=id=>document.getElementById(id);
+  if(vl)vl.textContent=`Version ${ver.v} · published ${dstr(pd(ver.date))}`;
+  const sheet=$("sheet");if(sheet)sheet.classList.toggle("is-past",!isToday);
+  const v1=VERSIONS.versions[0],baseNow=verValue(ver,"base"),base1=verValue(v1,"base");
+  if($("sayWhen"))$("sayWhen").textContent=isToday?`Our call today · ${dshort(today)}`:`Our call on ${dshort(ms)}`;
+  if($("sayVal")){const el=$("sayVal");const txt=fmtP(baseNow);if(el.textContent!==txt){el.textContent=txt;el.classList.remove("swap");void el.offsetWidth;el.classList.add("swap");}}
+  if($("sayUnit"))$("sayUnit").innerHTML=`per PAPER by <b>${VERSIONS.horizon||"Oct 2027"}</b>, base case`;
+  if($("sayWas")){if(ver.v===v1.v)$("sayWas").innerHTML=`First published on ${dshort(pd(ver.date))}, with data through ${dshort(pd(ver.data_through))}.`;
+    else{const more=Math.round((pd(ver.data_through)-pd(v1.data_through))/DAY),delta=Math.round((baseNow/base1-1)*100);$("sayWas").innerHTML=`First said <b>${fmtP(base1)}</b> on ${dshort(pd(v1.date))}. Re-run on ${dshort(pd(ver.date))} with ${more} more day${more===1?"":"s"} of data, same method. <span class="cs-delta${delta<0?" dn":""}">${delta>=0?"+":""}${delta}%</span>`;}}
+  if($("sayNext")){const nx=$("sayNext");if(isToday)nx.hidden=true;else{const later=VERSIONS.versions.filter(v=>pd(v.date)>ms);let lines=later.map((v,i)=>{const prev=i?later[i-1]:ver;return `<span><b>${dshort(pd(v.date))}:</b> re-run on new data, base case ${fmtP(verValue(prev,"base"))} → <b>${fmtP(verValue(v,"base"))}</b>.</span>`;});
+      if(CALLS){const keep=LIVE;LIVE=FULL_LIVE;const nowS=CALLS.calls.map(c=>evalCall(c,today));LIVE=keep;const thenS=CALLS.calls.map(c=>evalCall(c,ms));
+        const ch=st=>CALLS.calls.map((c,i)=>({c,n:nowS[i],t:thenS[i]})).filter(x=>x.n.st===st&&x.t.st!==st);
+        const first=t=>(t||"").split(/(?<=\.)\s/)[0];
+        [["missed","call","since marked missed"],["hit","call","since marked hit"],["off track","call","since moved off track"]].forEach(([st,w,label])=>{const xs=ch(st);if(xs.length)lines.push(`<span><b>${xs.length} ${w}${xs.length>1?"s":""} ${label}:</b> ${xs.map(x=>`${x.c.text.split(":")[0].split(" (")[0]}: ${(first(x.n.evd)||"").replace(/^./,c=>c.toLowerCase())}`).join(" ")}</span>`);});}
+      nx.hidden=!lines.length;nx.innerHTML=`<span class="cs-k">What happened next</span>`+lines.join("");}}
+  if($("tallyWhen"))$("tallyWhen").textContent=isToday?"Calls scored so far":`Calls scored by ${dshort(ms)}`;
+  if($("recLink"))$("recLink").setAttribute("href",`?asof=${iso}`);
+  if($("backToday"))$("backToday").textContent=`Back to today, ${dshort(today)}`;
+  const st=$("sticky");if(st){st.classList.toggle("past",!isToday);const sin=$("stickyIn");if(sin&&!isToday){sin.insertAdjacentHTML("afterbegin",`<span class="past-chip">Reading ${dshort(ms)}<a href="#" id="chipBack">Back to today</a></span>`);const cb=$("chipBack");if(cb)cb.addEventListener("click",e=>{e.preventDefault();stopReplay();setView(Date.now());});}}
+  if(ban){ban.hidden=isToday;const sp=ban.querySelector(".sp");if(sp)sp.innerHTML=`Reading this page as it stood on <b>${dstr(ms)}</b>. Numbers, cards and calls are as they were that day; the written analysis is today's.`;}
+  const cap=$("recCap");if(cap){let html="";if(isToday){const up=moments().filter(e=>e.ms>today)[0];html=up?`<b>Next:</b> ${dshort(up.ms)}, ${(up.text||up.title).replace(/^./,c=>c.toLowerCase())} The model is re-run on that day's data.`:`The record is up to date.`;}
+    else{const ms_=moments().filter(e=>e.ms===ms);html=ms_.length?`<b>${dshort(ms)} · ${ms_.map(e=>e.title).join(" · ")}.</b> ${ms_.map(e=>e.text||"").join(" ")}`:`<b>${dshort(ms)}.</b> No moment recorded on this day; numbers are as the data stood.`;}
+    if(cap.innerHTML!==html){cap.innerHTML=html;cap.classList.remove("swap");void cap.offsetWidth;cap.classList.add("swap");}}
   renderStory();
   if(history.replaceState){const u=new URL(location.href);if(isToday)u.searchParams.delete("asof");else u.searchParams.set("asof",iso);history.replaceState(null,"",u);}
 }
-function stopReplay(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}const b=document.getElementById("watch");if(b)b.textContent="▶ Watch it unfold";}
+function stopReplay(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}const b=document.getElementById("watch");if(b){b.innerHTML='▶ Replay<span class="rec-long"> from 14 Oct</span>';b.setAttribute("aria-pressed","false");}}
 // The story line: dated moments (launch, versions, events, what is ahead). Tapping a past moment shows the page as it stood that day.
 function moments(){
   const today=utcMidnight(Date.now()),list=[];
@@ -658,23 +905,37 @@ function moments(){
 function renderStory(){
   const el=document.getElementById("story");if(!el||!VERSIONS)return;
   const today=utcMidnight(Date.now()),view=VIEW||today,list=moments();
-  const viewing=list.filter(e=>e.clickable&&e.ms<=view).slice(-1)[0];
-  let h=list.map((e,i)=>{const on=viewing&&e===viewing&&view<today;const today_=e.ms===today;
-    return `<button type="button" class="moment ${e.kind}${e.past?" past":" ahead"}${on?" on":""}${e.clickable?"":" ctx"}" data-i="${i}" ${e.clickable?"":"disabled"} role="listitem" title="${(e.text||"").replace(/"/g,"&quot;")}"><span class="m-date">${dshort(e.ms)}${today_?" · today":""}</span><span class="m-title">${e.title}</span></button>`;}).join("");
-  h+=`<button type="button" class="moment now${view>=today?" on":""}" id="momentToday" role="listitem"><span class="m-date">${dshort(today)}</span><span class="m-title">Today, live</span></button>`;
-  el.innerHTML=h;
-  el.querySelectorAll(".moment[data-i]").forEach(b=>b.addEventListener("click",()=>{stopReplay();const e=list[+b.dataset.i];setView(e.ms);}));
-  document.getElementById("momentToday").addEventListener("click",()=>{stopReplay();setView(Date.now());});
-  const on=el.querySelector(".moment.on");if(on&&on.scrollIntoView)on.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  const byDate=[];list.forEach(e=>{const g=byDate.find(x=>x.ms===e.ms);if(g)g.items.push(e);else byDate.push({ms:e.ms,items:[e],clickable:e.clickable,past:e.past});});
+  const viewStop=byDate.filter(g=>g.clickable&&g.ms<=view).slice(-1)[0];
+  const vlabel=e=>e.kind==="version"?(e===list.find(x=>x.kind==="version")?"First published":"Re-run"):e.title;
+  el.innerHTML=byDate.map(g=>{const lead=g.items[0],kind=g.items.some(e=>e.kind==="version")?"version":lead.kind;const isT=g.ms===today,isV=viewStop&&g===viewStop;
+    const ver=g.items.find(e=>e.kind==="version");const vv=ver?VERSIONS.versions.find(v=>pd(v.date)===g.ms):null;
+    const what=`<span class="rec-what">${ver?vlabel(ver):lead.title}${vv?`<span class="rec-val">${fmtP(verValue(vv,"base"))}</span>`:""}${g.items.filter(e=>e!==(ver||lead)).map(e=>`<small>${e.title}</small>`).join("")}${!g.past&&g===byDate.filter(x=>!x.past)[0]?`<small>${until(g.ms)}</small>`:""}</span>`;
+    const inner=`${isV?`<span class="rec-pin">${view<today?"You are reading":"You are here"}</span>`:""}<span class="rec-dot"></span><span class="rec-date">${dshort(g.ms)}${isT?" · today":""}</span>${what}`;
+    const label=`${dshort(g.ms)}${isT?", today":""}: ${g.items.map(e=>e.title).join("; ")}. ${g.clickable?(isV?"Showing this day.":"Show the page as it stood that day."):""}`;
+    return `<li class="rec-stop ${kind}${g.past?" past":" ahead"}${isT?" is-today":""}${isV?" is-view":""}">${g.clickable?`<button type="button" class="rec-hit" data-ms="${g.ms}" tabindex="${isV?0:-1}"${isT?' aria-current="date"':""} aria-label="${label.replace(/"/g,"&quot;")}">${inner}</button>`:`<span class="rec-hit">${inner}</span>`}</li>`;}).join("");
+  const hits=[...el.querySelectorAll("button.rec-hit")];
+  hits.forEach(b=>b.addEventListener("click",()=>{stopReplay();setView(+b.dataset.ms);}));
+  const stops=byDate.filter(g=>g.clickable).map(g=>g.ms),vi=viewStop?stops.indexOf(viewStop.ms):stops.length-1;
+  const prev=document.getElementById("recPrev"),next=document.getElementById("recNext");
+  if(prev)prev.disabled=vi<=0;if(next)next.disabled=view>=today;
+  if(prev)prev.onclick=()=>{stopReplay();if(vi>0)setView(stops[vi-1]);};
+  if(next)next.onclick=()=>{stopReplay();const n=stops[vi+1];setView(n===undefined||n>=today?Date.now():n);};
+  el.onkeydown=e=>{const i=hits.findIndex(b=>b===document.activeElement);if(i<0)return;let j=null;if(e.key==="ArrowRight")j=Math.min(hits.length-1,i+1);if(e.key==="ArrowLeft")j=Math.max(0,i-1);if(e.key==="Home")j=0;if(e.key==="End")j=hits.length-1;if(j!==null){e.preventDefault();hits[j].focus();hits[j].click();}};
+  const on=el.querySelector(".rec-stop.is-view");if(on&&on.scrollIntoView)on.scrollIntoView({block:"nearest",inline:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
 }
 function initStory(){
   const w=document.getElementById("storyWrap");if(!w)return;w.hidden=false;
-  document.getElementById("watch").addEventListener("click",function(){
+  const bt=document.getElementById("backToday");if(bt)bt.addEventListener("click",()=>{stopReplay();setView(Date.now());});
+  const btn=document.getElementById("watch");
+  btn.addEventListener("click",function(){
     if(replayTimer){stopReplay();return;}
-    const steps=moments().filter(e=>e.clickable);if(!steps.length)return;
-    let i=0;setView(steps[0].ms);this.textContent="■ Stop";
-    replayTimer=setInterval(()=>{i++;if(i>=steps.length){stopReplay();setView(Date.now());return;}setView(steps[i].ms);},1600);
+    const steps=moments().filter(e=>e.clickable).map(e=>e.ms).filter((v,i,a)=>a.indexOf(v)===i);if(!steps.length)return;
+    let i=0;setView(steps[0]);this.innerHTML="❚❚ Pause";this.setAttribute("aria-pressed","true");
+    replayTimer=setInterval(()=>{i++;if(i>=steps.length){stopReplay();setView(Date.now());const cap=document.getElementById("recCap");if(cap){cap.innerHTML=`That is the record up to today. ${cap.innerHTML}`;}return;}setView(steps[i]);},3500);
   });
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")stopReplay();});
+  let y0=window.scrollY;window.addEventListener("scroll",()=>{if(replayTimer&&Math.abs(window.scrollY-y0)>window.innerHeight)stopReplay();y0=replayTimer?y0:window.scrollY;},{passive:true});
 }
 // Calls: auto rules read the daily data and the contract snapshots; manual ones carry a dated history of judgments.
 const fmtMetric=(m,v)=>m==="holder_share"?pct(v):m==="mint_rate"?v.toFixed(1)+" PAPER per $1":m==="supply"||m==="staked"?(v/1e9).toFixed(2)+"B PAPER":fmtU(v);
@@ -710,7 +971,9 @@ function renderCalls(){
   const tally={hit:0,missed:0,"on track":0,"off track":0};rows.forEach(r=>tally[r.st]=(tally[r.st]||0)+1);
   const tTxt=`${tally.hit} hit · ${tally.missed} missed · ${tally["on track"]} on track · ${tally["off track"]} off track`;
   const tHtml=`<span class="st st-hit">${tally.hit} hit</span> <span class="st st-missed">${tally.missed} missed</span> <span class="st st-ontrack">${tally["on track"]} on track</span> <span class="st st-offtrack">${tally["off track"]} off track</span>`;
-  const t1=document.getElementById("tally"),t2=document.getElementById("tallyTop");if(t1)t1.innerHTML=tHtml;if(t2)t2.textContent=tTxt;
+  const t1=document.getElementById("tally"),t2=document.getElementById("tallyTop"),tp=document.getElementById("tallyPips");if(t1)t1.innerHTML=tHtml;
+  if(t2)t2.innerHTML=`<b>${tally.hit}</b> hit · <b>${tally.missed}</b> missed · <b>${tally["on track"]}</b> on track · <b>${tally["off track"]}</b> off track`;
+  if(tp){tp.innerHTML=rows.map(r=>`<span class="cs-pip ${r.st.replace(" ","")}" title="${r.c.text.replace(/"/g,"&quot;")}: ${r.st}"></span>`).join("");tp.setAttribute("aria-label",`${rows.length} calls: ${tTxt}`);}
   box.innerHTML=`<div class="tablewrap"><table class="sc-table wide"><thead><tr><th>Call (made ${dshort(pd(CALLS.calls[0].made))})</th><th>Status</th><th>Evidence, as of ${dshort(ms)}</th></tr></thead><tbody>`+
     rows.map(r=>`<tr><td><b>${r.c.text}</b>${r.c.due?`<span class="cap"> · by ${dshort(pd(r.c.due))}</span>`:""}</td><td><span class="st ${stClass(r.st)}">${r.st}${r.st==="hit"&&r.c.rule&&r.c.rule.continuous?" so far":""}</span>${r.auto?`<span class="cap"> self-checked</span>`:""}</td><td>${r.evd||"–"}</td></tr>`).join("")+`</tbody></table></div>
     <p class="cap">${CALLS.calls.filter(c=>c.kind==="auto").length} of ${CALLS.calls.length} calls check themselves from the daily data and the contract read; the rest carry a dated judgment with its evidence. Misses stay here in every later version.</p>`;
@@ -951,7 +1214,10 @@ function renderTrack(){
   const t=liveStats();
   if(!t){const m=LIVEERR?"Today's numbers could not be loaded. The forecast is shown as made on 17 Oct 2026 (Version 2).":"Loading today's numbers…";upd.textContent=m;box.innerHTML=`<p class="cap">${m}</p>`;return;}
   const fd=LIVE.fetched_at?new Date(LIVE.fetched_at).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}):null;
-  const cl=document.getElementById("closest"),cl2=document.getElementById("closest2");const nearName=NAME[t.above?"bull":t.near];const clTxt=`Tracking closest to: <b>${nearName}</b> · ${fmtU(t.a7)} a day over the last ${t.w.length} days${t.above?`, above even the bull case's ${fmtU(t.daily.bull)} a day after the rush`:`; the ${nearName.toLowerCase()} case needs ${fmtU(t.daily[t.near])} a day after the rush`}`;if(cl)cl.innerHTML=clTxt;if(cl2)cl2.innerHTML=clTxt.replace("Tracking closest to: ","")+". Too early to count while the launch rush lasts.";
+  const cl=document.getElementById("closest"),cl2=document.getElementById("closest2"),cb=document.getElementById("closestBig");const nearKey=t.above?"bull":t.near,nearName=NAME[nearKey];
+  if(cb){cb.textContent=t.above?"Revenue is running ahead of even the bull case":`Revenue is running nearest the ${nearName.toLowerCase()} case`;cb.className="cs-big "+nearKey;}
+  const clTxt=`<b>${fmtU(t.a7)}</b> a day over the last ${t.w.length} days. The ${nearName.toLowerCase()} case needs <b>${fmtU(t.daily[nearKey])}</b> once the rush fades. Too early to count while the launch rush lasts.`;
+  if(cl)cl.innerHTML=clTxt;if(cl2)cl2.innerHTML=`<b>${nearName}</b> · ${clTxt}`;
   upd.innerHTML=fd?`<b>Updated ${fd} Dubai</b> · data through ${dstr(pd(t.last.date))}${t.today&&t.today.revenue!=null?` · today so far ${fmtU(t.today.revenue)}`:""} · refreshes daily around 10:15 Dubai`:`<b>As of ${dstr(VIEW)}</b> · data through ${dstr(pd(t.last.date))} · the page as it stood that day`;
   const card=(c,h,big,p,chip)=>`<div class="tcard" style="--c:var(--${c})"><h3>${h}</h3><div class="big">${big}</div><p>${p}</p>${chip?`<span class="tchip">${chip}</span>`:""}</div>`;
   const before17=t.last.date<"2026-10-17";
