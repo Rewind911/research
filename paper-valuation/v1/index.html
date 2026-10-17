@@ -1,0 +1,907 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Executive dashboard and valuation model for Papertrade's PAPER token, built from comparable launches. Every number is sourced.">
+<style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style>
+</head>
+<body>
+<title>PAPER Value Model · Version 1 (14 Oct 2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: executive dashboard of question tiles on top; each tile jumps to its detail section below. The value section is one linked module: choosing a case or a grid square drives the chart and the readout together. Every number has a tappable source.
+   Look: a research desk. White sheets on faint graph paper, ink type, one ink-blue accent, monospace for every number and a ticker tape under the title. Single light theme by choice: the page never goes black. */
+:root{
+  color-scheme:light;
+  --bg:#f4f3ee; --gridline:rgba(20,22,26,.06); --surface:#ffffff; --ink:#14161a; --ink2:#484d55; --muted:#7a7f88;
+  --line:#d9d7cf; --grid:#e9e7e0; --ref:#6f747c;
+  --bull:#108a5c; --base:#1f4fd8; --bear:#d4521c; --mine:#6a4ed6;
+  --has:#0d6b2f; --has-bg:#e4f3e8; --part:#7a5200; --part-bg:#f7eed6; --lacks:#a8292b; --lacks-bg:#f9e4e3;
+  --focus:#1f4fd8; --input:#ffffff; --onfill:#ffffff;
+  --h0:#dde7fb; --h1:#bdd0f7; --h2:#9dbbf2; --h3:#7aa2ec; --h4:#3f74e0; --h5:#1f4fd8; --h6:#1a41b4; --h7:#15348f; --h8:#0f2666;
+  --hink:#0f1a33;
+  --sheet:0 1px 0 rgba(20,22,26,.05), 0 12px 32px -20px rgba(20,22,26,.28);
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background-color:var(--bg);background-image:linear-gradient(var(--gridline) 1px,transparent 1px),linear-gradient(90deg,var(--gridline) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 72px;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-0.03em}
+h2{font-size:clamp(21px,3vw,27px);font-weight:800;letter-spacing:-0.02em}
+h3{font-size:15px;font-weight:600;font-family:var(--body)}
+p{margin:0;max-width:68ch}
+a{color:inherit}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:clamp(16px,3vw,26px);display:grid;gap:16px;min-width:0;scroll-margin-top:64px;box-shadow:var(--sheet)}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:9px}
+.tag::before{content:"";width:18px;height:2px;background:var(--base);flex:none}
+.lede{color:var(--ink2)}
+.cap{font-size:12.5px;color:var(--muted)}
+/* header */
+.top{display:grid;gap:10px}
+.keys{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink2);align-items:center}
+.k{display:inline-flex;align-items:center;gap:6px}
+.k i{width:22px;height:0;border-bottom:2px solid var(--ink2);display:inline-block}
+.k.c i{border-bottom-style:dashed}.k.e i{border-bottom-style:dotted}
+.tape{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding:8px 12px;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.tape b{font-weight:600}
+.tape .nm{font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+.ev{text-decoration-line:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-color:var(--muted);cursor:help;border-radius:2px}
+.ev.c{text-decoration-style:dashed}.ev.e{text-decoration-style:dotted}
+.ev:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+#pop{position:fixed;z-index:60;background:var(--ink);color:var(--surface);border-radius:6px;padding:9px 11px;font-size:12.5px;line-height:1.4;display:grid;gap:2px;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:300px}
+#pop b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;opacity:.8}
+#sticky{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--surface);border-bottom:2px solid var(--ink);padding:calc(env(safe-area-inset-top,0px) + 8px) max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+#sticky .in{max-width:1080px;margin:0 auto;display:flex;gap:6px 16px;flex-wrap:wrap;align-items:center;font-size:13px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+#sticky b{font-weight:600}
+#sticky .nm{font-weight:600;margin-right:auto;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--c);display:inline-block;margin-right:5px}
+.chip{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--ink);color:var(--surface);white-space:nowrap}
+.fc{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:var(--base);color:var(--onfill);vertical-align:1px}
+/* dashboard */
+.dash{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{grid-column:span 1;display:grid;grid-template-rows:auto auto 1fr auto;gap:6px;padding:16px;border:1px solid var(--line);border-radius:6px;background:var(--surface);text-decoration:none;color:var(--ink);position:relative;transition:border-color .15s, transform .15s, box-shadow .15s;min-width:0}
+.tile:hover{border-color:var(--ink);transform:translateY(-1px);box-shadow:var(--sheet)}
+.tile:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.tile.wide{grid-column:span 2}
+.tile.hero{grid-column:span 2;grid-row:span 2;grid-template-rows:none;align-content:start;gap:10px}
+.cmp strong{font-weight:600;color:var(--ink)}
+.tile .q{font-size:13px;color:var(--ink2);font-weight:500}
+.tile .a{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.6vw,34px);line-height:1.02;letter-spacing:-0.03em}
+.tile .s{font-size:13.5px;color:var(--ink2)}
+.tile .s b{color:var(--ink);font-weight:600}
+.tile .go{font-size:12.5px;font-weight:600;color:var(--base)}
+.tile .go::after{content:" →"}
+.tile.hero{border-top:4px solid var(--base)}
+.tile .a.blue{color:var(--base)}
+.stopln{display:grid;gap:2px;padding:9px 12px;border-radius:4px;background:var(--part-bg);color:var(--ink);font-size:13.5px}
+.stopln .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--part)}
+.stopln b{font-weight:600}
+.cmp{display:grid;gap:4px;font-size:13px;color:var(--ink2)}
+.cmp b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.mrow{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.mrow b{font-family:var(--mono);font-weight:600}
+.path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:4px}
+.path > div{min-width:0;padding:6px 8px;display:grid;border-left:1px solid var(--line)}
+.path > div:first-child{border-left:none}
+.path span{font-size:11px;color:var(--muted)}
+.path b{font-family:var(--mono);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.path > div.end{background:var(--bg)}
+@media (max-width:900px){.dash{grid-template-columns:repeat(2,minmax(0,1fr))}.tile,.tile.wide{grid-column:span 1}.tile.hero{grid-column:span 2;grid-row:auto}}
+@media (max-width:560px){.dash{grid-template-columns:1fr}.tile,.tile.wide,.tile.hero{grid-column:span 1}.path b{font-size:13px}}
+/* value module */
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 12px;border-radius:4px;background:var(--bg);border:1px solid var(--line)}
+.ctrl .lbl{font-size:13px;font-weight:600;margin-right:4px}
+.preset{font-family:var(--body);font-size:13.5px;font-weight:600;padding:6px 12px;border-radius:4px;border:2px solid var(--c);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.preset[aria-pressed="true"]{background:var(--c);color:var(--onfill)}
+.preset:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.ctrl .or{font-size:13px;color:var(--ink2)}
+.live{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--base);display:inline-flex;align-items:center;gap:6px;margin-left:auto}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--base)}
+.vm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.vm{grid-template-columns:minmax(0,1fr)}}
+.panel > *, .vm > *{min-width:0}
+.panel{grid-template-columns:minmax(0,1fr)}
+.step{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.heatwrap{overflow-x:auto}
+table.heat{border-collapse:separate;border-spacing:3px;width:100%;min-width:420px}
+.heat th{font-weight:500;font-size:11.5px;color:var(--ink2);text-align:center;padding:3px 2px;vertical-align:bottom}
+.heat th b{display:block;font-family:var(--mono);font-size:13.5px;color:var(--ink);font-weight:600}
+.heat th span{display:block;font-size:10.5px;color:var(--muted);line-height:1.2}
+.heat tbody th{text-align:left;padding-right:6px;width:108px;vertical-align:middle}
+.heat .corner{text-align:left;font-size:11px;color:var(--muted);font-weight:500}
+.cell{all:unset;box-sizing:border-box;cursor:pointer;display:grid;place-items:center;width:100%;min-height:40px;border-radius:4px;background:var(--hc);color:var(--hink);font-family:var(--mono);font-size:12.5px;font-weight:600;position:relative;transition:transform .12s;font-variant-numeric:tabular-nums}
+.cell.dk{color:var(--onfill)}
+.cell:hover{transform:scale(1.05)}
+.cell:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.cell.sel{outline:3px solid var(--ink);outline-offset:1px;z-index:1}
+.cell i{position:absolute;top:-7px;right:-3px;font-style:normal;font-family:var(--body);font-size:9.5px;font-weight:600;padding:1px 5px;border-radius:3px;background:var(--c);color:var(--onfill)}
+.readout{display:grid;gap:10px;padding:14px 16px;border-radius:6px;border:1px solid var(--line);border-left:5px solid var(--sc);background:var(--surface);box-shadow:var(--sheet)}
+.readout .rt{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.readout .rn{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-0.01em}
+.readout .rw{font-size:13px;color:var(--ink2)}
+.readout .rv{font-family:var(--display);font-weight:800;font-size:clamp(40px,6vw,58px);line-height:1;color:var(--sc);letter-spacing:-0.035em;font-variant-numeric:tabular-nums}
+.readout .rs{font-size:13.5px;color:var(--ink2)}
+.readout .rs b{color:var(--ink)}
+/* football field */
+.ff-plot{position:relative;margin-top:4px}
+.ff-refs{display:grid;gap:4px;margin-bottom:8px}
+.ff-ref{position:relative;height:20px}
+.ff-ref > span{position:absolute;top:0;white-space:nowrap;font-size:12px;color:var(--ink2);background:var(--surface);padding:0 6px 0 7px;z-index:2;border-left:2px dashed var(--ref)}
+.ff-ref.r > span{border-left:none;border-right:2px dashed var(--ref);padding:0 7px 0 6px;text-align:right}
+.ff-vline{position:absolute;top:0;bottom:24px;border-left:2px dashed var(--ref);opacity:.5;z-index:0}
+.ff-row{position:relative;padding-block:6px 10px;border-top:1px solid var(--grid);opacity:.42;transition:opacity .2s}
+.ff-row.on{opacity:1}
+.ff-name{position:relative;z-index:2;display:inline-flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;background:var(--surface);padding-right:8px;margin-bottom:6px;font-size:12.5px;color:var(--ink2)}
+.ff-name b{font-family:var(--display);font-weight:800;font-size:15px;color:var(--ink)}
+.ff-name strong{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink)}
+.ff-name em{font-style:normal;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;background:var(--c);color:var(--onfill)}
+.ff-track{position:relative;height:16px}
+.ff-bar{position:absolute;top:2px;height:12px;border-radius:3px;background:var(--c);opacity:.35;z-index:1}
+.ff-dot{position:absolute;top:0;width:16px;height:16px;border-radius:50%;background:var(--c);border:3px solid var(--surface);transform:translateX(-50%);z-index:2}
+.ff-axis{position:relative;height:24px;border-top:1px solid var(--line)}
+.ff-axis span{position:absolute;top:5px;transform:translateX(-50%);font-family:var(--mono);font-size:11px;color:var(--muted)}
+/* farm */
+.farmgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.farmgrid{grid-template-columns:1fr}}
+.fcard{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:6px;padding:12px 14px;display:grid;gap:6px;align-content:start;background:var(--surface)}
+.fcard h3{font-family:var(--display);font-weight:800;font-size:16px}
+.fcard dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin:0;font-size:13.5px}
+.fcard dt{color:var(--ink2)}.fcard dd{margin:0;font-family:var(--mono);text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.fcard .verdict{font-size:13px;font-weight:600;padding:4px 8px;border-radius:4px;background:var(--pb);color:var(--pc);justify-self:start}
+/* traits */
+.score{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.score .n{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-0.03em}
+.pips{display:flex;gap:5px}
+.pip{width:20px;height:20px;border-radius:4px;background:var(--pb);color:var(--pc);display:grid;place-items:center;font-size:12px;font-weight:700}
+.traits{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.tcol{border-radius:6px;padding:12px 14px;background:var(--pb);display:grid;gap:8px;align-content:start}
+.tcol h3{color:var(--pc)}
+.tcol ul{margin:0;padding:0;list-style:none;display:grid;gap:7px;font-size:13.5px}
+.tcol li span{color:var(--ink2);display:block;font-size:12.5px}
+.has{--pb:var(--has-bg);--pc:var(--has)} .part{--pb:var(--part-bg);--pc:var(--part)} .lacks{--pb:var(--lacks-bg);--pc:var(--lacks)}
+/* timeline */
+.tl-row{display:grid;grid-template-columns:130px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--grid)}
+.tl-row:first-child{border-top:none}
+.tl-row.past{opacity:.55}
+.tl-when{display:grid;gap:5px;align-content:start}
+.tl-when b{font-family:var(--mono);font-size:13.5px;font-weight:600}
+.tl-row.nx .chip{background:var(--base)}
+.tl-row.past .chip{background:var(--muted)}
+.tl-what{display:grid;gap:5px;min-width:0}
+.tl-what p{font-size:13.5px;color:var(--ink2)}
+.cases{display:flex;flex-wrap:wrap;gap:6px}
+.case{font-size:12.5px;padding:2px 9px;border-radius:4px;border:1px solid var(--line);display:inline-flex;align-items:center;gap:4px}
+.case b{font-family:var(--mono);font-weight:600}
+@media (max-width:520px){.tl-row{grid-template-columns:1fr;gap:6px}.tl-when{grid-auto-flow:column;justify-content:start;align-items:center}}
+/* comps */
+.two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.bars{display:grid;gap:7px}
+.brow{display:grid;grid-template-columns:104px 1fr 44px;gap:10px;align-items:center;font-size:13.5px}
+.btrack{height:14px;background:var(--grid);border-radius:3px;position:relative;overflow:hidden}
+.bfill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--muted);opacity:.55}
+.bfill.pk{background:var(--c);opacity:1}
+.brow .v{font-family:var(--mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.brow .nm{display:flex;flex-direction:column;line-height:1.15}
+.brow .nm small{font-size:10px;font-weight:600;color:var(--c);letter-spacing:.03em;text-transform:uppercase}
+.brow .nm small.note{color:var(--muted);text-transform:none;letter-spacing:0;font-weight:500}
+.box{display:grid;gap:10px;padding:14px 16px;border-radius:6px;border:1px solid var(--line);background:var(--bg)}
+.box ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:13.5px}
+.box li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+.ic{width:20px;height:20px;border-radius:4px;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--pb);color:var(--pc)}
+.stat{display:flex;gap:12px;align-items:baseline}
+.stat .sv{font-family:var(--display);font-weight:800;font-size:26px;line-height:1;min-width:92px}
+.stat p{font-size:13.5px;color:var(--ink2)}
+/* deep */
+details{border-top:1px solid var(--grid);padding-block:4px}
+details:first-of-type{border-top:none}
+summary{cursor:pointer;padding:10px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--mono);font-size:18px;color:var(--muted)}
+details[open] summary::after{content:"–"}
+summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.dd{display:grid;gap:12px;padding-bottom:14px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table.inputs{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+.inputs th,.inputs td{padding:8px 10px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:middle}
+.inputs thead th{font-size:12px;color:var(--ink2);font-weight:600}
+.inputs td.r,.inputs th.r{text-align:right}
+.inputs .why{font-size:12px;color:var(--ink2);max-width:340px}
+.inputs tr:last-child td{border-bottom:none}
+input[type=number]{width:86px;font-family:var(--mono);font-size:13.5px;padding:5px 7px;border:1px solid var(--line);border-radius:4px;background:var(--input);color:var(--ink);text-align:right}
+input[type=number]:focus{outline:2px solid var(--focus);outline-offset:1px}
+button.btn{font-family:var(--body);font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:4px;border:1px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;justify-self:start}
+button.btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+ul.plain{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px;max-width:74ch}
+.src{display:grid;gap:4px;font-size:13px}
+.src a{color:var(--ink2)}
+footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+/* tracking */
+.upd{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.upd b{color:var(--ink);font-weight:600}
+.trk{display:grid;gap:2px;padding:9px 12px;border-radius:4px;background:var(--bg);border-left:3px solid var(--ink);font-size:13.5px;color:var(--ink)}
+.trk .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.trk b{font-weight:600}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tcard{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:6px;padding:12px 14px;display:grid;gap:6px;align-content:start;background:var(--surface)}
+.tcard h3{font-family:var(--body);font-weight:600;font-size:13.5px}
+.tcard .big{font-family:var(--display);font-weight:800;font-size:28px;line-height:1;letter-spacing:-0.03em;font-variant-numeric:tabular-nums}
+.tcard p{font-size:12.5px;color:var(--ink2)}
+.tcard p b{color:var(--ink)}
+.tchip{justify-self:start;font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--c);color:var(--onfill)}
+.tchart{border:1px solid var(--line);border-radius:6px;padding:10px 8px 4px;background:var(--surface)}
+.tchart svg{display:block;max-width:100%}
+.trev{font-size:12.5px;color:var(--ink2);padding:8px 12px;border-radius:4px;background:var(--part-bg)}
+
+/* scorecard: the forecast marked against reality. Same blocks, same words, every update. */
+.scline{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:13px;color:var(--ink);text-decoration:none;padding:8px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--has);transition:border-color .15s}
+.scline .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scline b{font-weight:600}
+.scline:hover{border-color:var(--ink);border-left-color:var(--has)}
+.scline:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sc-verdict{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;align-items:baseline;padding:12px 14px;border-radius:6px;border:1px solid var(--line);background:var(--bg);font-size:13.5px}
+.sc-k{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.sc-v b{font-weight:600}
+@media (max-width:520px){.sc-verdict{grid-template-columns:1fr;gap:2px}.sc-k{margin-top:6px}}
+.st{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--pb);color:var(--pc);white-space:nowrap;vertical-align:1px}
+.st-met,.st-plus,.st-hold{--pb:var(--has-bg);--pc:var(--has)}
+.st-pending,.st-early,.st-flat{--pb:var(--part-bg);--pc:var(--part)}
+.st-missed,.st-minus,.st-weak{--pb:var(--lacks-bg);--pc:var(--lacks)}
+.st-zero{--pb:var(--grid);--pc:var(--ink2)}
+.sc-table{width:100%;border-collapse:collapse;font-size:13px}
+.sc-table th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:6px 10px 6px 0;border-bottom:2px solid var(--ink);white-space:nowrap}
+.sc-table th.r,.sc-table td.r{text-align:right}
+.sc-table td{padding:8px 10px 8px 0;border-bottom:1px solid var(--grid);vertical-align:top;color:var(--ink2);min-width:0}
+.sc-table td b{color:var(--ink);font-weight:600}
+.sc-table td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.sc-table tr:last-child td{border-bottom:none}
+.sc-wrong{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:13.5px;counter-reset:w}
+.sc-wrong li{display:grid;grid-template-columns:22px 1fr;gap:8px;color:var(--ink2)}
+.sc-wrong li::before{counter-increment:w;content:counter(w);font-family:var(--mono);font-weight:600;color:var(--lacks);font-size:13px;line-height:1.5}
+.sc-wrong b{color:var(--ink);font-weight:600}
+.sc-wrong code{font-family:var(--mono);font-size:12px}
+.sc-shadow{border-left:4px solid var(--part)}
+.sc-dev{display:grid;gap:0}
+.sc-row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:9px 0;border-top:1px solid var(--grid);font-size:13.5px;color:var(--ink2)}
+.sc-row:first-child{border-top:none}
+.sc-when{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink)}
+.sc-row .cap{display:block;margin-top:2px}
+@media (max-width:520px){.sc-row{grid-template-columns:1fr;gap:4px}}
+@media (max-width:640px){.sc-table.wide{min-width:620px}}
+.ver{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px;color:var(--ink2);padding:8px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line)}
+.ver.old{background:var(--part-bg);border-color:var(--part-bg)}
+.ver b{color:var(--ink);font-weight:600}
+</style>
+
+<div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
+
+<main class="wrap">
+  <header class="top">
+    <div class="tag">Papertrade · PAPER token · forecast made 14 Oct 2026, day 4 of trading</div>
+    <h1>PAPER Value Model</h1>
+    <div class="keys">Tap any underlined number to see where it comes from:
+      <span class="k m"><i></i>measured</span>
+      <span class="k c"><i></i>from similar launches</span>
+      <span class="k e"><i></i>model result</span>
+    </div>
+    <div class="tape" id="tape" aria-label="Forecast summary"></div>
+    <div class="upd" id="upd" aria-live="polite">Loading today's numbers…</div>
+    <div class="ver old"><span class="fc" style="background:var(--muted)">Version 1</span> 14 Oct 2026 data, kept exactly as published, with its 17 Oct Scorecard update. Superseded by <a href="/paper-valuation/">Version 2, 17 Oct 2026</a>. The Tracking section below still compares today's live numbers with this version's forecast.</div>
+    <a class="scline" href="#scorecard"><span class="sl">Scorecard · Update 1 · 17 Oct 2026</span><span>Thesis <b>holding</b> · reading <b>above all three cases</b>, too early to count · next check <b>20 Oct</b></span></a>
+  </header>
+
+  <section class="panel" id="summary" aria-label="Executive summary">
+    <div class="tag">Executive summary · tap any box for the details</div>
+    <div class="dash" id="dash"></div>
+  </section>
+
+<!-- scorecard:start -->
+  <section class="panel" id="scorecard" aria-label="Scorecard: the forecast against reality">
+    <div class="tag">Scorecard · Update 1 · 17 Oct 2026</div>
+    <h2>Is the forecast holding?</h2>
+    <div class="sc-verdict">
+      <span class="sc-k">Reading</span><span class="sc-v"><b>Above all three cases</b>, too early to count</span>
+      <span class="sc-k">Trend since the forecast</span><span class="sc-v"><span class="st st-plus">Better</span></span>
+      <span class="sc-k">Thesis</span><span class="sc-v"><span class="st st-hold">Holding</span> no test has resolved yet, no kill line crossed</span>
+      <span class="sc-k">Next check</span><span class="sc-v"><b>20 Oct</b>: first reading of the payout-bar test · <b>28 Oct</b>: Update 2</span>
+    </div>
+    <p class="lede">Three days after the forecast was frozen, Papertrade is making more money, not less: <b>$6.3M a day</b> on 14–16 Oct against the $4.45M a day the forecast started from, with <b>91%</b> of it paid to stakers against the 85% assumed. The market's bet moved up too: Polymarket's median one-day-after-launch value is now near <b>$200M</b>, up from about $100M, on fourteen times the volume. Two things went against us: PAPER supply is growing faster than the model assumed (<b>8.45B</b> on the live contract, not the 7.2B modelled for today), and DefiLlama revised down the three days the reference was built on. None of it changes the published call. The first real test starts when the pool's payout bar doubles to $10M, after 18:45 UTC on 17 Oct.</p>
+    <p class="cap">How to read this: the forecast of 14 Oct is frozen. Every block below marks it against what actually happened, in the same order and the same words every time. The full update with every source, as Markdown: <a href="/paper-valuation/updates/2026-10-17-update-01.md">update 1</a>. Raw data: the Tracking section below.</p>
+
+    <h3>1. The tests we set, and where they stand</h3>
+    <div class="tablewrap"><table class="sc-table wide">
+      <thead><tr><th>Test</th><th>We said</th><th>What happened</th><th>Status</th><th>Points to</th></tr></thead>
+      <tbody>
+        <tr><td><b>Payout bar doubles to $10M</b> (17 Oct)</td><td>Extra payouts to stakers pause while the pool refills, then restart ~20 Oct (bull), ~28 Oct (base) or ~12 Dec (bear)</td><td>At 04:46 UTC on 17 Oct the on-chain cap still read $5M, the pool held $4.96M, the queue was $0. The change is due after 18:45 UTC. At today's $6.3M a day the pool refills in about a day, so the first reading will likely say "above bull" rather than separate the cases</td><td><span class="st st-pending">Pending</span></td><td>–</td></tr>
+        <tr><td><b>Revenue after the rush</b></td><td>Bull keeps $1.51M a day, base $0.445M, bear $0.089M</td><td>14–16 Oct averaged <b>$6.29M a day</b>, 141% of the reference. 15 Oct ($7.49M) was the best day since launch day</td><td><span class="st st-early">Too early</span></td><td>Above bull</td></tr>
+        <tr><td><b>Mint rate under 10 PAPER per $1</b></td><td>Bull ~14 Nov, base ~29 Jan 2027, bear 2028</td><td>The live contract's high-water mark is $222M, which puts the formula rate at ~12 per $1 (16.6 reported on 16 Oct). At today's pace the model's line passes ~20–21 Oct, three weeks ahead of the bull path</td><td><span class="st st-pending">Pending</span></td><td>Above bull on pace; supply runs ahead too</td></tr>
+        <tr><td><b>Money back above $138M</b> by 30 Nov</td><td>The bull tell</td><td><b>$68.6M</b> on 17 Oct, up from $64M at the freeze. Halfway</td><td><span class="st st-pending">Pending</span></td><td>Not bull yet</td></tr>
+        <tr><td><b>Payout queue stays at zero</b></td><td>Robustness</td><td>$0 throughout 14–17 Oct</td><td><span class="st st-met">Met so far</span></td><td>0</td></tr>
+        <tr><td><b>New non-farm flow</b> (open contract, builder codes) by end-Nov</td><td>Bull needs it</td><td>Nothing announced 14–17 Oct</td><td><span class="st st-pending">Pending</span></td><td>–</td></tr>
+      </tbody>
+    </table></div>
+    <p class="cap">Calls record: <b>0 resolved</b> (0 met, 0 missed) · 6 pending.</p>
+
+    <div class="two">
+      <div>
+        <h3>2. What moved since the freeze</h3>
+        <div class="tablewrap"><table class="sc-table wide">
+          <thead><tr><th>Input</th><th>Frozen 14 Oct</th><th>Now 17 Oct</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Daily revenue (reference)</td><td class="num">$4.45M</td><td>$6.29M (14–16 Oct). The frozen days now read $3.69M after revisions</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>Share paid to stakers</td><td class="num">85%</td><td class="num">91%</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>PAPER supply</td><td class="num">~6.1B modelled</td><td>8.45B on the live contract, 99.2% staked</td><td><span class="st st-minus">−</span></td></tr>
+            <tr><td>Supply tuning (H ÷ revenue)</td><td class="num">3.0</td><td class="num">4.0 observed</td><td><span class="st st-minus">−</span></td></tr>
+            <tr><td>Mint rate, PAPER per $1</td><td class="num">~26 modelled</td><td>~12 by the formula; 16.6 reported</td><td><span class="st st-zero">0</span></td></tr>
+            <tr><td>Market bet (Polymarket median)</td><td>~$100M · $0.016 · $9K traded</td><td>~$200M · $0.024 on live supply · $132K traded</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>Money on platform</td><td class="num">$64M</td><td class="num">$68.6M</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>Payout queue</td><td class="num">$0</td><td class="num">$0</td><td><span class="st st-zero">0</span></td></tr>
+          </tbody>
+        </table></div>
+        <p class="cap">+ better for PAPER's value · − worse · 0 neutral. Sources: DefiLlama API, PaperDash contract reads (17 Oct 04:46 UTC), Polymarket API (04:52 UTC), ChainCatcher.</p>
+      </div>
+      <div>
+        <h3>3. What we got wrong, and what changed under us</h3>
+        <ol class="sc-wrong">
+          <li><span><b>The reference was built on figures the feed later revised.</b> DefiLlama now shows 12 Oct at $3.93M (was $4.65M) and 13 Oct at $4.52M (was $6.08M): the same three days give $3.69M a day, 17% below the frozen $4.45M. Same method on the revised figures: $0.41 / $0.069 / $0.0091. The call stands as made; the miss is recorded.</span></li>
+          <li><span><b>The supply tuning was too low.</b> The model set the curve's high-water mark at 3.0 × revenue; the live contract shows 4.0, and 8.45B PAPER against 7.16B modelled for today. Frozen inputs with 4.0: $0.48 / $0.078 / $0.0096 (−2% to −8%). Best reading of why: the curve counts gross flow into the pool, not net losses. An inference from the contract's <code>tailProgress</code>; the docs still cannot be read as text.</span></li>
+          <li><span><b>The 17 Oct test was timed from each case's run-rate, not the actual one.</b> At today's pace the pool refills in a day, so its first reading will not separate the cases. The reading that counts is how long surplus payouts stay paused once the rush fades, from mid-November on.</span></li>
+          <li><span><b>Two doubts in the report are resolved; neither was a model input.</b> The "$910B daily volume" on 13 Oct was cumulative (the day itself was $73.7B). The 30.8 PAPER per $1 that did not fit the published curve fits it once the curve runs on gross flow.</span></li>
+          <li><span><b>"Market bet $0.016"</b> divided $100M by 6.1B modelled supply. On live supply the same strike is $0.012, and the new median near $200M is $0.024.</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>4. Shadow run: the same arithmetic on today's numbers</h3>
+    <div class="box sc-shadow">
+      <div class="tablewrap"><table class="sc-table">
+        <thead><tr><th>Run</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th></tr></thead>
+        <tbody>
+          <tr><td><b>The frozen call, 14 Oct 2026</b></td><td class="num r"><b>$0.49</b></td><td class="num r"><b>$0.081</b></td><td class="num r"><b>$0.0105</b></td></tr>
+          <tr><td>Same method, the feed's revised numbers for the same three days</td><td class="num r">$0.41</td><td class="num r">$0.069</td><td class="num r">$0.0091</td></tr>
+          <tr><td>Frozen inputs, supply tuning at the observed 4.0</td><td class="num r">$0.48</td><td class="num r">$0.078</td><td class="num r">$0.0096</td></tr>
+          <tr><td>Same method, today's numbers: $6.29M a day, $55.2M revenue so far, supply tuning 4.0, 85% to stakers</td><td class="num r">$0.68</td><td class="num r">$0.106</td><td class="num r">$0.0124</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap"><b>Not the forecast.</b> The forecast is the first row and does not move. The other rows show what the same arithmetic gives on different inputs, in both directions. At the 90% staker share seen since the freeze, the last row is about 6% higher. Per PAPER, Oct 2027.</p>
+    </div>
+
+    <h3>5. What happened, day by day</h3>
+    <div class="sc-dev">
+      <div class="sc-row"><div class="sc-when">14 Oct</div><div><span class="st st-zero">0</span> Revenue $5.93M. Papertrade #3 in crypto by daily revenue, behind Tether and Circle. <span class="cap">DefiLlama</span></div></div>
+      <div class="sc-row"><div class="sc-when">15 Oct</div><div><span class="st st-plus">+</span> Best day since launch: $7.49M, #2 by daily revenue, ahead of Circle. Cumulative net trader losses reported at $49.5M (one outlet, source unnamed). <span class="cap">DefiLlama · TokenPost · MarsBit</span></div></div>
+      <div class="sc-row"><div class="sc-when">16 Oct</div><div><span class="st st-zero">0</span> Revenue $5.45M. New PAPER minted that day halved to 313M (678M the day before). Reported mint rate 16.6 per $1. PaperStrategy, a wrapper that stakes PAPER, re-rated to a $9.6M market cap, which implies at most ~$0.062 per PAPER (an upper bound). The largest tracked farmer wallet turned a $762K profit. <span class="cap">DefiLlama · PaperDash · ChainCatcher · Odaily · Lookonchain</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 04:46 UTC</div><div><span class="st st-zero">0</span> Live contract: cap $5M, pool $4.96M, queue $0, supply 8.45B, 99.2% staked, high-water mark $222M, open interest $562M, 21,453 accounts, $1.24T traded since launch. <span class="cap">PaperDash API</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 04:52 UTC</div><div><span class="st st-plus">+</span> Polymarket re-priced: $100M strike 79% (47% at the freeze), $150M 64.5%, $200M 52.5%, $250M 44%; $132K traded. The rules now define "launch" as the token being publicly tradable. <span class="cap">Polymarket</span></div></div>
+      <div class="sc-row"><div class="sc-when">14–17 Oct</div><div><span class="st st-zero">0</span> No incident, pause, outage, exploit, refund or official announcement found in a sweep of 28 sources. The cap change remains scheduled for after 18:45 UTC on 17 Oct. <span class="cap">Research desk</span></div></div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>6. What would change the call</h3>
+        <div class="box"><ul>
+          <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue above $1.5M a day for 30 days after the mint rate is under 10 per $1; money on platform above $138M by 30 Nov; a dated transfer unlock, listing or distribution deal.</span></li>
+          <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear, or a new version:</b> revenue below $0.45M a day for 30 days after mid-November; surplus payouts still paused in December; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027, ahead of even the bull path.</span></li>
+        </ul></div>
+      </div>
+      <div>
+        <h3>7. Next checks, and the record so far</h3>
+        <div class="tablewrap"><table class="sc-table">
+          <thead><tr><th>Date</th><th>What resolves</th></tr></thead>
+          <tbody>
+            <tr><td class="num">18 Oct</td><td>Did the on-chain cap read $10M after 18:45 UTC on 17 Oct?</td></tr>
+            <tr><td class="num">20 Oct</td><td>Bull-case restart date for surplus payouts; the mint-rate line at today's pace</td></tr>
+            <tr><td class="num">28 Oct</td><td>Base-case restart date. <b>Update 2</b> is due then, or on the first resolved test</td></tr>
+            <tr><td class="num">14 Nov</td><td>Bull-case date for the mint rate under 10 per $1</td></tr>
+            <tr><td class="num">30 Nov</td><td>The $138M tell; the open-contract and builder-code phases</td></tr>
+            <tr><td class="num">Nov–Mar</td><td>The window in which the real run-rate shows. Monthly updates</td></tr>
+          </tbody>
+        </table></div>
+        <div class="tablewrap"><table class="sc-table">
+          <thead><tr><th>Version</th><th>Date</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td>Forecast v1</td><td class="num">14 Oct 2026</td><td>Frozen: bull $0.49, base $0.081, bear $0.011 by Oct 2027</td></tr>
+            <tr><td>Update 1</td><td class="num">17 Oct 2026</td><td>Above all three cases (too early) · Better · <b>Holding</b> · next check 20 Oct</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+<!-- scorecard:end -->
+
+  <section class="panel" id="track" aria-label="Forecast against actual">
+    <div class="tag">Tracking · is the forecast holding?</div>
+    <h2>What has actually happened since the forecast</h2>
+    <p class="lede">The forecast was fixed on 14 Oct 2026 and is not re-tuned. Every day the live numbers are laid against it, plus the model's own dated tests. The cases describe revenue <em>after the launch rush fades</em> (similar tokens took 1–9 months), so early readings run high; the dated tests are the sharper check.</p>
+    <div id="trackIn"><p class="cap">Loading today's numbers…</p></div>
+  </section>
+
+  <section class="panel" id="worth" aria-label="Value and assumptions">
+    <div class="tag">Details · value</div>
+    <h2>What could PAPER be worth, and when?</h2>
+    <p class="lede">Two things decide the value: how much of today's revenue survives once the launch rush fades, and what buyers pay for each $1 of yearly cash. Pick a case or tap any square. The chart and the numbers update together.</p>
+    <div class="ctrl" role="group" aria-label="Pick a case">
+      <span class="lbl">Pick a case:</span>
+      <span id="presets"></span>
+      <span class="or">or tap any square below</span>
+      <span class="live">Live</span>
+    </div>
+    <div class="vm">
+      <div>
+        <div class="step">1 · Choose the two assumptions</div>
+        <div class="heatwrap"><table class="heat" id="heat" aria-label="Value per PAPER by Oct 2027, by revenue kept and multiple"></table></div>
+        <p class="cap" style="margin-top:8px">Rows: share of revenue kept. Columns: value ÷ yearly cash to holders. Every row and column is a real token. Squares show the forecast value per PAPER in Oct 2027.</p>
+      </div>
+      <div style="display:grid;gap:14px">
+        <div class="step" style="margin-bottom:-8px">2 · See the result</div>
+        <div class="readout" id="readout" aria-live="polite"></div>
+        <div>
+          <h3 style="margin-bottom:4px">All three cases side by side</h3>
+          <div id="ff"></div>
+          <p class="cap">Bar: value from Nov 2026 (right end) down to Oct 2027 (dot). It slides because losses keep creating new PAPER. Dashed lines: reference points, not forecasts. Log scale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="farm" aria-label="When farming stops paying">
+    <div class="tag">Details · farming</div>
+    <h2>When does getting PAPER stop being worth it?</h2>
+    <p class="lede">PAPER is only created when someone loses a trade. Each $1 lost earns fewer new PAPER as more exist. Once 1 PAPER costs more to get than it's worth, chasing it stops paying. <span id="farmNow"></span></p>
+    <div class="farmgrid" id="farmgrid"></div>
+    <p class="cap" id="farmCap"></p>
+  </section>
+
+  <section class="panel" id="dates" aria-label="Key dates">
+    <div class="tag">Details · dates</div>
+    <h2>Key dates: when we'll know which case is real</h2>
+    <div id="tl"></div>
+  </section>
+
+  <section class="panel" id="bull" aria-label="Bull case checklist">
+    <div class="tag">Details · bull case</div>
+    <h2>What has to go right for the bull case?</h2>
+    <div class="score">
+      <div class="n">2.5<span style="font-size:22px;color:var(--muted)"> of 9</span></div>
+      <div class="pips" aria-hidden="true"><span class="pip has">✓</span><span class="pip has">✓</span><span class="pip has">✓</span><span class="pip part">~</span><span class="pip part">~</span><span class="pip lacks">✕</span><span class="pip lacks">✕</span><span class="pip lacks">✕</span><span class="pip lacks">✕</span></div>
+      <p class="lede" style="flex:1 1 260px">The 9 traits Hyperliquid had. Every similar token that failed missed at least one. The 4 PAPER lacks are the ones that decide how much revenue stays.</p>
+    </div>
+    <div class="traits" id="traits"></div>
+  </section>
+
+  <section class="panel" id="comps" aria-label="Similar tokens">
+    <div class="tag">Details · evidence</div>
+    <h2>How did similar tokens do?</h2>
+    <div class="two">
+      <div style="display:grid;gap:12px;align-content:start">
+        <h3>Share of revenue still there after the launch rush</h3>
+        <div class="bars" id="bars"></div>
+        <p class="cap">Latest 30 days of revenue ÷ the best 30 days around launch. Highlighted: the three picks used in the cases.</p>
+      </div>
+      <div style="display:grid;gap:12px;align-content:start">
+        <div class="box">
+          <h3>Are these results already in the value?</h3>
+          <ul id="baked"></ul>
+        </div>
+        <div class="box">
+          <h3>Does the strong launch and marketing raise the value?</h3>
+          <ul id="mkt"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="more" aria-label="Assumptions, method and sources">
+    <div class="tag">Details · how it's built</div>
+    <h2>Assumptions, method and sources</h2>
+    <details>
+      <summary>Change any assumption</summary>
+      <div class="dd">
+        <div class="tablewrap"><table class="inputs" id="inputs"></table></div>
+        <button type="button" class="btn" id="reset">Reset to the evidence</button>
+      </div>
+    </details>
+    <details>
+      <summary>How the math works</summary>
+      <div class="dd"><ul class="plain">
+        <li>Daily revenue today × share a similar token kept = future daily revenue.</li>
+        <li>× 365 × share paid to stakers = yearly cash to stakers.</li>
+        <li>× the multiple buyers paid for that similar token = value of all PAPER.</li>
+        <li>÷ PAPER that will exist by then = value per PAPER.</li>
+        <li>Supply rule: 100 new PAPER per $1 lost until the pool reaches $2M, then fewer as more is created, heading toward about 12B.</li>
+        <li>Farming stop line = cost to get $1 of loss ÷ value per PAPER. Below that many PAPER per $1, it costs more than it's worth.</li>
+      </ul></div>
+    </details>
+    <details>
+      <summary>Best estimates, where no public number exists</summary>
+      <div class="dd"><ul class="plain" id="ests"></ul></div>
+    </details>
+    <details>
+      <summary>Sources (all checked 14 Oct 2026)</summary>
+      <div class="dd src" id="srcs"></div>
+    </details>
+  </section>
+
+  <footer>Built 14 Oct 2026. All 64 links were opened and checked; figures that are our own arithmetic are labelled as such. Numbers move daily. Not financial advice.</footer>
+</main>
+
+<div id="pop" role="tooltip" hidden></div>
+
+<script>
+(function(){
+const ASOF=Date.UTC(2026,9,14), DAY=864e5;
+const SC=["bull","base","bear"];
+const NAME={bull:"Bull",base:"Base",bear:"Bear",mine:"Your pick"};
+const T={m:"Measured",c:"From similar launches",e:"Model result"};
+const SRC={
+  defi:"DefiLlama daily revenue: 11 Oct $2.62M, 12 Oct $4.65M, 13 Oct $6.08M. Average $4.45M a day. Launch day ($25.24M) left out as a one-off.",
+  hold:"DefiLlama: $29.77M of $32.50M paid to stakers through 12 Oct (92%); Odaily's on-chain count: $26.3M of $32.4M (81%). 85% is the midpoint.",
+  cum:"DefiLlama: total revenue 10–13 Oct, $38.58M.",
+  supply:"Papertrade docs: 100 PAPER per $1 lost while the pool is under $2M, then it shrinks. TechFlow's reading of the docs gives the constants: 100 × (120M ÷ (120M + H))², heading to about 12B.",
+  hr:"Best estimate. Set so the supply rule matches the reported 30.8 PAPER per $1 on 12 Oct (ChainCatcher) and ~6.3B PAPER staked (Odaily). It means the rule counts about 3× more loss than net revenue, likely because it counts what losers lost before winners are paid.",
+  rate:"ChainCatcher (PaperDash): 30.8 PAPER per $1 on 12 Oct. KuCoin: 25.9 per $1 on 13 Oct. Model today: ~26.",
+  poly:"Polymarket, 'Papertrade FDV above ___ one day after launch'. $9,277 traded. The midpoint is about $100M for all PAPER. Thin and internally inconsistent.",
+  farm:"Odaily (Lookonchain wallet data): about $4.50 per 1,000 PAPER by betting both ways; about $33 per 1,000 by losing outright.",
+  hedge:"Odaily: $4.50 per 1,000 PAPER at ~31 PAPER per $1 = about $0.14 per $1 of loss counted.",
+  ceil:"Keeps 100% of today's revenue and gets 15×, Hyperliquid's first-year high. No farmed launch has kept 100%.",
+  lighter:"Lighter: last 30 days $4.83M (DefiLlama) vs ~$14M in Nov 2025 (Tokenomist) = 34% kept.",
+  jup:"Jupiter perps kept 12.8% (DefiLlama). edgeX kept 7.9% from its Q4 2025 peak (DefiLlama). Middle of the 8 similar tokens: ~10%.",
+  edgex:"edgeX: Q4 2025 revenue $155.8M vs latest quarter $12.29M = 7.9% (DefiLlama). edgeX is an Amber Group-backed perp exchange; EDGE token launched 31 Mar 2026 (The Defiant, crypto.news).",
+  aster:"Aster kept 1.7% (30-day fees $5.1M vs a peak-week pace of ~$298M per 30 days, DefiLlama). Gains kept 1.8% (DefiLlama).",
+  hype:"Hyperliquid: value ÷ yearly holder cash was 12–15× through its first year (our arithmetic: CoinMarketCap value ÷ DefiLlama holder revenue). GMX at its peak: 12.4× (Sam Andrew).",
+  pump:"Pump.fun: value $2.22B ÷ $359M yearly holder cash = 6.2× (DefiLlama). Rollbit: 6.2× in Oct 2023 (Blockcrunch), ~5.6× now (CoinGecko ÷ FairGambling).",
+  gains:"Gains: ~2.5–3.2× (CoinGecko value ÷ DefiLlama holder revenue) before it paused holder payouts in Jun 2026 (Gains docs).",
+  rollbit:"Rollbit: revenue ~$67.8M in Jan 2024 → ~$14M a month in 2026 = 21% kept (FairGambling).",
+  bera:"Berachain: trading volume kept 20.8% (Arrakis). Volume, not revenue.",
+  gmx:"GMX: holder cash, best 30 days $5.99M → latest $0.31M = 5% (DefiLlama).",
+  hype26:"Lighter today: ~26× (DefiLlama). Hyperliquid at its 2026 high: ~27× (our arithmetic). CoinShares puts Hyperliquid's range at 7–25× over the year to Jun 2026.",
+  x17:"Odaily (via KuCoin): on 17 Oct the pool's payout bar rises from $5M to $10M. The pool held ~$4.3M on 12 Oct.",
+  tvl:"DefiLlama: money on platform $64.15M on 13 Oct, vs $138M deposited before launch (MarsBit).",
+  hl18:"ForkLog: Hyperliquid's money on platform went from ~$191M (29 Nov 2024) to over $3B (17 Dec 2024).",
+  phase:"Bitrue launch guide: phase 0 pre-deposit, 1 trading, 2 open contract, 3 builder codes, 4 PAPER transfers, the final step. Bankless: transfers come later; no date set.",
+  base:"Memento Research (118 launches in 2025): 84.7% below their opening value (ForkLog). CryptoRank (113 launches 2024–26): 92.9% below launch price (AMBCrypto).",
+  peak:"Drawdowns from peak: PUMP −87%, LIT −90%, ASTER −77%, EDGE −85% at its low, AVNT −97%, GMX −95%, GNS −97%, RLB −83%, JUP −93% (CoinGecko, CryptoRank, DefiLlama). Hyperliquid kept climbing.",
+  early:"Lighter (day 0), Jupiter (day 0), Aster (day 7) and Avantis (day 13) peaked within two weeks of trading opening (CoinGecko, Decrypt, CCN).",
+  mkt:"MarsBit: $138M from 11,465 wallets before trading. ChainThink: #3 in crypto for 24-hour revenue on 13 Oct, behind only Tether and Circle. The Defiant: payout queue stayed empty.",
+  pumpbuy:"Pump.fun's $4B token sale had 10,145 buyers (Blockworks).",
+  hype2:"Aster rose about 30× in a week, then fell 77% (The Block, Decrypt). Avantis rose ~400% on big listings, then fell 97% (CCN, CoinGecko). The Tie, 1,844 listings: gains mostly reverse within two weeks.",
+  drop82:"DefiLlama: launch day $25.24M vs $4.45M average for days 2–4 = down 82%.",
+  admin:"crypto.news / The Defiant: the team can pause new trades, freeze markets and change fees.",
+  drain:"The Block: about $1.28M taken by moving Hyperliquid's ETH price. DefiLlama logs the incident.",
+  share:"Cointelegraph (VanEck): Hyperliquid went from 10% to 70% share within a year.",
+  perpvol:"ForkLog: on-chain perp volume fell from $1.36T (Oct 2025) to $699B (Mar 2026).",
+  lighterLong:"Lighter's volume fell ~70% in three weeks (BlockEden), but its revenue kept falling for 7–9 months after its Nov 2025 peak (Tokenomist, DefiLlama)."
+};
+const ev=(txt,t,k)=>`<span class="ev ${t}" tabindex="0" data-t="${t}" data-src="${SRC[k].replace(/"/g,"&quot;")}">${txt}</span>`;
+
+const DEF={R0:4.4465,hold:85,cum0:38.58,hr:3.0,poly:100,hedge:0.14};
+const DEFS={bull:{ret:34,mult:12},base:{ret:10,mult:6},bear:{ret:2,mult:3}};
+const SRCOF={bull:{ret:"lighter",mult:"hype"},base:{ret:"jup",mult:"pump"},bear:{ret:"aster",mult:"gains"}};
+const LIKE={bull:"Keeps revenue like Lighter, valued like Hyperliquid in year 1",base:"Keeps revenue like the middle of 8 similar tokens, valued like Pump.fun",bear:"Keeps revenue like Aster and Gains, valued like Gains"};
+let I,S,pick;
+let LIVE=null,LIVEERR=null;
+const FROZEN={"2026-10-11":2615540,"2026-10-12":4647494,"2026-10-13":6076502}; // what the feed said on 14 Oct, the days the reference run-rate was built from
+const FORECAST_DAY="2026-10-13"; // last complete day the forecast used
+const pd=str=>{const [y,m,d]=str.split("-").map(Number);return Date.UTC(y,m-1,d);};
+const pct=x=>(x*100).toFixed(x*100>=10?0:1)+"%";
+function reset(){I={...DEF};S={bull:{...DEFS.bull},base:{...DEFS.base},bear:{...DEFS.bear}};pick={r:S.base.ret,m:S.base.mult};}
+reset();
+
+const Hof=cumM=>Math.max(0,I.hr*cumM*1e6);
+const supply=cumM=>{const H=Hof(cumM);return 0.2e9+12e9*H/(120e6+H);};
+const rateAt=cumM=>{const H=Hof(cumM);return 100*Math.pow(120e6/(120e6+H),2);};
+function calc(ret,mult){
+  const daily=I.R0*1e6*ret/100, cash=daily*365*I.hold/100, total=cash*mult;
+  const at=m=>{const d=Math.max(1,m*30.42-4);const s=supply(I.cum0+daily*d/1e6);return {d,s,p:total/s};};
+  const whenRate=r=>{if(r>=100)return 0;const H=120e6*(Math.sqrt(100/r)-1);const cum=H/I.hr/1e6;return (cum-I.cum0)/(daily/1e6);};
+  return {daily,cash,total,at,whenRate};
+}
+const fmtP=v=>{if(!isFinite(v)||v<=0)return"$0";if(v>=1)return"$"+v.toFixed(2);if(v>=0.1)return"$"+v.toFixed(2);if(v>=0.01)return"$"+v.toFixed(3);return"$"+v.toFixed(4);};
+const fmtU=v=>{if(!isFinite(v))return"–";if(v>=1e9)return"$"+(v/1e9).toFixed(1)+"B";if(v>=1e6)return"$"+(v/1e6).toFixed(v>=1e8?0:1)+"M";if(v>=1e3)return"$"+(v/1e3).toFixed(0)+"K";return"$"+v.toFixed(0);};
+const dstr=ms=>new Date(ms).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
+const dshort=ms=>new Date(ms).toLocaleDateString("en-GB",{day:"numeric",month:"short",timeZone:"UTC"});
+const until=ms=>{const n=Math.ceil((ms-Date.now())/DAY);return n<0?"passed":n===0?"today":n===1?"tomorrow":`in ${n} days`;};
+const r1=x=>x>=10?Math.round(x):Math.round(x*10)/10;
+
+const ROWS=[{r:100,c:"Hyperliquid (grew)",k:"share"},{r:34,c:"Lighter",k:"lighter"},{r:21,c:"Rollbit, Berachain",k:"rollbit"},{r:13,c:"Jupiter",k:"jup"},{r:10,c:"Middle of the 8",k:"jup"},{r:8,c:"edgeX",k:"edgex"},{r:5,c:"GMX",k:"gmx"},{r:2,c:"Aster, Gains",k:"aster"}];
+const COLS=[{m:3,c:"Gains"},{m:6,c:"Pump.fun, Rollbit"},{m:12,c:"Hyperliquid yr 1, GMX peak"},{m:15,c:"Hyperliquid yr 1 high"},{m:25,c:"Lighter now"}];
+const COMPS=[{n:"Lighter",v:34,pk:"bull",k:"lighter"},{n:"Rollbit",v:21,k:"rollbit"},{n:"Berachain",v:21,k:"bera",note:"trading volume"},{n:"Jupiter perps",v:13,k:"jup"},{n:"Middle of the 8",v:10,pk:"base",k:"jup",note:"base case"},{n:"edgeX",v:8,k:"edgex"},{n:"GMX",v:5,k:"gmx"},{n:"Gains",v:1.8,pk:"bear",k:"aster"},{n:"Aster",v:1.7,pk:"bear",k:"aster"}];
+const likeRow=r=>(ROWS.find(x=>x.r===r)||{}).c, likeCol=m=>(COLS.find(x=>x.m===m)||{}).c;
+const scAt=(r,m)=>SC.find(s=>S[s].ret===r&&S[s].mult===m);
+const oct17=Date.UTC(2026,9,17);
+
+function render(){
+  const M={};SC.forEach(s=>M[s]=calc(S[s].ret,S[s].mult));
+  const v=(s,m)=>M[s].at(m).p;
+  const polyP=I.poly*1e6/supply(I.cum0);
+  const rateNow=rateAt(I.cum0);
+  const ceil=calc(100,15).at(12).p;
+  const stopO=s=>1/v(s,12), stopH=s=>I.hedge/v(s,12);
+  const stopDate=s=>{const d=M[s].whenRate(stopO(s));return d<=0?null:ASOF+d*DAY;};
+  const restart=s=>oct17+5e6/Math.max(M[s].daily,1)*DAY;
+  const fmtStop=s=>{const t=stopDate(s);return t===null?"already past":(t-ASOF>730*DAY?"not for 2+ years":dstr(t));};
+
+  // timeline events
+  const EV=[
+    {t:Date.UTC(2026,9,10),when:"10 Oct",title:"Launch",txt:`${ev("$138M","m","mkt")} deposited by 11,465 wallets before trading opened.`},
+    {t:oct17,when:"17 Oct",title:"Pool's payout bar doubles to $10M",txt:`The next ~$5M of losses refills the pool first. Until then stakers only get their fee cut. ${ev("Source","m","x17")}`},
+    {t:restart("bull"),when:`${dshort(restart("bull"))} – ${dshort(restart("base"))}`,title:"Stakers' extra payouts restart",txt:`Later than ${dshort(restart("base"))} means it's sliding toward the bear case.`,cases:SC.map(s=>[s,dshort(restart(s))])},
+    {t:Date.UTC(2026,10,30),when:"30 Nov",title:"Is money coming back?",txt:`The bull case needs money on the platform back above $138M. It's ${ev("$64M","m","tvl")} now. Hyperliquid went ${ev("$191M → $3B in 18 days","c","hl18")}.`},
+    {t:stopDate("base")||ASOF,when:"Base: "+(stopDate("base")?dshort(stopDate("base")):"now"),title:"Farming stops paying",txt:`Losing on purpose to get PAPER costs more than PAPER is worth. After this, revenue comes from real traders only, so it's the true run-rate.`,cases:SC.map(s=>[s,fmtStop(s)])},
+    {t:Date.UTC(2027,2,31),when:"Nov – Mar",title:"Real value shows",txt:`Similar tokens' revenue kept falling for 1–9 months. ${ev("Lighter's kept sliding for 7–9 months","c","lighterLong")}.`},
+    {t:Date.UTC(2027,11,31),when:"No date",title:"PAPER can be bought and sold",txt:`Transfers are ${ev("the final launch phase","m","phase")}. Expect a hot start: ${ev("4 similar tokens peaked within 2 weeks","c","early")}, then fell.`}
+  ].sort((a,b)=>a.t-b.t);
+  const nextIdx=EV.findIndex(e=>e.t>Date.now()&&e.when!=="No date");
+  document.getElementById("tl").innerHTML=EV.map((e,i)=>{const past=e.t<Date.now();const nd=e.when==="No date";
+    return `<div class="tl-row${past?" past":""}${i===nextIdx?" nx":""}"><div class="tl-when"><b>${e.when}</b><span><span class="chip">${nd?"not announced":(i===nextIdx?"next · ":"")+until(e.t)}</span></span></div>
+    <div class="tl-what"><h3>${e.title}</h3><p>${e.txt}</p>${e.cases?`<div class="cases">${e.cases.map(([s,x])=>`<span class="case"><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${x}</b></span>`).join("")}</div>`:""}</div></div>`;}).join("");
+  const nx=EV[nextIdx];
+
+  // dashboard tiles
+  const path=[[1,"Nov 2026"],[3,"Jan 2027"],[6,"Apr 2027"],[12,"Oct 2027"]].map(([m,l],i)=>`<div class="${i===3?"end":""}"><span>${l}</span><b>${fmtP(v("base",m))}</b></div>`).join("");
+  document.getElementById("dash").innerHTML=`
+   <a class="tile hero" href="#worth"><span class="q"><span class="fc">Forecast</span> What will 1 PAPER be worth?</span>
+     <span class="a blue">${ev(fmtP(v("base",12)),"e","jup")} <span style="font-size:15px;font-family:var(--body);font-weight:500;color:var(--ink2);letter-spacing:0">by Oct 2027, base case</span></span>
+     <span class="s">Not today's price. Fair value from the cash it pays stakers. <b>${fmtU(M.base.total)}</b> for all PAPER.<div class="path">${path}</div></span>
+     <span class="stopln"><span class="sl">Stop farming PAPER</span><span>${stopDate("base")?`around <b>${dstr(stopDate("base"))}</b>, when $1 lost earns under <b>${r1(stopO("base"))}</b> PAPER. Today: ${ev("~"+Math.round(rateNow),"m","rate")}.`:`<b>already not worth it</b> in this case.`}</span></span>
+     ${trackStrip()}
+     <span class="cmp">${["bull","bear"].map(s=>`<span><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${ev(fmtP(v(s,12)),"e",s==="bull"?"lighter":"aster")}</b> · stop farming ${stopDate(s)?"~"+dstr(stopDate(s)):"<strong>already not worth it</strong>"}</span>`).join("")}</span>
+     <span class="go">Try your own assumptions</span></a>
+   <a class="tile" href="#dates"><span class="q">Can I buy or sell PAPER today?</span><span class="a">Not yet</span>
+     <span class="s">Holders can only stake it. Trading starts when transfers switch on, ${ev("the final launch phase","m","phase")}. <b>No date set.</b></span><span class="go">Key dates</span></a>
+   <a class="tile" href="#worth"><span class="q">What does the market say right now?</span><span class="a">${ev(fmtP(polyP),"m","poly")}</span>
+     <span class="s">A thin Polymarket bet, not a trade. It sits near the <b>bear case</b>.</span><span class="go">Compare with the cases</span></a>
+   <a class="tile" href="#farm"><span class="q">Is getting PAPER still worth it?</span><span class="a">Base: yes, until ~${dshort(stopDate("base")||ASOF)}</span>
+     <span class="s">Stop line: <b>${r1(stopO("base"))} PAPER per $1 lost</b>. Today: ${ev("~"+Math.round(rateNow),"m","rate")}. In the bear case it's already not worth it.</span><span class="go">Stop lines by case</span></a>
+   <a class="tile" href="#dates"><span class="q">Next date to watch</span><span class="a" style="font-size:22px">${nx?nx.when+" · "+nx.title:"–"}</span>
+     <span class="s">${nx?`<span class="chip">${until(nx.t)}</span> `:""}An early sign of whether the base case is holding.</span><span class="go">All key dates</span></a>
+   <a class="tile wide" href="#bull"><span class="q">What has to go right?</span><span class="a">2.5 of 9</span>
+     <span class="s">winning traits Hyperliquid had. PAPER lacks the 4 that keep revenue.</span><span class="go">The checklist</span></a>
+   <a class="tile wide" href="#comps"><span class="q">How did similar tokens do?</span><span class="a">${ev("9 of 10","c","peak")} fell</span>
+     <span class="s">77–97% from their peak; most lost 80%+ of their launch revenue. That is already built into the value.</span><span class="go">The evidence</span></a>`;
+
+  // presets
+  document.getElementById("presets").innerHTML=SC.map(s=>{const on=pick.r===S[s].ret&&pick.m===S[s].mult;return `<button type="button" class="preset" style="--c:var(--${s})" data-s="${s}" aria-pressed="${on}">${NAME[s]} ${fmtP(v(s,12))}</button>`;}).join(" ");
+  document.querySelectorAll(".preset").forEach(b=>b.addEventListener("click",()=>{const s=b.dataset.s;pick={r:S[s].ret,m:S[s].mult};render();}));
+
+  // grid
+  const lmin=-2.1,lmax=0.45;
+  const hIdx=p=>Math.max(0,Math.min(8,Math.round((Math.log10(p)-lmin)/(lmax-lmin)*8)));
+  let h=`<thead><tr><th class="corner">Revenue kept ↓<br>Multiple →</th>${COLS.map(c=>`<th><b>${c.m}×</b><span>${c.c}</span></th>`).join("")}</tr></thead><tbody>`;
+  ROWS.forEach(r=>{h+=`<tr><th><b>${r.r}%</b><span>${r.c}</span></th>`+COLS.map(c=>{const p=calc(r.r,c.m).at(12).p,ix=hIdx(p),s=scAt(r.r,c.m),sel=pick.r===r.r&&pick.m===c.m;
+    return `<td><button type="button" class="cell${ix>=4?" dk":""}${sel?" sel":""}" data-r="${r.r}" data-m="${c.m}" style="--hc:var(--h${ix})" aria-pressed="${sel}" aria-label="${r.r}% kept, ${c.m} times: ${fmtP(p)}">${fmtP(p)}${s?`<i style="--c:var(--${s})">${NAME[s]}</i>`:""}</button></td>`;}).join("")+`</tr>`;});
+  const heat=document.getElementById("heat");heat.innerHTML=h+"</tbody>";
+  heat.querySelectorAll(".cell").forEach(b=>b.addEventListener("click",()=>{pick={r:+b.dataset.r,m:+b.dataset.m};render();}));
+
+  // readout
+  const ps=scAt(pick.r,pick.m), MP=calc(pick.r,pick.m);
+  const ro=document.getElementById("readout");
+  ro.style.setProperty("--sc",ps?`var(--${ps})`:"var(--mine)");
+  const ppath=[[1,"Nov 2026"],[3,"Jan 2027"],[6,"Apr 2027"],[12,"Oct 2027"]].map(([m,l],i)=>`<div class="${i===3?"end":""}"><span>${l}</span><b>${fmtP(MP.at(m).p)}</b></div>`).join("");
+  ro.innerHTML=`<div class="rt"><span class="rn">${ps?NAME[ps]+" case":"Your pick"}</span><span class="rw">keeps ${pick.r}% of revenue${likeRow(pick.r)?` (like ${likeRow(pick.r)})`:""} × ${pick.m}×${likeCol(pick.m)?` (like ${likeCol(pick.m)})`:""}</span></div>
+    <div><span class="fc">Forecast</span> <span class="rs">value per PAPER by Oct 2027</span></div>
+    <div class="rv">${fmtP(MP.at(12).p)}</div>
+    <div class="path">${ppath}</div>
+    <div class="rs"><b>${fmtU(MP.total)}</b> for all PAPER · <b>${fmtU(MP.cash)}</b> a year to stakers · <b>${(MP.at(12).s/1e9).toFixed(1)}B</b> PAPER by Oct 2027 · farming stop line <b>${r1(1/MP.at(12).p)}</b> PAPER per $1</div>`;
+
+  // football field
+  const rows=SC.map(s=>({k:s,lo:v(s,12),hi:v(s,1),like:LIKE[s],on:ps===s}));
+  if(!ps) rows.push({k:"mine",lo:MP.at(12).p,hi:MP.at(1).p,like:`${pick.r}% kept × ${pick.m}×`,on:true});
+  const refs=[{v:I.hedge/rateNow,l:"Cost to farm 1 PAPER today",t:"m",k:"farm"},{v:polyP,l:"Market bet",t:"m",k:"poly"},{v:ceil,l:"Perfect case",t:"e",k:"ceil"}].sort((a,b)=>a.v-b.v);
+  const vals=rows.flatMap(r=>[r.lo,r.hi]).concat(refs.map(r=>r.v)).filter(x=>x>0);
+  const lo=Math.pow(10,Math.floor(Math.log10(Math.min(...vals)/1.2))), hi=Math.max(...vals)*2;
+  const X=x=>(Math.log10(Math.max(x,lo))-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo))*100;
+  let ticks="";for(let e=Math.ceil(Math.log10(lo));Math.pow(10,e)<=hi;e++){const t=Math.pow(10,e),x=X(t);ticks+=`<span style="left:${x}%;${x<4?"transform:none":x>96?"transform:translateX(-100%)":""}">${t>=1?"$"+t.toFixed(0):"$"+t}</span>`;}
+  document.getElementById("ff").innerHTML=`<div class="ff-plot">
+    ${refs.map(r=>`<div class="ff-vline" style="left:${X(r.v)}%"></div>`).join("")}
+    <div class="ff-refs">${refs.map(r=>{const x=X(r.v);return `<div class="ff-ref${x>55?" r":""}"><span style="${x>55?`right:${100-x}%`:`left:${x}%`}">${r.l} ${ev("<b class='num'>"+fmtP(r.v)+"</b>",r.t,r.k)}</span></div>`;}).join("")}</div>
+    ${rows.map(r=>{const a=X(r.lo),b=X(r.hi);return `<div class="ff-row${r.on?" on":""}" style="--c:var(--${r.k})"><div class="ff-name"><b>${NAME[r.k]}</b>${r.on?"<em>Selected</em>":""}<strong>${fmtP(r.lo)}</strong><span>Oct 2027 · ${fmtP(r.hi)} Nov 2026</span></div>
+      <div class="ff-track"><div class="ff-bar" style="left:${a}%;width:${Math.max(b-a,0.6)}%"></div><div class="ff-dot" style="left:${a}%"></div></div></div>`;}).join("")}
+    <div class="ff-axis">${ticks}</div></div>`;
+
+  // farm
+  document.getElementById("farmNow").innerHTML=`Today each $1 lost earns about ${ev(Math.round(rateNow)+" PAPER","m","rate")}.`;
+  document.getElementById("farmgrid").innerHTML=SC.map(s=>{const sd=stopDate(s);const worth=sd!==null;
+    return `<div class="fcard" style="--c:var(--${s})"><h3>${NAME[s]} case</h3>
+      <dl><dt>Value per PAPER (Oct 2027)</dt><dd>${fmtP(v(s,12))}</dd>
+      <dt>Stop line, losing for real</dt><dd>${r1(stopO(s))} per $1</dd>
+      <dt>Stop line, betting both ways</dt><dd>${r1(stopH(s))} per $1</dd>
+      <dt>Losing for real stops paying</dt><dd>${fmtStop(s)}</dd></dl>
+      <span class="verdict ${worth?"has":"lacks"}" style="${worth?"--pb:var(--has-bg);--pc:var(--has)":"--pb:var(--lacks-bg);--pc:var(--lacks)"}">${worth?"Worth it for now":"Already not worth it"}</span></div>`;}).join("");
+  document.getElementById("farmCap").innerHTML=`Stop line = cost of $1 of counted loss ÷ value per PAPER. Losing for real costs $1. Betting both ways costs about ${ev("$"+I.hedge.toFixed(2),"m","hedge")}, so hedged farmers keep going much longer. That keeps adding supply, which is why value per PAPER slides.`;
+
+  // traits
+  document.getElementById("traits").innerHTML=`
+   <div class="tcol has"><h3>✓ Has (3)</h3><ul>
+     <li>Low starting value<span>No price yet. The market bet is near ${ev("$100M","m","poly")} for all PAPER</span></li>
+     <li>No team or investor tokens to dump<span>Big farmers hold bags instead (one holds 252M)</span></li>
+     <li>Real cash to holders<span>About ${ev("85%","m","hold")} of revenue goes to stakers in USDC</span></li></ul></div>
+   <div class="tcol part"><h3>~ Partly (2)</h3><ul>
+     <li>Holds up under attack<span>Every winner paid, but ${ev("$1.28M was drained","m","drain")}. ${ev("The team can change fees","m","admin")}</span></li>
+     <li>A friendly market<span>${ev("On-chain perp trading is about half its Oct 2025 peak","m","perpvol")}</span></li></ul></div>
+   <div class="tcol lacks"><h3>✕ Lacks (4)</h3><ul>
+     <li>People used it before the token<span>${ev("Hyperliquid went from 10% to 70% share","m","share")} first</span></li>
+     <li>Revenue that holds<span>${ev("Down 82%","m","drop82")} from day 1 to the day 2–4 average</span></li>
+     <li>A big listing or legitimacy event<span>Hyperliquid had US ETFs, Coinbase and Robinhood</span></li>
+     <li>Anything that shrinks supply<span>New PAPER keeps being created toward ~12B</span></li></ul></div>`;
+
+  // comps
+  document.getElementById("bars").innerHTML=COMPS.map(c=>`<div class="brow" style="--c:var(--${c.pk||"muted"})"><div class="nm">${c.n}${c.pk?`<small>${NAME[c.pk]} pick</small>`:""}${c.note&&!c.pk?`<small class="note">${c.note}</small>`:""}</div><div class="btrack"><div class="bfill${c.pk?" pk":""}" style="width:${c.v/40*100}%"></div></div><div class="v">${ev(c.v+"%","c",c.k)}</div></div>`).join("");
+  document.getElementById("baked").innerHTML=`
+    <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">✓</span><span><b>Yes: the revenue collapse.</b> The cases use what similar tokens actually kept (34%, 10%, 2%). That's why ${ev("9 of 10 falling 77–97%","c","peak")} is already in the value.</span></li>
+    <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">✓</span><span><b>Yes: what buyers pay.</b> The multiples (12×, 6×, 3×) come from those same tokens.</span></li>
+    <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">→</span><span><b>Not in the value: trading-day hype.</b> ${ev("85–93% of big launches trade below their launch price","c","base")} within a year. That describes the price when PAPER starts trading, not its fair value. Expect it to open high and fall toward the value.</span></li>`;
+  document.getElementById("mkt").innerHTML=`
+    <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">✓</span><span><b>It built a big starting point.</b> ${ev("$138M from 11,465 wallets","m","mkt")} before trading, more than ${ev("Pump.fun's $4B sale","c","pumpbuy")} had buyers. #3 in crypto revenue on day 3. Every winner paid. That's why every case starts from $4.45M a day.</span></li>
+    <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">✕</span><span><b>It doesn't keep revenue by itself.</b> In similar tokens, ${ev("hype lifted price for 1–2 weeks","c","hype2")}, then faded with the farming.</span></li>`;
+
+  // sticky
+  document.getElementById("stickyIn").innerHTML=`<span class="nm">PAPER forecast · Oct 2027</span>`+SC.map(s=>`<span><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${fmtP(v(s,12))}</b></span>`).join("")+`<span><span class="dot" style="--c:var(--ref)"></span>Market bet <b>${fmtP(polyP)}</b></span>`;
+  document.getElementById("tape").innerHTML=document.getElementById("stickyIn").innerHTML;
+  if(LIVE)renderTrack();
+
+  // estimates
+  document.getElementById("ests").innerHTML=`
+    <li><b>How fast new PAPER is created.</b> The docs give the rule; the exact constants come from TechFlow's reading of the docs (the docs page loads by script and can't be read as plain text). The model is tuned so today's supply matches the two measured points: ${ev("30.8 PAPER per $1 and ~6.3B staked","m","hr")}.</li>
+    <li><b>When transfers switch on.</b> ${ev("Not announced","m","phase")}. The value forecast doesn't depend on it; only the first trading price does.</li>
+    <li><b>13 Oct revenue.</b> ChainThink's $4.02M was a rolling 24-hour count taken during the day. DefiLlama's full day is $6.08M; the model uses DefiLlama.</li>
+    <li><b>Cost of hedged farming.</b> Taken from on-chain wallets (${ev("Odaily","m","farm")}). It moves with market swings.</li>
+    <li><b>Middle case revenue kept (10%).</b> Halfway between edgeX (8%) and Jupiter (13%), the middle two of 8 similar tokens. Pump.fun is left out because its platform ran for 18 months before its token, so it had no launch rush to fade.</li>`;
+}
+
+function liveStats(){
+  if(!LIVE||!Array.isArray(LIVE.daily)||!LIVE.daily.length) return null;
+  const ser=LIVE.daily.filter(x=>x.revenue!=null&&x.date>="2026-10-10"); // trading opened 10 Oct; the feed also carries a 9 Oct row with deposits only
+  if(!ser.length) return null;
+  const last=ser[ser.length-1];
+  const w=ser.filter(x=>x.date>"2026-10-10").slice(-7);
+  const a7=w.reduce((s,x)=>s+x.revenue,0)/Math.max(w.length,1);
+  const cum=ser.reduce((s,x)=>s+x.revenue,0);
+  const ref=I.R0*1e6, share=a7/ref;
+  const daily={};SC.forEach(s=>daily[s]=calc(S[s].ret,S[s].mult).daily);
+  let near="bull",best=Infinity;SC.forEach(s=>{const d=Math.abs(Math.log(a7/daily[s]));if(d<best){best=d;near=s;}});
+  const above=a7>=daily.bull;
+  const cumStar=120e6*(Math.sqrt(100/10)-1)/I.hr;
+  const starDate=a7>0?pd(last.date)+(cumStar-cum)/a7*DAY:null;
+  const caseStar={};SC.forEach(s=>{const d=calc(S[s].ret,S[s].mult).whenRate(10);caseStar[s]=d<=0?ASOF:ASOF+d*DAY;});
+  let starNear="bull";best=Infinity;SC.forEach(s=>{const d=Math.abs((starDate||0)-caseStar[s]);if(d<best){best=d;starNear=s;}});
+  const restart={};SC.forEach(s=>restart[s]=oct17+5e6/Math.max(daily[s],1)*DAY);
+  const hs=last.holders!=null&&last.revenue?last.holders/last.revenue:null;
+  const revs=Object.entries(FROZEN).map(([d,v])=>{const x=ser.find(y=>y.date===d);return x&&Math.abs(x.revenue-v)/v>0.02?{d,was:v,now:x.revenue}:null;}).filter(Boolean);
+  const tvl=(LIVE.totals&&LIVE.totals.tvl_now)||last.tvl||null;
+  return {ser,last,w,a7,cum,ref,share,daily,near,above,cumStar,starDate,caseStar,starNear,restart,hs,revs,tvl,today:LIVE.today_so_far||null};
+}
+function trackStrip(){
+  const t=liveStats();
+  if(!t) return LIVEERR?`<span class="trk"><span class="sl">Tracking</span><span>Today's numbers could not be loaded. Forecast shown as made on 14 Oct 2026.</span></span>`:"";
+  return `<span class="trk"><span class="sl">Tracking · data through ${dshort(pd(t.last.date))}</span><span>Last ${t.w.length} days averaged <b>${fmtU(t.a7)}/day</b>, ${pct(t.share)} of the reference. ${t.above?"Above all three cases so far, as expected this early.":`Nearest the <b>${NAME[t.near].toLowerCase()} case</b>.`}</span></span>`;
+}
+function trackChart(t){
+  const W=720,H=236,L=56,R=124,T=16,B=32,pw=W-L-R,ph=H-T-B;
+  const pts=t.ser.map(x=>({d:x.date,v:x.revenue,p:false}));
+  if(t.today&&t.today.revenue)pts.push({d:t.today.date,v:t.today.revenue,p:true});
+  const lv=[{v:t.ref,c:"var(--ink)",l:"Reference",d:""},{v:t.daily.bull,c:"var(--bull)",l:"Bull",d:"5 4"},{v:t.daily.base,c:"var(--base)",l:"Base",d:"5 4"},{v:t.daily.bear,c:"var(--bear)",l:"Bear",d:"5 4"}];
+  const vals=pts.map(p=>p.v).concat(lv.map(l=>l.v)).filter(v=>v>0);
+  const lo=Math.pow(10,Math.floor(Math.log10(Math.min(...vals)))),hi=Math.pow(10,Math.ceil(Math.log10(Math.max(...vals))));
+  const Y=v=>T+ph-(Math.log10(Math.max(v,lo))-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo))*ph;
+  const n=pts.length,slot=pw/Math.max(n,12),bw=Math.min(26,slot*.68),X=i=>L+slot*i+slot/2;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Daily revenue against the reference and the three cases">`;
+  for(let e=Math.log10(lo);e<=Math.log10(hi);e++){const v=Math.pow(10,e);s+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${fmtU(v)}</text>`;}
+  lv.forEach(l=>{s+=`<line x1="${L}" x2="${W-R}" y1="${Y(l.v)}" y2="${Y(l.v)}" stroke="${l.c}" stroke-width="1.5"${l.d?` stroke-dasharray="${l.d}"`:""}/><text x="${W-R+6}" y="${Y(l.v)+4}" font-size="10.5" font-weight="600" fill="${l.c}" font-family="JetBrains Mono,monospace">${l.l} ${fmtU(l.v)}</text>`;});
+  pts.forEach((p,i)=>{const y=Y(p.v);
+    s+=`<rect x="${(X(i)-bw/2).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${(T+ph-y).toFixed(1)}" rx="2" fill="${p.p?"none":"var(--ink2)"}" stroke="var(--ink2)" stroke-width="${p.p?1.5:0}"${p.p?' stroke-dasharray="3 3"':""}/>`;
+    if(n<=20||i%Math.ceil(n/14)===0)s+=`<text x="${X(i)}" y="${H-B+15}" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${dshort(pd(p.d)).replace(" ","\u00a0")}</text>`;
+    if(n<=14)s+=`<text x="${X(i)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--ink)" font-family="JetBrains Mono,monospace">${fmtU(p.v)}</text>`;});
+  s+=`<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--line)"/></svg>`;
+  return s;
+}
+function renderTrack(){
+  const upd=document.getElementById("upd"),box=document.getElementById("trackIn");
+  const t=liveStats();
+  if(!t){const m=LIVEERR?"Today's numbers could not be loaded. The forecast is shown as made on 14 Oct 2026.":"Loading today's numbers…";upd.textContent=m;box.innerHTML=`<p class="cap">${m}</p>`;return;}
+  const fd=new Date(LIVE.fetched_at).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"});
+  upd.innerHTML=`<b>Updated ${fd} Dubai</b> · data through ${dstr(pd(t.last.date))}${t.today&&t.today.revenue!=null?` · today so far ${fmtU(t.today.revenue)}`:""} · refreshes daily around 10:15 Dubai`;
+  const card=(c,h,big,p,chip)=>`<div class="tcard" style="--c:var(--${c})"><h3>${h}</h3><div class="big">${big}</div><p>${p}</p>${chip?`<span class="tchip">${chip}</span>`:""}</div>`;
+  const before17=t.last.date<"2026-10-17";
+  const starTxt=t.starDate?(t.starDate-ASOF>730*DAY?"not for 2+ years":dstr(t.starDate)):"–";
+  const cs=s=>t.caseStar[s]-ASOF>730*DAY?"2028 or later":dstr(t.caseStar[s]);
+  box.innerHTML=`
+   <div class="tcards">
+    ${card(t.above?"bull":t.near,"Revenue level",`${fmtU(t.a7)}/day`,`Average of the last ${t.w.length} complete days (launch day left out), <b>${pct(t.share)}</b> of the $${I.R0.toFixed(2)}M reference. After the rush fades the cases need <b>${S.bull.ret}%</b> (bull), <b>${S.base.ret}%</b> (base), <b>${S.bear.ret}%</b> (bear).`,t.above?"Above all three cases so far":`Nearest the ${NAME[t.near].toLowerCase()} case`)}
+    ${card(t.starNear,"Cumulative revenue and the mint-rate test",fmtU(t.cum),`Through ${dshort(pd(t.last.date))}. The mint rate drops under 10 PAPER per $1 once this passes <b>${fmtU(t.cumStar)}</b>. At the last ${t.w.length}-day pace that lands around <b>${starTxt}</b>. Model dates: bull ${cs("bull")}, base ${cs("base")}, bear ${cs("bear")}.`,`On the ${NAME[t.starNear].toLowerCase()} path`)}
+    ${card(before17?"ref":(t.hs!=null&&t.hs>=0.8?"bull":"part"),"Stakers' share and the 17 Oct test",t.hs!=null?pct(t.hs):"–",`Share of the last day's revenue paid to stakers. From 17 Oct the pool refills to $10M first, so this should drop, then recover when the pool is full. Recovery by ~${dshort(t.restart.bull)} = bull, ~${dshort(t.restart.base)} = base, ~${dshort(t.restart.bear)} = bear.`,before17?"Test starts 17 Oct":(t.hs!=null&&t.hs>=0.8?"Pool refilled":"Pool refilling"))}
+    ${card(t.tvl>=138e6?"bull":"ref","Money on platform",t.tvl?fmtU(t.tvl):"–",`The bull case needs it back above <b>$138M</b> (the pre-launch deposits) by 30 Nov. It was $64M on 13 Oct.`,t.tvl?(t.tvl>=138e6?"Bull tell met":`${pct(t.tvl/138e6)} of the bull target`):"")}
+   </div>
+   <div class="tchart">${trackChart(t)}</div>
+   <p class="cap">Bars: Papertrade's daily revenue (trader losses), log scale. Dashed outline: today so far. Lines: the reference run-rate and the daily revenue each case assumes after the rush fades.</p>
+   ${t.revs.length?`<div class="trev">DefiLlama has revised ${t.revs.map(r=>`${dshort(pd(r.d))} from ${fmtU(r.was)} to ${fmtU(r.now)}`).join(", ")} since the forecast was made. The forecast keeps its 14 Oct inputs; the tracker uses today's figures.</div>`:""}
+   <p class="cap">Raw data: <a href="/data/papertrade.json">papertrade.json</a> · <a href="/data/snapshots.csv">daily snapshots</a>. Source: DefiLlama's feed of Papertrade's on-chain revenue, staker payouts and money on platform, fetched daily by this site.</p>`;
+}
+function buildInputs(){
+  const shared=[["R0","Daily revenue today","$M/day","m","defi"],["hold","Share paid to stakers","%","m","hold"],["cum0","Revenue so far","$M","m","cum"],["hr","Supply tuning","×","e","hr"],["poly","Market bet, all PAPER","$M","m","poly"],["hedge","Hedged farming cost per $1","$","m","hedge"]];
+  let h=`<thead><tr><th>Assumption</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th><th>Where it comes from</th></tr></thead><tbody>`;
+  [["ret","Revenue kept after the launch rush","%"],["mult","Value ÷ yearly cash","×"]].forEach(([k,l,u])=>{
+    h+=`<tr><td>${l} <span class="cap">${u}</span></td>${SC.map(s=>`<td class="r"><input type="number" step="any" id="s_${k}_${s}" data-s="${s}" data-k="${k}" value="${S[s][k]}" aria-label="${l}, ${NAME[s]}"></td>`).join("")}<td class="why">${SC.map(s=>`<b>${NAME[s]}:</b> ${SRC[SRCOF[s][k]]}`).join("<br>")}</td></tr>`;});
+  shared.forEach(([k,l,u,t,src])=>{h+=`<tr><td>${l} <span class="cap">${u}</span></td><td class="r" colspan="3"><input type="number" step="any" id="i_${k}" data-i="${k}" value="${I[k]}" aria-label="${l}"></td><td class="why">${T[t]}. ${SRC[src]}</td></tr>`;});
+  const tb=document.getElementById("inputs");tb.innerHTML=h+"</tbody>";
+  tb.querySelectorAll("input").forEach(inp=>inp.addEventListener("input",()=>{const x=parseFloat(inp.value);if(!isFinite(x)||x<=0)return;
+    if(inp.dataset.i){I[inp.dataset.i]=x;}else{const s=inp.dataset.s,k=inp.dataset.k;const was=pick.r===S[s].ret&&pick.m===S[s].mult;S[s][k]=x;if(was)pick={r:S[s].ret,m:S[s].mult};}
+    render();}));
+}
+const SOURCES=[
+ ["https://api.llama.fi/summary/fees/papertrade?dataType=dailyRevenue","DefiLlama: Papertrade daily revenue"],
+ ["https://api.llama.fi/summary/fees/papertrade?dataType=dailyHoldersRevenue","DefiLlama: Papertrade staker payouts"],
+ ["https://defillama.com/protocol/papertrade","DefiLlama: Papertrade money on platform and incident log"],
+ ["https://docs.papertrade.xyz/","Papertrade docs: supply rule"],
+ ["https://www.techflowpost.com/en-US/article/34481","TechFlow: supply constants, founders, launch details"],
+ ["https://www.chaincatcher.com/en/article/2295671","ChainCatcher: 30.8 PAPER per $1 on 12 Oct"],
+ ["https://www.kucoin.com/news/insight/USDC/6ace7740f25df5000749cb5b","KuCoin: 25.9 PAPER per $1, first 3 days totals"],
+ ["https://www.kucoin.com/news/flash/papertrade-early-stakers-and-arbitrage-strategies-revealed","Odaily: farming costs, staked supply, $10M payout bar on 17 Oct"],
+ ["https://www.kucoin.com/news/flash/papertrade-launches-on-hyperevm-11-465-addresses-deposit-138m","MarsBit: $138M from 11,465 wallets, no team or VC tokens"],
+ ["https://www.kucoin.com/news/flash/papertrade-24-hour-revenue-surpasses-4-02m-outpaces-pump-and-hyperliquid","ChainThink: #3 in 24-hour revenue"],
+ ["https://thedefiant.io/news/defi/papertrade-trader-losses-reach-32-4-million-two-days-after-launch","The Defiant: payout queue empty"],
+ ["https://www.theblock.co/news/defi/2026-10-11-trader-nets-1-28-million-on-new-1000x-exchange-papertrade-by-moving-hyperliquids-eth-prices-418239","The Block: $1.28M drained by moving Hyperliquid's price"],
+ ["https://crypto.news/papertrade-plans-1000x-leverage-launch-85-3m-deposits/","crypto.news: team can pause trading and change fees"],
+ ["https://www.bitrue.com/blog/papertrade-launch-guide","Bitrue: launch phases, transfers last"],
+ ["https://www.bankless.com/read/what-to-know-about-papertrade-s-launch","Bankless: transfers come later, no date"],
+ ["https://polymarket.com/event/papertrade-fdv-above-one-day-after-launch","Polymarket: Papertrade value bet"],
+ ["https://api.llama.fi/summary/fees/hyperliquid?dataType=dailyHoldersRevenue","DefiLlama: Hyperliquid holder revenue"],
+ ["https://coinshares.com/insights/research-data/hyperliquid-primer-and-5-year-valuation-framework/","CoinShares: Hyperliquid multiple range"],
+ ["https://cointelegraph.com/news/how-hyperliquid-airdrop-changed-game","Cointelegraph: Hyperliquid 10% → 70% share"],
+ ["https://forklog.com/en/hyperliquid-sees-1-billion-usdc-inflow-following-airdrop/","ForkLog: Hyperliquid's first 18 days"],
+ ["https://www.tokenomist.ai/research/lighter-lit-tokenomics-robinhood-hype-a-real-burn-and-the-december-2026-cliff-2","Tokenomist: Lighter revenue path"],
+ ["https://defillama.com/protocol/lighter","DefiLlama: Lighter revenue and value"],
+ ["https://blockeden.xyz/blog/2026/04/28/perp-dex-cohort-2026-lighter-airdrop-hyperliquid-long-tail/","BlockEden: Lighter volume −70% in 3 weeks"],
+ ["https://defillama.com/protocol/edgex","DefiLlama: edgeX revenue by quarter"],
+ ["https://thedefiant.io/news/defi/amber-group-backed-perp-dex-edgex-to-launch-token-on-march-31","The Defiant: edgeX token launch"],
+ ["https://crypto.news/edgex-set-to-launch-edge-token-amid-transparency-concerns/","crypto.news: edgeX EDGE token, 31 Mar 2026"],
+ ["https://api.llama.fi/summary/fees/jupiter-perpetual-exchange?dataType=dailyFees","DefiLlama: Jupiter perps fees"],
+ ["https://defillama.com/protocol/aster","DefiLlama: Aster fees and value"],
+ ["https://www.theblock.co/post/372676/aster-top-protocol-fees","The Block: Aster fee peak, launch value"],
+ ["https://decrypt.co/341157/crypto-traders-aster-price-how-high-can-it-go","Decrypt: Aster $18B in a week"],
+ ["https://api.llama.fi/summary/fees/gains-network?dataType=dailyHoldersRevenue","DefiLlama: Gains holder revenue"],
+ ["https://docs.gains.trade/liquidity-farming-pools/gns-staking","Gains docs: payouts paused"],
+ ["https://api.llama.fi/summary/fees/gmx?dataType=dailyHoldersRevenue","DefiLlama: GMX holder revenue"],
+ ["https://samuelandrew.substack.com/p/gmx-an-example-of-fundamental-value","Sam Andrew: GMX at 12.4×"],
+ ["https://www.fairgambling.com/news/rollbit-token-burn-reveals-daily-casino-revenue","FairGambling: Rollbit revenue"],
+ ["https://blockcrunch.substack.com/p/rollbit-rlb-a-house-of-cards-or-hitting","Blockcrunch: Rollbit 6.2× (Oct 2023)"],
+ ["https://arrakis.finance/blog/lessons-from-h1-2025-top-token-launches","Arrakis: Berachain volume kept"],
+ ["https://defillama.com/protocol/pump","DefiLlama: Pump.fun holder cash and value"],
+ ["https://blockworks.com/news/pump-fun-500m-ico-twitch","Blockworks: Pump.fun $4B sale, 10,145 buyers"],
+ ["https://www.ccn.com/news/crypto/peter-thiel-backed-avantis-avnt-soars-77-on-binance-and-coinbase-listings-10m-airdrop/","CCN: Avantis +400% on listings"],
+ ["https://www.coingecko.com/en/coins/avantis","CoinGecko: Avantis −97%"],
+ ["https://forklog.com/en/85-of-tokens-launched-in-2025-fell-below-initial-prices/","ForkLog: Memento Research, 84.7% of 118 launches below opening"],
+ ["https://ambcrypto.com/92-9-of-crypto-tokens-launched-since-2024-trade-below-tge-price-cryptorank/","AMBCrypto: CryptoRank, 92.9% of 113 launches below launch price"],
+ ["https://www.thetie.io/insights/what-does-an-exchange-listing-actually-deliver-in-2026","The Tie: listing gains reverse within two weeks"],
+ ["https://forklog.com/en/perp-dex-trading-volumes-plummet-over-50-since-october/","ForkLog: perp volume $1.36T → $699B"]
+];
+
+document.getElementById("srcs").innerHTML=SOURCES.map(([u,l])=>`<a href="${u}" target="_blank" rel="noopener">${l}</a>`).join("");
+document.getElementById("reset").addEventListener("click",()=>{reset();buildInputs();render();});
+
+const pop=document.getElementById("pop");let pinned=null;
+function show(el){pop.innerHTML=`<b>${T[el.dataset.t]}</b><span>${el.dataset.src}</span>`;pop.hidden=false;const r=el.getBoundingClientRect();const w=Math.min(300,window.innerWidth-24);pop.style.maxWidth=w+"px";pop.style.left=Math.max(12,Math.min(r.left,window.innerWidth-w-12))+"px";const below=r.bottom+8;pop.style.top=(below+pop.offsetHeight>window.innerHeight-8?r.top-pop.offsetHeight-8:below)+"px";}
+function hide(){if(!pinned)pop.hidden=true;}
+document.addEventListener("mouseover",e=>{const el=e.target.closest(".ev");if(el&&!pinned)show(el);});
+document.addEventListener("mouseout",e=>{if(e.target.closest(".ev"))hide();});
+document.addEventListener("focusin",e=>{const el=e.target.closest(".ev");if(el)show(el);});
+document.addEventListener("focusout",e=>{if(e.target.closest(".ev"))hide();});
+document.addEventListener("click",e=>{const el=e.target.closest(".ev");if(el){e.preventDefault();e.stopPropagation();pinned=pinned===el?null:el;if(pinned)show(el);else pop.hidden=true;}else if(pinned){pinned=null;pop.hidden=true;}},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){pinned=null;pop.hidden=true;}});
+window.addEventListener("scroll",()=>{if(pinned){pinned=null;pop.hidden=true;}document.getElementById("sticky").hidden=document.getElementById("summary").getBoundingClientRect().bottom>0;},{passive:true});
+
+buildInputs();render();renderTrack();
+fetch("/data/papertrade.json",{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(new Error("HTTP "+r.status))).then(d=>{LIVE=d;render();renderTrack();}).catch(e=>{LIVEERR=e;render();renderTrack();});
+})();
+</script>
+
+</body>
+</html>
