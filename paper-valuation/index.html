@@ -467,6 +467,90 @@ button.rec-hit:hover .rec-dot{transform:scale(1.18)}
   .rec-line{grid-auto-columns:96px}
 }
 .rec-what .rec-val{display:block}
+.sc-more{border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+.sc-more summary{cursor:pointer;padding:12px 14px;font-weight:600;font-size:14px;list-style:none;display:flex;align-items:center;gap:10px}
+.sc-more summary::-webkit-details-marker{display:none}
+.sc-more summary::before{content:"+";font-family:var(--mono);font-weight:600;width:20px;height:20px;border-radius:4px;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:14px;line-height:1}
+.sc-more[open] summary::before{content:"−"}
+.sc-more summary:focus-visible{outline:3px solid var(--focus);outline-offset:-3px;border-radius:6px}
+.sc-more-in{display:grid;gap:16px;padding:4px 14px 16px}
+
+/* ---- said / happened / scored chart and the calls list (design pass, 17 Oct 2026) ---- */
+/* Said / happened / scored chart (#drift). Existing tokens only. */
+.dv-keys{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink2)}
+.dv-k{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.dv-k i{flex:none;width:18px;height:0;border-bottom:2px solid var(--c);display:inline-block}
+.dv-k.k-dot i{width:9px;height:9px;border:0;border-radius:50%;background:var(--c)}
+.dv-k.k-bar i{width:8px;height:12px;border:0;border-radius:2px 2px 0 0;background:var(--c)}
+.dv-k.k-need i{border-bottom:1.5px dashed var(--c)}
+.dv-wrap{width:100%;overflow:hidden}
+.dv{display:block;max-width:100%;height:auto}
+.dv text{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:10.5px;fill:var(--muted)}
+.dv .dv-band{font-size:10px;font-weight:600;letter-spacing:.08em;fill:var(--muted)}
+.dv .dv-tick{fill:var(--muted)}
+.dv .dv-val{fill:var(--ink);font-weight:500}
+.dv .dv-end{fill:var(--ink);font-weight:600}
+.dv .dv-endk{fill:var(--ink2);font-weight:500}
+.dv .dv-chipt{fill:var(--ink2);font-size:10px;font-weight:600}
+.dv .dv-pillt{fill:var(--surface);font-size:10px;font-weight:600}
+.dv .dv-glyph{fill:var(--onfill);font-size:10px;font-weight:700}
+.dv-grid{stroke:var(--grid);stroke-width:1}
+.dv-axis{stroke:var(--line);stroke-width:1}
+.dv-ver{stroke:var(--line);stroke-width:1}
+.dv-chip{fill:var(--bg);stroke:var(--line)}
+.dv-line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.dv-need{fill:none;stroke-width:1.5;stroke-dasharray:5 4}
+.dv-bar{fill:var(--ink2);opacity:.55}
+.dv-bar.dv-part{fill:none;stroke:var(--ink2);stroke-width:1.5;stroke-dasharray:3 3;opacity:.8}
+.dv-mkt{fill:var(--ref);stroke:var(--surface);stroke-width:2}
+.dv-ring{stroke:var(--surface);stroke-width:2}
+.dv-rail{stroke-width:3;stroke-linecap:round;opacity:.45}
+.dv-curtain{fill:var(--bg);opacity:.85}
+.dv-view{stroke:var(--ink);stroke-width:1.5}
+.dv-pill{fill:var(--ink)}
+.dv-hit{fill:transparent}
+.dv-hit:hover{fill:var(--ink);fill-opacity:.05}
+.dv-tbl summary{font-size:13px}
+
+/* Calls so far (#callsBox) */
+.st-ontrack{--pb:#e4ecfb;--pc:var(--base)}
+.st-offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.cl-head{display:grid;gap:8px}
+.cl-rail{display:flex;gap:2px}
+.cl-cell{flex:1 1 0;max-width:56px;height:22px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:700;border-radius:3px;background:var(--pb);color:var(--pc)}
+.cl-cell.cl-missed{background:var(--lacks);color:var(--onfill)}
+.cl-cell.cl-hit{background:var(--has);color:var(--onfill)}
+.cl-cell.cl-offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.cl-cell.cl-ontrack{--pb:#e4ecfb;--pc:var(--base)}
+.cl-sum{font-size:13.5px;color:var(--ink2)}
+.cl-sum b{color:var(--ink);font-weight:600}
+.cl-grp{display:grid;gap:6px;margin-top:6px}
+.cl-grp h4{margin:0;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);padding-bottom:4px;border-bottom:2px solid var(--ink)}
+.cl-grp h4 .cap{text-transform:none;letter-spacing:0;font-family:var(--body);font-weight:400}
+.cl-list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.cl{display:grid;grid-template-columns:132px minmax(0,1fr);gap:4px 14px;padding:10px 12px;border-left:4px solid var(--rc,var(--line));border-bottom:1px solid var(--grid);font-size:13.5px}
+.cl-missed{--rc:var(--lacks);background:var(--lacks-bg)}
+.cl-hit{--rc:var(--has)}
+.cl-offtrack{--rc:var(--part)}
+.cl-ontrack{--rc:var(--base)}
+.cl-top{display:grid;gap:4px;align-content:start}
+.cl-top .st{justify-self:start}
+.cl-due{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.cl-body{display:grid;gap:3px;min-width:0}
+.cl-txt{font-weight:600;color:var(--ink)}
+.cl-ev{color:var(--ink2);font-size:13px;border:0;padding:0}
+details.cl-ev summary{display:inline;padding:0;font-weight:400;cursor:pointer}
+details.cl-ev summary::after{content:" more";font-family:var(--body);font-size:12px;color:var(--base);text-decoration:underline}
+details.cl-ev[open] summary::after{content:" less"}
+details.cl-ev p{margin-top:2px}
+.cl-meta{font-size:12px;color:var(--muted)}
+.cl-meta b{color:var(--ink);font-weight:600}
+.cl-how{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid var(--line);color:var(--ink2)}
+.cl-how.auto{border-color:var(--ink);color:var(--ink)}
+@media (max-width:560px){
+  .cl{grid-template-columns:1fr;padding:10px}
+  .cl-top{grid-auto-flow:column;justify-content:space-between;align-items:center}
+}
 </style>
 
 <div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
@@ -582,9 +666,8 @@ button.rec-hit:hover .rec-dot{transform:scale(1.18)}
     </div>
     <p class="lede">Three days after Version 1, Papertrade is making more money, not less: <b>$6.3M a day</b> on 14–16 Oct against the $4.45M a day Version 1 started from, with <b>91%</b> of it paid to stakers against the 85% assumed. Polymarket's median one-day-after-launch value moved from about $100M to about <b>$200M</b> on fourteen times the volume. Two things went the other way: PAPER supply is growing faster than Version 1 assumed (<b>8.45B</b> on the live contract against 7.2B modelled), and DefiLlama revised down the three days the first reference was built on. Re-run on today's inputs, the same model lands higher. The first real test starts when the pool's payout bar doubles after 18:45 UTC on 17 Oct.</p>
 
-    <h3>1. How the call has moved</h3>
+    <h3>1. Said, happened, scored</h3>
     <div class="drift" id="drift"></div>
-    <p class="cap">Each version re-runs the same model on inputs re-read that day; the lines step at each version. Dots: the market's bet (Polymarket median on the supply of the day). Tap a moment on the story line at the top to see the page as it stood that day.</p>
 
     <h3>2. Calls so far</h3>
     <p class="cap">Every dated call, marked against the evidence as of the day in view. Misses stay here in every later version. Full version note with every source: <a href="/paper-valuation/updates/2026-10-17-version-02.md">version 2</a>; the page as it stood: <a href="/paper-valuation/v1/">Version 1</a>.</p>
@@ -592,17 +675,7 @@ button.rec-hit:hover .rec-dot{transform:scale(1.18)}
 
     <div class="two">
       <div>
-        <h3>3. What changed</h3>
-        <div class="sc-dev">
-          <div class="sc-row"><div class="sc-when">17 Oct · v2</div><div><b>New data:</b> three more complete days ($5.93M, $7.49M, $5.45M); live contract readings (supply 8.45B, 99.2% staked, high-water mark $222M, cap $5M, pool $4.96M, queue $0); Polymarket re-priced ($100M strike 79%, was 47%; $132K traded, was $9K); DefiLlama revised 12 Oct to $3.93M (was $4.65M) and 13 Oct to $4.52M (was $6.08M).</div></div>
-          <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $4.45M → $6.29M a day (same method: the last three complete days); share to stakers 85% → 91%; revenue so far $38.6M → $55.2M; supply tuning 3.0 → 4.0, read from the contract instead of estimated from press figures; market bet $100M → $200M.</div></div>
-          <div class="sc-row"><div class="sc-when"></div><div><b>Outputs moved:</b> bull $0.49 → $0.72; base $0.081 → $0.11; bear $0.0105 → $0.013. The method is unchanged: the same comparables' retention and multiples, the same published supply curve. The supply tuning is an input re-read from the contract, not a method change.</div></div>
-          <div class="sc-row"><div class="sc-when"></div><div><b>Fixed:</b> the tracker's recent-average card had included the feed's 9 Oct pre-launch row (revenue 0), understating the average. The forecast was not touched.</div></div>
-          <div class="sc-row"><div class="sc-when">14 Oct · v1</div><div>First version. 64 links opened and audited; 23 corrections from the draft (retention measured from each comparable's own peak; Pump.fun dropped from the base set; misattributions fixed; our own arithmetic labelled). Kept at <a href="/paper-valuation/v1/">/paper-valuation/v1/</a>.</div></div>
-        </div>
-      </div>
-      <div>
-        <h3>4. What we got wrong in Version 1</h3>
+        <h3>3. What we got wrong in Version 1</h3>
         <ol class="sc-wrong">
           <li><span><b>The reference was built on figures the feed later revised.</b> The same three days now give $3.69M a day, 17% below the $4.45M used. Version 2 uses the three newest complete days and the tracker flags any revision to them.</span></li>
           <li><span><b>The supply tuning was too low.</b> 3.0 × revenue against 4.0 on the live contract; 7.16B modelled against 8.45B minted. Version 2 reads it from the contract's <code>tailProgress</code>. Our best reading of why: the curve counts gross flow into the pool, not net losses. The docs still cannot be read as text, so this stays an inference.</span></li>
@@ -611,9 +684,22 @@ button.rec-hit:hover .rec-dot{transform:scale(1.18)}
           <li><span><b>Two doubts in the report are resolved; neither was a model input.</b> The "$910B daily volume" on 13 Oct was cumulative (the day itself was $73.7B). The 30.8 PAPER per $1 that did not fit the published curve fits it once the curve runs on gross flow.</span></li>
         </ol>
       </div>
+      <div>
+        <h3>4. What changed</h3>
+        <div class="sc-dev">
+          <div class="sc-row"><div class="sc-when">17 Oct · v2</div><div><b>New data:</b> three more complete days ($5.93M, $7.49M, $5.45M); live contract readings (supply 8.45B, 99.2% staked, high-water mark $222M, cap $5M, pool $4.96M, queue $0); Polymarket re-priced ($100M strike 79%, was 47%; $132K traded, was $9K); DefiLlama revised 12 Oct to $3.93M (was $4.65M) and 13 Oct to $4.52M (was $6.08M).</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $4.45M → $6.29M a day (same method: the last three complete days); share to stakers 85% → 91%; revenue so far $38.6M → $55.2M; supply tuning 3.0 → 4.0, read from the contract instead of estimated from press figures; market bet $100M → $200M.</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Outputs moved:</b> bull $0.49 → $0.72; base $0.081 → $0.11; bear $0.0105 → $0.013. The method is unchanged: the same comparables' retention and multiples, the same published supply curve. The supply tuning is an input re-read from the contract, not a method change.</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Fixed:</b> the tracker's recent-average card had included the feed's 9 Oct pre-launch row (revenue 0), understating the average. The forecast was not touched.</div></div>
+          <div class="sc-row"><div class="sc-when">14 Oct · v1</div><div>First version. 64 links opened and audited; 23 corrections from the draft (retention measured from each comparable's own peak; Pump.fun dropped from the base set; misattributions fixed; our own arithmetic labelled). Kept at <a href="/paper-valuation/v1/">/paper-valuation/v1/</a>.</div></div>
+        </div>
+      </div>
     </div>
 
-    <h3>5. What moved: Version 1 against Version 2</h3>
+    <details class="sc-more">
+      <summary>The full record: inputs, days, triggers, schedule</summary>
+      <div class="sc-more-in">
+    <h3>What moved: Version 1 against Version 2</h3>
     <div class="tablewrap"><table class="sc-table wide">
       <thead><tr><th>Input</th><th>Version 1 (14 Oct)</th><th>Version 2 (17 Oct)</th><th>Source</th><th></th></tr></thead>
       <tbody>
@@ -630,7 +716,7 @@ button.rec-hit:hover .rec-dot{transform:scale(1.18)}
     </table></div>
     <p class="cap">+ better for PAPER's value · − worse · 0 neutral. Retention (34% / 10% / 2%) and multiples (12× / 6× / 3×) are unchanged: they come from the comparables, not from Papertrade's week.</p>
 
-    <h3>6. What happened, day by day</h3>
+    <h3>What happened, day by day</h3>
     <div class="sc-dev">
       <div class="sc-row"><div class="sc-when">14 Oct</div><div><span class="st st-zero">0</span> Revenue $5.93M. Papertrade #3 in crypto by daily revenue, behind Tether and Circle. <span class="cap">DefiLlama</span></div></div>
       <div class="sc-row"><div class="sc-when">15 Oct</div><div><span class="st st-plus">+</span> Best day since launch: $7.49M, #2 by daily revenue, ahead of Circle. Cumulative net trader losses reported at $49.5M (one outlet, source unnamed). <span class="cap">DefiLlama · TokenPost · MarsBit</span></div></div>
@@ -642,14 +728,14 @@ button.rec-hit:hover .rec-dot{transform:scale(1.18)}
 
     <div class="two">
       <div>
-        <h3>7. What would change the call</h3>
+        <h3>What would change the call</h3>
         <div class="box"><ul>
           <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue above $2.1M a day for 30 days after the mint rate is under 10 per $1; money on platform above $138M by 30 Nov; a dated transfer unlock, listing or distribution deal.</span></li>
           <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear:</b> revenue below $0.63M a day for 30 days after mid-November; surplus payouts still paused in December; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027, ahead of even the bull path.</span></li>
         </ul></div>
       </div>
       <div>
-        <h3>8. Update schedule and versions</h3>
+        <h3>Update schedule and versions</h3>
         <div class="tablewrap"><table class="sc-table">
           <thead><tr><th>Date</th><th>What</th></tr></thead>
           <tbody>
@@ -670,6 +756,8 @@ button.rec-hit:hover .rec-dot{transform:scale(1.18)}
         </table></div>
       </div>
     </div>
+      </div>
+    </details>
   </section>
 <!-- scorecard:end -->
 
@@ -963,42 +1051,130 @@ function evalCall(c,ms){
   }
   return {st,evd,auto,when};
 }
-const stClass=st=>st==="hit"?"st-hit":st==="missed"?"st-missed":st==="off track"?"st-offtrack":"st-ontrack";
+// Calls so far: a scoreboard rail (one cell per call) over a list grouped Resolved (missed first) then Open (off track first).
+// Each row: status chip with glyph + word, the call, one sentence of evidence (rest behind "more"), how it is checked, and what it was in the previous version.
+const CALL_ST={missed:{g:"✕",w:"Missed",k:"missed"},hit:{g:"✓",w:"Hit",k:"hit"},"off track":{g:"↘",w:"Off track",k:"offtrack"},"on track":{g:"→",w:"On track",k:"ontrack"}};
 function renderCalls(){
   const box=document.getElementById("callsBox");if(!box||!CALLS)return;
   const ms=VIEW||utcMidnight(Date.now()),iso=new Date(ms).toISOString().slice(0,10);
-  const rows=CALLS.calls.filter(c=>c.made<=iso).map(c=>({c,...evalCall(c,ms)}));
-  const tally={hit:0,missed:0,"on track":0,"off track":0};rows.forEach(r=>tally[r.st]=(tally[r.st]||0)+1);
-  const tTxt=`${tally.hit} hit · ${tally.missed} missed · ${tally["on track"]} on track · ${tally["off track"]} off track`;
-  const tHtml=`<span class="st st-hit">${tally.hit} hit</span> <span class="st st-missed">${tally.missed} missed</span> <span class="st st-ontrack">${tally["on track"]} on track</span> <span class="st st-offtrack">${tally["off track"]} off track</span>`;
-  const t1=document.getElementById("tally"),t2=document.getElementById("tallyTop"),tp=document.getElementById("tallyPips");if(t1)t1.innerHTML=tHtml;
-  if(t2)t2.innerHTML=`<b>${tally.hit}</b> hit · <b>${tally.missed}</b> missed · <b>${tally["on track"]}</b> on track · <b>${tally["off track"]}</b> off track`;
-  if(tp){tp.innerHTML=rows.map(r=>`<span class="cs-pip ${r.st.replace(" ","")}" title="${r.c.text.replace(/"/g,"&quot;")}: ${r.st}"></span>`).join("");tp.setAttribute("aria-label",`${rows.length} calls: ${tTxt}`);}
-  box.innerHTML=`<div class="tablewrap"><table class="sc-table wide"><thead><tr><th>Call (made ${dshort(pd(CALLS.calls[0].made))})</th><th>Status</th><th>Evidence, as of ${dshort(ms)}</th></tr></thead><tbody>`+
-    rows.map(r=>`<tr><td><b>${r.c.text}</b>${r.c.due?`<span class="cap"> · by ${dshort(pd(r.c.due))}</span>`:""}</td><td><span class="st ${stClass(r.st)}">${r.st}${r.st==="hit"&&r.c.rule&&r.c.rule.continuous?" so far":""}</span>${r.auto?`<span class="cap"> self-checked</span>`:""}</td><td>${r.evd||"–"}</td></tr>`).join("")+`</tbody></table></div>
-    <p class="cap">${CALLS.calls.filter(c=>c.kind==="auto").length} of ${CALLS.calls.length} calls check themselves from the daily data and the contract read; the rest carry a dated judgment with its evidence. Misses stay here in every later version.</p>`;
+  const vs=VERSIONS?VERSIONS.versions.filter(v=>v.date<=iso):[],cur=vs[vs.length-1],prev=vs[vs.length-2];
+  const order=["missed","hit","off track","on track"];
+  const rows=CALLS.calls.filter(c=>c.made<=iso).map(c=>{const e=evalCall(c,ms),p=prev&&c.made<=prev.date?evalCall(c,pd(prev.date)):null;
+    const h=(c.history||[]).filter(x=>x.date<=iso).slice(-1)[0];return {c,...e,was:p&&p.st!==e.st?p.st:null,jd:h?h.date:c.made};})
+    .sort((a,b)=>order.indexOf(a.st)-order.indexOf(b.st)||((a.c.due||"9")<(b.c.due||"9")?-1:1));
+  const n=s=>rows.filter(r=>r.st===s).length,res=n("hit")+n("missed");
+  // Tally, also pushed to the verdict box and the top strip as before
+  const tHtml=order.map(s=>`<span class="st st-${CALL_ST[s].k}">${CALL_ST[s].g} ${n(s)} ${s}</span>`).join(" ");
+  const t1=document.getElementById("tally"),t2=document.getElementById("tallyTop");if(t1)t1.innerHTML=tHtml;
+  if(t2)t2.innerHTML=`<b>${n("hit")}</b> hit · <b>${n("missed")}</b> missed · <b>${n("on track")}</b> on track · <b>${n("off track")}</b> off track`;
+  const tp=document.getElementById("tallyPips");if(tp){const inOrder=CALLS.calls.filter(c=>c.made<=iso).map(c=>rows.find(r=>r.c===c));tp.innerHTML=inOrder.map(r=>`<span class="cs-pip ${CALL_ST[r.st].k}" title="${String(r.c.text).replace(/"/g,"&quot;")}: ${r.st}"></span>`).join("");tp.setAttribute("aria-label",`${rows.length} calls: ${n("hit")} hit, ${n("missed")} missed, ${n("on track")} on track, ${n("off track")} off track`);}
+  const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const split=t=>{const m=String(t||"").match(/^(.+?[.!?])(\s+[A-Z(~$0-9].*)?$/s);return m?[m[1],(m[2]||"").trim()]:[t||"–",""];};
+  const how=r=>r.c.kind==="auto"?(r.auto?`<span class="cl-how auto">Self-checked</span> from the ${r.c.rule.metric==="tvl"||r.c.rule.metric==="holder_share"?"daily data":"contract read"}${r.when?`, ${dshort(pd(r.when))}`:""}`
+    :`<span class="cl-how auto">Self-checking</span> marks itself from the data`):`<span class="cl-how">Judgment</span> dated ${dshort(pd(r.jd))}`;
+  const item=r=>{const s=CALL_ST[r.st],[ev,more]=split(r.evd),cont=r.st==="hit"&&r.c.rule&&r.c.rule.continuous;
+    return `<li class="cl cl-${s.k}"><div class="cl-top"><span class="st st-${s.k}">${s.g} ${s.w}${cont?" so far":""}</span>
+      <span class="cl-due">${r.c.due?`due ${dshort(pd(r.c.due))}${r.c.due.slice(0,4)!==iso.slice(0,4)?" "+r.c.due.slice(0,4):""}`:"ongoing"}</span></div>
+      <div class="cl-body"><p class="cl-txt">${esc(r.c.text)}</p>
+      ${more?`<details class="cl-ev"><summary>${esc(ev)}</summary><p>${esc(more)}</p></details>`:`<p class="cl-ev">${esc(ev)}</p>`}
+      <p class="cl-meta">${how(r)}${r.was?` · <b>was ${r.was}</b> in Version ${prev.v}`:""}</p></div></li>`;};
+  const grp=(title,list,note)=>list.length?`<div class="cl-grp"><h4>${title} <span class="num">${list.length}</span><span class="cap"> · ${note}</span></h4><ol class="cl-list">${list.map(item).join("")}</ol></div>`:"";
+  const rail=rows.map(r=>`<span class="cl-cell cl-${CALL_ST[r.st].k}" title="${esc(CALL_ST[r.st].w+": "+r.c.text)}">${CALL_ST[r.st].g}</span>`).join("");
+  box.innerHTML=`<div class="cl-head"><div class="cl-rail" role="img" aria-label="${rows.length} calls: ${n("hit")} hit, ${n("missed")} missed, ${n("off track")} off track, ${n("on track")} on track">${rail}</div>
+    <p class="cl-sum"><b>${res} of ${rows.length} resolved</b>: ${n("hit")} hit, ${n("missed")} missed. <b>${rows.length-res} open</b>: ${n("on track")} on track, ${n("off track")} off track. <span class="cap">Scored as of ${dshort(ms)}${cur?`, Version ${cur.v}`:""}.</span></p></div>
+    ${grp("Resolved",rows.filter(r=>r.st==="hit"||r.st==="missed"),"misses first; they stay here in every later version")}
+    ${grp("Open",rows.filter(r=>r.st!=="hit"&&r.st!=="missed"),"off track first")}
+    <p class="cap">${CALLS.calls.filter(c=>c.kind==="auto").length} of ${CALLS.calls.length} calls check themselves from the daily data and the contract read; the rest carry a dated judgment. Tap a line of evidence for the rest of it.</p>`;
 }
 // Drift: what we said, over time. Step lines per case across versions; the market's bet as dots; the day in view as a marker.
 const verValue=(ver,sc)=>{const [ret,mult]=ver.cases[sc],inp=ver.inputs;const daily=inp.R0*1e6*ret/100,total=daily*365*inp.hold/100*mult,d=12*30.42-4,H=inp.hr*(inp.cum0+daily*d/1e6)*1e6;return total/(0.2e9+12e9*H/(120e6+H));};
 const verPoly=ver=>{const H=ver.inputs.hr*ver.inputs.cum0*1e6;return ver.inputs.poly*1e6/(0.2e9+12e9*H/(120e6+H));};
+// Said / happened / scored: one shared time axis, three stacked bands.
+// Band 1 "What we said": value per PAPER by Oct 2027, a step line per case, stepping at each version; market's bet as dots.
+// Band 2 "What happened": daily revenue bars (weekly averages once the window passes 75 days) against the revenue each case needs, stepping with the version.
+// Band 3 "How we scored": a mark on the day each call resolved (rail for calls that must keep holding).
+// The day in view is an ink line; to its right a wash reads "not yet known". Axes are fixed to launch..today so scrubbing moves a curtain, not the chart.
 function renderDrift(){
   const el=document.getElementById("drift");if(!el||!VERSIONS)return;
-  const vs=VERSIONS.versions,W=720,H=230,L=52,R=16,T=22,B=30,pw=W-L-R,ph=H-T-B;
-  const x0=pd(vs[0].date),x1=Math.max(utcMidnight(Date.now()),pd(vs[vs.length-1].date))+2*DAY;
-  const X=ms=>L+(ms-x0)/(x1-x0)*pw;
-  const vals=vs.flatMap(v=>SC.map(sc=>verValue(v,sc)).concat([verPoly(v)]));
-  const lo=Math.pow(10,Math.floor(Math.log10(Math.min(...vals)))),hi=Math.pow(10,Math.ceil(Math.log10(Math.max(...vals))));
-  const Y=v=>T+ph-(Math.log10(v)-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo))*ph;
-  let g=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Value per PAPER by case, as called in each version, over time">`;
-  for(let e=Math.log10(lo);e<=Math.log10(hi);e++){const v=Math.pow(10,e);g+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${fmtP(v)}</text>`;}
-  SC.forEach(sc=>{let dpath="";vs.forEach((v,i)=>{const xa=X(pd(v.date)),xb=i+1<vs.length?X(pd(vs[i+1].date)):W-R,y=Y(verValue(v,sc));dpath+=`${i?"L":"M"}${xa.toFixed(1)},${y.toFixed(1)} L${xb.toFixed(1)},${y.toFixed(1)} `;});
-    g+=`<path d="${dpath}" fill="none" stroke="var(--${sc})" stroke-width="2.2"/>`;
-    const last=vs[vs.length-1];g+=`<text x="${W-R-4}" y="${Y(verValue(last,sc))-5}" text-anchor="end" font-size="10.5" font-weight="600" fill="var(--${sc})" font-family="JetBrains Mono,monospace">${NAME[sc]} ${fmtP(verValue(last,sc))}</text>`;});
-  vs.forEach(v=>{const x=X(pd(v.date));g+=`<line x1="${x}" x2="${x}" y1="${T-4}" y2="${T+ph}" stroke="var(--line)" stroke-dasharray="3 3"/><text x="${x+3}" y="${T+6}" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">v${v.v} · ${dshort(pd(v.date))}</text>`;
-    g+=`<circle cx="${x}" cy="${Y(verPoly(v))}" r="4" fill="var(--ref)"/><text x="${x+6}" y="${Y(verPoly(v))+4}" font-size="10" fill="var(--ref)" font-family="JetBrains Mono,monospace">market bet ${fmtP(verPoly(v))}</text>`;});
-  if(VIEW){const x=X(VIEW);g+=`<line x1="${x}" x2="${x}" y1="${T}" y2="${T+ph}" stroke="var(--ink)" stroke-width="1.5"/><text x="${x}" y="${H-8}" text-anchor="middle" font-size="10" font-weight="600" fill="var(--ink)" font-family="JetBrains Mono,monospace">${dshort(VIEW)}</text>`;}
-  g+=`<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--line)"/><text x="${L}" y="${H-8}" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${dshort(x0)}</text><text x="${W-R}" y="${H-8}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${dshort(x1)}</text></svg>`;
-  el.innerHTML=g;
+  const today=utcMidnight(Date.now()),view=Math.min(VIEW||today,today),all=VERSIONS.versions;
+  const W=Math.max(320,Math.round(el.clientWidth||720)),sm=W<560,L=sm?40:52,R=sm?74:122,pw=W-L-R;
+  const full=(typeof FULL_LIVE!=="undefined"&&FULL_LIVE)||LIVE||{},fullD=(full.daily||[]).filter(x=>x.revenue>0);
+  const x0=Math.min(fullD.length?pd(fullD[0].date):Infinity,pd(all[0].date)),x1=Math.max(today,pd(all[all.length-1].date))+DAY;
+  const X=ms=>L+(Math.min(Math.max(ms,x0),x1)-x0)/(x1-x0)*pw,xv=X(view+DAY),span=(x1-x0)/DAY;
+  const vs=all.filter(v=>pd(v.date)<=view),iso=new Date(view).toISOString().slice(0,10);
+  const need=(v,sc)=>v.inputs.R0*1e6*v.cases[sc][0]/100;
+  const logY=(vals,top,h,head)=>{const lo=Math.min(...vals)/1.35,hi=Math.max(...vals)*(head||1.35),a=Math.log10(lo),b=Math.log10(hi);
+    const Y=v=>top+h-(Math.log10(Math.max(v,lo))-a)/(b-a)*h,ticks=[];
+    for(let e=Math.floor(a);e<=Math.ceil(b);e++)[1,3].forEach(m=>{const v=m*Math.pow(10,e);if(v>=lo&&v<=hi)ticks.push(v);});return {Y,ticks,base:top+h};};
+  const tP=v=>"$"+(v>=0.01?v.toFixed(2):v.toFixed(3)),tU=v=>v>=1e6?"$"+(v/1e6)+"M":"$"+(v/1e3)+"K";
+  const txt=(x,y,s,cls,anc)=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" class="${cls||""}"${anc?` text-anchor="${anc}"`:""}>${s}</text>`;
+  const bar=(x,y,w,b,cls)=>{const r=Math.min(4,w/2,b-y);return `<path class="${cls}" d="M${x.toFixed(1)},${b}V${(y+r).toFixed(1)}Q${x.toFixed(1)},${y.toFixed(1)} ${(x+r).toFixed(1)},${y.toFixed(1)}H${(x+w-r).toFixed(1)}Q${(x+w).toFixed(1)},${y.toFixed(1)} ${(x+w).toFixed(1)},${(y+r).toFixed(1)}V${b}Z"/>`;};
+  const stepX=v=>{const i=all.indexOf(v),n=all[i+1];return [X(pd(v.date)),n&&pd(n.date)<=view?X(pd(n.date)):xv];};
+  // Layout (px): header 22 · said · gap · happened · gap · scored · axis 24
+  const hS=sm?118:150,hH=sm?104:128,gap=26,tS=40,tH=tS+hS+gap,tR=tH+hH+gap;
+  // Calls resolved by the day in view
+  const res=(CALLS?CALLS.calls:[]).filter(c=>c.made<=iso).map(c=>{const e=evalCall(c,view);if(e.st!=="hit"&&e.st!=="missed")return null;
+    const h=(c.history||[]).find(x=>x.date<=iso&&x.status===e.st),d=e.auto&&!(c.rule&&c.rule.continuous)?e.when:(h?h.date:e.when)||iso;
+    return {c,st:e.st,d:pd(d),from:c.rule&&c.rule.continuous?pd(c.made):null,to:e.when?pd(e.when):view};}).filter(Boolean).sort((a,b)=>a.d-b.d);
+  const hR=(res.length>8?1:Math.max(1,res.length))*18+6,H=tR+hR+30;
+  // Bands' scales, from every version and the full feed, so the axes hold still while scrubbing
+  const S1=logY(all.flatMap(v=>SC.map(sc=>verValue(v,sc)).concat(verPoly(v))),tS,hS);
+  const weekly=span>75,rows=(LIVE&&LIVE.daily||[]).filter(x=>x.revenue>0&&pd(x.date)>=x0);
+  let pts=rows.map(x=>({a:pd(x.date),n:1,v:x.revenue,p:false}));
+  if(LIVE&&LIVE.today_so_far&&LIVE.today_so_far.revenue&&view>=today&&!weekly)pts.push({a:today,n:1,v:LIVE.today_so_far.revenue,p:true});
+  if(weekly){const B={};pts.forEach(p=>{const k=Math.floor((p.a-x0)/(7*DAY));(B[k]=B[k]||{a:x0+k*7*DAY,n:7,s:0,c:0,p:false}).s+=p.v;B[k].c++;});pts=Object.values(B).map(b=>({...b,v:b.s/b.c}));}
+  const S2=logY(fullD.map(x=>x.revenue).concat(all.flatMap(v=>SC.map(sc=>need(v,sc)))),tH,hH,2.2);
+  let g=`<svg class="dv" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-labelledby="dvT">`;
+  const last=vs[vs.length-1],prev=vs[vs.length-2],tl=rows[rows.length-1];
+  g+=`<title id="dvT">As of ${dshort(view)}: Version ${last.v} says base ${fmtP(verValue(last,"base"))}, bull ${fmtP(verValue(last,"bull"))}, bear ${fmtP(verValue(last,"bear"))} per PAPER by Oct 2027${prev?`, was ${fmtP(verValue(prev,"base"))} base in Version ${prev.v}`:""}. ${tl?`Latest daily revenue ${fmtU(tl.revenue)} on ${dshort(pd(tl.date))}; base case needs ${fmtU(need(last,"base"))} a day after the rush.`:""} ${(h=>`${h} call${h===1?"":"s"} hit`)(res.filter(r=>r.st==="hit").length)}, ${res.filter(r=>r.st==="missed").length} missed.</title>`;
+  // Band titles and gridlines
+  g+=txt(L,tS-8,sm?"WHAT WE SAID · $ per PAPER, Oct 2027":"WHAT WE SAID · value per PAPER by Oct 2027","dv-band")+txt(L,tH-8,sm?"WHAT HAPPENED · revenue a day":"WHAT HAPPENED · Papertrade's revenue a day","dv-band")+txt(L,tR-8,"HOW WE SCORED · calls resolved","dv-band");
+  [[S1,tP],[S2,tU]].forEach(([s,f])=>s.ticks.forEach(v=>{g+=`<line class="dv-grid" x1="${L}" x2="${L+pw}" y1="${s.Y(v).toFixed(1)}" y2="${s.Y(v).toFixed(1)}"/>`+txt(L-6,s.Y(v)+3.5,f(v),"dv-tick","end");}));
+  [S1.base,S2.base,tR+hR].forEach(y=>g+=`<line class="dv-axis" x1="${L}" x2="${L+pw}" y1="${y}" y2="${y}"/>`);
+  // Version rules and chips (every version on the record, later ones under the curtain)
+  const cw0=sm?24:74;let kept=Infinity;
+  all.slice().reverse().forEach(v=>{const x=X(pd(v.date));g+=`<line class="dv-ver" x1="${x}" x2="${x}" y1="18" y2="${tR+hR}"/>`;
+    if(kept-x>=cw0+4){kept=x;g+=`<rect class="dv-chip" x="${x-1}" y="4" width="${cw0}" height="16" rx="3"/>`+txt(x+5,15.5,sm?`v${v.v}`:`v${v.v} · ${dshort(pd(v.date))}`,"dv-chipt");}});
+  if(!sm&&kept-L>90)g+=txt(L+2,15.5,`Launch ${dshort(x0)}`,"dv-tick");
+  // Curtain over what was not yet known on the day in view (drawn under the data and labels)
+  if(view<today)g+=`<rect class="dv-curtain" x="${xv}" y="2" width="${L+pw-xv+2}" height="${tR+hR-2}"/>`+(L+pw-xv>90?txt((xv+L+pw)/2,tS-8,"not yet known","dv-tick","middle"):"");
+  // Band 2: bars, then the case requirement steps
+  const slot=d=>d*DAY/(x1-x0)*pw;
+  pts.forEach(p=>{const s=slot(p.n),w=Math.max(1,Math.min(24,s-2)),x=X(p.a)+(s-w)/2,y=S2.Y(p.v);g+=bar(x,y,w,S2.base,p.p?"dv-bar dv-part":"dv-bar");});
+  const big=pts.filter(p=>!p.p).reduce((m,p)=>p.v>(m?m.v:0)?p:m,null),lp=pts[pts.length-1];
+  [big,lp].filter((p,i,a)=>p&&a.indexOf(p)===i).forEach(p=>{const x=X(p.a)+slot(p.n)/2;g+=txt(Math.min(x,L+pw-16),S2.Y(p.v)-5,fmtU(p.v)+(p.p?" so far":""),"dv-val","middle");});
+  SC.forEach(sc=>{let d="";vs.forEach(v=>{const [a,b]=stepX(v),y=S2.Y(need(v,sc)).toFixed(1);d+=`M${a.toFixed(1)},${y}H${b.toFixed(1)}`;});
+    g+=`<path class="dv-need" d="${d}" stroke="var(--${sc})"/>`+txt(xv+6,S2.Y(need(last,sc))+3.5,(sm?"":"needs ")+fmtU(need(last,sc)),"dv-end");});
+  // Band 1: case steps, the market's bet, selective labels
+  SC.forEach(sc=>{let d="";vs.forEach((v,i)=>{const [a,b]=stepX(v),y=S1.Y(verValue(v,sc)).toFixed(1);d+=`${i?"L":"M"}${a.toFixed(1)},${y}H${b.toFixed(1)}`;});
+    g+=`<path class="dv-line" d="${d}" stroke="var(--${sc})"/>`+txt(xv+6,S1.Y(verValue(last,sc))+3.5,`<tspan class="dv-endk">${NAME[sc]}</tspan> ${fmtP(verValue(last,sc))}`,"dv-end");});
+  let kb=Infinity,km=Infinity;vs.slice().reverse().forEach((v,j)=>{const [a,b]=stepX(v),y=S1.Y(verPoly(v));g+=`<circle class="dv-mkt" cx="${a.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5"/>`;
+    if(!sm&&b-a>46&&kb-a>56){kb=a;g+=txt(a+5,S1.Y(verValue(v,"base"))-5,fmtP(verValue(v,"base")),"dv-val");}
+    if(j===0||(!sm&&km-a>110)){km=a;g+=txt(a+8,y-6,"market "+fmtP(verPoly(v)),"dv-tick");}});
+  // Band 3: resolved calls
+  const dense=res.length>8;res.forEach((r,i)=>{const y=tR+12+(dense?0:i*18),x=r.from!=null?X(r.to+DAY):X(r.d+DAY/2),x0r=r.from!=null?X(r.from):x,cls=r.st==="hit"?"has":"lacks";
+    if(r.from!=null)g+=`<line class="dv-rail" x1="${X(r.from)}" x2="${X(r.to+DAY)}" y1="${y}" y2="${y}" stroke="var(--${cls})"/>`;
+    g+=`<circle cx="${x}" cy="${y}" r="7" fill="var(--${cls})" class="dv-ring"/>`+txt(x,y+3.5,r.st==="hit"?"✓":"✕","dv-glyph","middle");
+    if(dense)return;const pre=r.st==="hit"?"Hit":"Missed",full=(r.c.short||r.c.text.replace(/^[^:]{0,12}:\s*/,"").split(/[:(]/)[0].trim())+(r.st==="hit"&&r.from!=null?" (holding)":""),cw=6.3;
+    const roomR=W-(x+12)-4,roomL=x0r-12-4,right=r.from!=null?roomL<Math.min(full.length+7,30)*cw&&roomR>roomL:roomR>=Math.min((full.length+7)*cw,roomL)||roomR>roomL;
+    let lab=full;const max=Math.floor((right?roomR:roomL)/cw)-pre.length-1;if(lab.length>max){lab=lab.slice(0,Math.max(0,max-1)).replace(/\s+\S*$/,"")+"…";}
+    g+=txt(right?x+12:x0r-12,y+3.5,`<tspan class="dv-endk">${pre}</tspan> ${lab}`,"dv-end",right?"":"end");});
+  if(!res.length)g+=txt(L+4,tR+16,"No call resolved yet","dv-tick");
+  // Curtain and the day-in-view marker
+  g+=`<line class="dv-view" x1="${xv}" x2="${xv}" y1="18" y2="${tR+hR}"/>`;
+  // X axis: tick step chosen by pixels per tick; the view pill wins collisions
+  const minPx=sm?46:56,step=[1,2,7,14,28,61,91].find(s=>slot(s)>=minPx)||182;
+  for(let d=x0;d<x1;d+=step*DAY){const x=step<7?X(d+DAY/2):X(d);if(Math.abs(x-xv)>52)g+=txt(x,H-10,dshort(d),"dv-tick","middle");}
+  g+=`<rect class="dv-pill" x="${xv-30}" y="${H-23}" width="60" height="17" rx="3"/>`+txt(xv,H-10.5,view>=today?"Today":dshort(view),"dv-pillt","middle");
+  // Native hover per day (or week): what we said and what happened that day
+  for(let d=x0;d<Math.min(x1,view+DAY);d+=(weekly?7:1)*DAY){const v=all.filter(z=>pd(z.date)<=d).slice(-1)[0],p=pts.find(q=>q.a===d);
+    g+=`<rect class="dv-hit" x="${X(d)}" y="18" width="${slot(weekly?7:1)}" height="${tR+hR-18}"><title>${dshort(d)}${weekly?" week":""}: ${p?`revenue ${fmtU(p.v)}${weekly?" a day":""}`:"no revenue reading"}${v?` · Version ${v.v} said base ${fmtP(verValue(v,"base"))} (bull ${fmtP(verValue(v,"bull"))}, bear ${fmtP(verValue(v,"bear"))}); base needs ${fmtU(need(v,"base"))} a day`:" · before Version 1"}</title></rect>`;}
+  g+="</svg>";
+  const key=(c,t,k)=>`<span class="dv-k ${k||""}"><i style="--c:${c}"></i>${t}</span>`;
+  el.innerHTML=`<div class="dv-keys">${key("var(--bull)","Bull")}${key("var(--base)","Base")}${key("var(--bear)","Bear")}${key("var(--ref)","Market's bet","k-dot")}${key("var(--ink2)",weekly?"Revenue, weekly average a day":"Revenue a day","k-bar")}${key("var(--ink2)","Revenue each case needs","k-need")}</div><div class="dv-wrap">${g}</div>
+  <p class="cap">Each gridline step is ×3 or ×10, so equal gaps mean equal percentage moves. Lines step on the day a version re-ran the model. ${view<today?`Shown as it stood on ${dshort(view)}; the wash hides what was not yet known.`:""}</p>
+  <details class="dv-tbl"><summary>The numbers behind the chart</summary><div class="tablewrap"><table class="sc-table"><thead><tr><th>Version</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th><th class="r">Market</th><th class="r">Base needs a day</th></tr></thead><tbody>${vs.map(v=>`<tr><td>v${v.v} · ${dshort(pd(v.date))}</td>${SC.map(sc=>`<td class="num r">${fmtP(verValue(v,sc))}</td>`).join("")}<td class="num r">${fmtP(verPoly(v))}</td><td class="num r">${fmtU(need(v,"base"))}</td></tr>`).join("")}</tbody></table></div></details>`;
+  if(!renderDrift.rs){renderDrift.rs=1;let t,w=W;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{if(Math.abs((el.clientWidth||0)-w)>8){w=el.clientWidth;renderDrift();}},150);});}
 }
 
 const Hof=cumM=>Math.max(0,I.hr*cumM*1e6);
@@ -1230,8 +1406,6 @@ function renderTrack(){
     ${card(before17?"ref":(t.hs!=null&&t.hs>=0.8?"bull":"part"),"Stakers' share and the 17 Oct test",t.hs!=null?pct(t.hs):"–",`Share of the last day's revenue paid to stakers. From 17 Oct the pool refills to $10M first, so this should drop, then recover when the pool is full. Recovery by ~${dshort(t.restart.bull)} = bull, ~${dshort(t.restart.base)} = base, ~${dshort(t.restart.bear)} = bear.`,before17?"Test starts 17 Oct":(t.hs!=null&&t.hs>=0.8?"Pool refilled":"Pool refilling"))}
     ${card(t.tvl>=138e6?"bull":"ref","Money on platform",t.tvl?fmtU(t.tvl):"–",`The bull case needs it back above <b>$138M</b> (the pre-launch deposits) by 30 Nov. It was $64M on 13 Oct and $68.6M on 17 Oct.`,t.tvl?(t.tvl>=138e6?"Bull tell met":`${pct(t.tvl/138e6)} of the bull target`):"")}
    </div>
-   <div class="tchart">${trackChart(t)}</div>
-   <p class="cap">Bars: Papertrade's daily revenue (trader losses), log scale. Dashed outline: today so far. Lines: the reference run-rate and the daily revenue each case assumes after the rush fades.</p>
    ${t.revs.length?`<div class="trev">DefiLlama has revised ${t.revs.map(r=>`${dshort(pd(r.d))} from ${fmtU(r.was)} to ${fmtU(r.now)}`).join(", ")} since the forecast was made. Version 2 keeps its 17 Oct inputs; the tracker uses today's figures.</div>`:""}
    <p class="cap">Raw data: <a href="/data/papertrade.json">papertrade.json</a> · <a href="/data/snapshots.csv">daily snapshots</a>. Source: DefiLlama's feed of Papertrade's on-chain revenue, staker payouts and money on platform, fetched daily by this site.</p>`;
 }
