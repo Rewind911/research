@@ -755,10 +755,10 @@ function render(){
 
 function liveStats(){
   if(!LIVE||!Array.isArray(LIVE.daily)||!LIVE.daily.length) return null;
-  const ser=LIVE.daily.filter(x=>x.revenue!=null);
+  const ser=LIVE.daily.filter(x=>x.revenue!=null&&x.date>="2026-10-10"); // trading opened 10 Oct; the feed also carries a 9 Oct row with deposits only
   if(!ser.length) return null;
   const last=ser[ser.length-1];
-  const w=ser.filter(x=>x.date!=="2026-10-10").slice(-7);
+  const w=ser.filter(x=>x.date>"2026-10-10").slice(-7);
   const a7=w.reduce((s,x)=>s+x.revenue,0)/Math.max(w.length,1);
   const cum=ser.reduce((s,x)=>s+x.revenue,0);
   const ref=I.R0*1e6, share=a7/ref;
