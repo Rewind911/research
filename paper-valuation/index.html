@@ -293,6 +293,26 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 .scrub-row button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .scrub-ban{font-size:13px;color:var(--ink);padding:8px 10px;border-radius:4px;background:var(--part-bg)}
 .drift{display:grid;gap:6px}
+.story{display:grid;gap:8px;padding:10px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink)}
+.story-head{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.story-head .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.story-head button{margin-left:auto;font-family:var(--body);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:4px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.story-head button:hover{background:var(--ink);color:var(--surface)}
+.story-head button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.story-track{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 6px;scroll-snap-type:x proximity;position:relative}
+.story-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--line);z-index:0}
+.moment{position:relative;z-index:1;flex:0 0 auto;display:grid;gap:2px;text-align:left;min-width:128px;max-width:170px;padding:8px 10px;border-radius:6px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-family:var(--body);cursor:pointer;scroll-snap-align:center;transition:border-color .15s,transform .15s}
+.moment .m-date{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.moment .m-title{font-size:13px;font-weight:600;line-height:1.25}
+.moment.version{border-color:var(--base);background:#eef3fd}
+.moment.key{border-color:var(--part)}
+.moment.ahead{border-style:dashed;color:var(--ink2);background:var(--bg)}
+.moment.ctx{cursor:default;opacity:.75}
+.moment.now{border-color:var(--ink);background:var(--ink);color:var(--surface)}
+.moment.now .m-date{color:rgba(255,255,255,.7)}
+.moment.on{outline:3px solid var(--has);outline-offset:1px;transform:translateY(-1px)}
+.moment:not(.ctx):hover{border-color:var(--ink)}
+.moment:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 </style>
 
 <div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
@@ -309,8 +329,9 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
     <div class="tape" id="tape" aria-label="Forecast summary"></div>
     <div class="upd" id="upd" aria-live="polite">Loading today's numbers…</div>
     <div class="ver"><span class="fc">Living research</span> <b id="verLbl">Version 2 · updated 17 Oct 2026</b> · same method, inputs re-read as reality comes in · <span id="closest">Tracking closest to: loading…</span> · <a href="/paper-valuation/v1/">earlier versions</a></div>
-    <div class="scrub" id="scrub" hidden>
-      <div class="scrub-row"><span class="sl">Scrub through time</span><label for="asof">As of <b id="asofLbl">today</b></label><input type="range" id="asof" min="0" max="3" step="1" value="3" aria-label="View the page as it stood on a date"><button type="button" id="replay">▶ Replay from launch</button><button type="button" id="asofToday">Today</button></div>
+    <div class="story" id="storyWrap" hidden>
+      <div class="story-head"><span class="sl">The story so far</span><span class="cap">Tap a moment to see this page as it stood that day.</span><button type="button" id="watch">▶ Watch it unfold</button></div>
+      <div class="story-track" id="story" role="list"></div>
       <div class="scrub-ban" id="viewBan" hidden></div>
     </div>
     <a class="scline" href="#scorecard"><span class="sl">Scorecard</span><span>Calls so far: <b id="tallyTop">1 hit · 1 missed · 5 on track · 2 off track</b> · how the call has moved, what changed and why ↓ · next version <b>20 Oct</b></span></a>
@@ -335,7 +356,7 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 
     <h3>1. How the call has moved</h3>
     <div class="drift" id="drift"></div>
-    <p class="cap">Each version re-runs the same model on inputs re-read that day; the lines step at each version. Dots: the market's bet (Polymarket median on the supply of the day). Use the scrubber at the top to see any day as it stood.</p>
+    <p class="cap">Each version re-runs the same model on inputs re-read that day; the lines step at each version. Dots: the market's bet (Polymarket median on the supply of the day). Tap a moment on the story line at the top to see the page as it stood that day.</p>
 
     <h3>2. Calls so far</h3>
     <p class="cap">Every dated call, marked against the evidence as of the day in view. Misses stay here in every later version. Full version note with every source: <a href="/paper-valuation/updates/2026-10-17-version-02.md">version 2</a>; the page as it stood: <a href="/paper-valuation/v1/">Version 1</a>.</p>
@@ -618,24 +639,41 @@ function setView(ms){
     totals:isToday?FULL_LIVE.totals:{...(FULL_LIVE.totals||{}),tvl_now:rows.length?rows[rows.length-1].tvl:null},
     contract:hist.length?hist[hist.length-1]:null,contract_history:hist};
   buildInputs();render();renderTrack();renderCalls();renderDrift();
-  const lbl=document.getElementById("asofLbl"),sl=document.getElementById("asof"),ban=document.getElementById("viewBan"),vl=document.getElementById("verLbl");
-  if(lbl)lbl.textContent=isToday?"today":dstr(ms);
-  if(sl){sl.max=Math.round((today-start)/DAY);sl.value=Math.round((ms-start)/DAY);}
+  const ban=document.getElementById("viewBan"),vl=document.getElementById("verLbl");
   if(vl)vl.textContent=`Version ${ver.v} · updated ${dstr(pd(ver.date))}`;
   const tt=document.getElementById("topTag");if(tt)tt.textContent=`Papertrade · PAPER token · Version ${ver.v}, ${dstr(pd(ver.date))} · day ${Math.round((ms-Date.UTC(2026,9,10))/DAY)+1} of trading${isToday?"":" · as it stood"} · earlier versions kept at /v1/`;
-  if(ban){ban.hidden=isToday;ban.innerHTML=`You are viewing the page as it stood on <b>${dstr(ms)}</b>: Version ${ver.v} inputs, data through ${rows.length?dshort(pd(rows[rows.length-1].date)):"–"}. The text blocks describe the current version; every number, card and call is as of that day. <a href="#" id="backToday">Back to today</a>`;const bt=document.getElementById("backToday");if(bt)bt.addEventListener("click",e=>{e.preventDefault();stopReplay();setView(Date.now());});}
+  if(ban){const m=moments().filter(e=>e.clickable&&e.ms<=ms).slice(-1)[0];ban.hidden=isToday;ban.innerHTML=`<b>${dstr(ms)}</b>${m&&m.ms===ms?` · ${m.title}. ${m.text||""}`:""} You are looking at this page as it stood that day (Version ${ver.v}, data through ${rows.length?dshort(pd(rows[rows.length-1].date)):"–"}); the written sections describe the current version. <a href="#" id="backToday">Back to today</a>`;const bt=document.getElementById("backToday");if(bt)bt.addEventListener("click",e=>{e.preventDefault();stopReplay();setView(Date.now());});}
+  renderStory();
   if(history.replaceState){const u=new URL(location.href);if(isToday)u.searchParams.delete("asof");else u.searchParams.set("asof",iso);history.replaceState(null,"",u);}
 }
-function stopReplay(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}const b=document.getElementById("replay");if(b)b.textContent="▶ Replay from launch";}
-function initScrub(){
-  const sc=document.getElementById("scrub");if(!sc)return;sc.hidden=false;
-  const sl=document.getElementById("asof"),start=pd(VERSIONS.versions[0].date);
-  sl.addEventListener("input",()=>{stopReplay();setView(start+(+sl.value)*DAY);});
-  document.getElementById("asofToday").addEventListener("click",()=>{stopReplay();setView(Date.now());});
-  document.getElementById("replay").addEventListener("click",function(){
+function stopReplay(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}const b=document.getElementById("watch");if(b)b.textContent="▶ Watch it unfold";}
+// The story line: dated moments (launch, versions, events, what is ahead). Tapping a past moment shows the page as it stood that day.
+function moments(){
+  const today=utcMidnight(Date.now()),list=[];
+  VERSIONS.versions.forEach(v=>list.push({date:v.date,title:`Version ${v.v}`,text:`${v.note||""} Base case ${fmtP(verValue(v,"base"))}, bull ${fmtP(verValue(v,"bull"))}, bear ${fmtP(verValue(v,"bear"))} per PAPER by Oct 2027.`,kind:"version"}));
+  (VERSIONS.timeline||[]).forEach(e=>list.push({...e}));
+  list.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.kind==="version"?-1:1));
+  return list.map(e=>({...e,ms:pd(e.date),past:pd(e.date)<=today,clickable:pd(e.date)<=today&&pd(e.date)>=pd(VERSIONS.versions[0].date)}));
+}
+function renderStory(){
+  const el=document.getElementById("story");if(!el||!VERSIONS)return;
+  const today=utcMidnight(Date.now()),view=VIEW||today,list=moments();
+  const viewing=list.filter(e=>e.clickable&&e.ms<=view).slice(-1)[0];
+  let h=list.map((e,i)=>{const on=viewing&&e===viewing&&view<today;const today_=e.ms===today;
+    return `<button type="button" class="moment ${e.kind}${e.past?" past":" ahead"}${on?" on":""}${e.clickable?"":" ctx"}" data-i="${i}" ${e.clickable?"":"disabled"} role="listitem" title="${(e.text||"").replace(/"/g,"&quot;")}"><span class="m-date">${dshort(e.ms)}${today_?" · today":""}</span><span class="m-title">${e.title}</span></button>`;}).join("");
+  h+=`<button type="button" class="moment now${view>=today?" on":""}" id="momentToday" role="listitem"><span class="m-date">${dshort(today)}</span><span class="m-title">Today, live</span></button>`;
+  el.innerHTML=h;
+  el.querySelectorAll(".moment[data-i]").forEach(b=>b.addEventListener("click",()=>{stopReplay();const e=list[+b.dataset.i];setView(e.ms);}));
+  document.getElementById("momentToday").addEventListener("click",()=>{stopReplay();setView(Date.now());});
+  const on=el.querySelector(".moment.on");if(on&&on.scrollIntoView)on.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+}
+function initStory(){
+  const w=document.getElementById("storyWrap");if(!w)return;w.hidden=false;
+  document.getElementById("watch").addEventListener("click",function(){
     if(replayTimer){stopReplay();return;}
-    let ms=start;setView(ms);this.textContent="■ Stop";
-    replayTimer=setInterval(()=>{ms+=DAY;if(ms>utcMidnight(Date.now())){stopReplay();setView(Date.now());return;}setView(ms);},700);
+    const steps=moments().filter(e=>e.clickable);if(!steps.length)return;
+    let i=0;setView(steps[0].ms);this.textContent="■ Stop";
+    replayTimer=setInterval(()=>{i++;if(i>=steps.length){stopReplay();setView(Date.now());return;}setView(steps[i].ms);},1600);
   });
 }
 // Calls: auto rules read the daily data and the contract snapshots; manual ones carry a dated history of judgments.
@@ -1008,7 +1046,7 @@ buildInputs();render();renderTrack();
 const J=u=>fetch(u,{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(new Error(u+" HTTP "+r.status)));
 Promise.all([J("/data/papertrade.json"),J("versions.json").catch(()=>null),J("calls.json").catch(()=>null)]).then(([d,vs,cs])=>{
   FULL_LIVE=d;LIVE=d;VERSIONS=vs;CALLS=cs;
-  if(vs&&vs.versions&&vs.versions.length){initScrub();const q=new URLSearchParams(location.search).get("asof");setView(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)?pd(q):Date.now());}
+  if(vs&&vs.versions&&vs.versions.length){initStory();const q=new URLSearchParams(location.search).get("asof");setView(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)?pd(q):Date.now());}
   else{render();renderTrack();renderCalls();}
 }).catch(e=>{LIVEERR=e;render();renderTrack();});
 })();
