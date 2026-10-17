@@ -4,7 +4,9 @@
 Sources: DefiLlama's feed of Papertrade's on-chain revenue, staker payouts and money on platform
 (the same source the 14 Oct 2026 model was built from), and, since 17 Oct 2026, PaperDash's public
 indexer of the live contract (payout cap, pool, queue, supply, staked, the mint curve's high-water
-mark) so the page can mark its own calls hit or missed. Papertrade has no public stats API.
+mark) so the page can mark its own calls hit or missed, and, since 18 Oct 2026, PaperDash's open-interest
+and position figures (the "throttle" readings: how much the house holds against the bets it carries).
+Papertrade has no public stats API.
 
 Writes, relative to the repo root:
   data/papertrade.json   the full daily series (complete UTC days only) plus "today so far"
@@ -24,6 +26,8 @@ SRC = {
     "holders": "https://api.llama.fi/summary/fees/papertrade?dataType=dailyHoldersRevenue",
     "tvl": "https://api.llama.fi/protocol/papertrade",
     "contract": "https://paperdash-api.onrender.com/api/overview",
+    "assets": "https://paperdash-api.onrender.com/api/assets",
+    "positions": "https://paperdash-api.onrender.com/api/position-metrics",
 }
 WEI = 10 ** 18
 CONTRACT_KEEP = 400  # days of contract snapshots kept in the data file
@@ -65,10 +69,48 @@ def contract_snapshot(now):
         }
         if snap["cap"] is None or snap["supply"] is None:
             return None
+        snap["reserve"] = wei(p.get("reserve"))
+        snap["house"] = (snap["lp"] or 0) + (snap["reserve"] or 0) if snap["lp"] is not None else None
+        snap.update(throttle_readings())
+        if snap.get("oi_long") is not None and snap.get("oi_short") is not None and snap.get("house"):
+            snap["skew_x_house"] = (snap["oi_long"] - snap["oi_short"]) / snap["house"]
         return snap
     except Exception as e:  # noqa: BLE001 - any failure means "no fresh read", never a guess
         print(f"contract read failed: {e}", file=sys.stderr)
         return None
+
+
+def throttle_readings():
+    """Open interest per asset and position stats from PaperDash. Additive: any failure leaves the
+    fields out (None), never the whole snapshot."""
+    out = {"oi_long": None, "oi_short": None, "oi_by_asset": None, "open_positions": None,
+           "avg_leverage": None, "avg_hold_min": None, "positions_all_time": None}
+    try:
+        a = get(SRC["assets"])
+        long_ = short = 0.0
+        by = {}
+        for x in a.get("assets") or []:
+            oi = x.get("openInterest") or {}
+            l, s = int(oi.get("longRaw") or 0) / WEI, int(oi.get("shortRaw") or 0) / WEI
+            long_ += l
+            short += s
+            by[x.get("symbol") or str(x.get("instrument"))] = {"long": l, "short": s}
+        out.update(oi_long=long_, oi_short=short, oi_by_asset=by)
+    except Exception as e:  # noqa: BLE001
+        print(f"assets read failed: {e}", file=sys.stderr)
+    try:
+        o = get(SRC["contract"])
+        out["open_positions"] = ((o.get("summary") or {}).get("activity") or {}).get("open")
+    except Exception as e:  # noqa: BLE001
+        print(f"activity read failed: {e}", file=sys.stderr)
+    try:
+        pm = get(SRC["positions"])
+        out["positions_all_time"] = pm.get("positionCount")
+        out["avg_leverage"] = pm.get("avgLeverage")
+        out["avg_hold_min"] = (pm.get("avgHoldMs") or 0) / 60000 if pm.get("avgHoldMs") is not None else None
+    except Exception as e:  # noqa: BLE001
+        print(f"positions read failed: {e}", file=sys.stderr)
+    return out
 
 
 def main():
@@ -152,7 +194,9 @@ def main():
         w.writerows(rows)
     print(f"ok: {len(series)} complete days through {out['data_through']}; last day revenue {last['revenue']:,}; "
           f"{len(rows)} snapshot rows; contract {'fresh' if snap else ('stale' if contract else 'none')}"
-          + (f" (cap {contract['cap']:,.0f}, supply {contract['supply']/1e9:.2f}B, mint rate {contract['mint_rate']:.1f})" if contract else ""))
+          + (f" (cap {contract['cap']:,.0f}, supply {contract['supply']/1e9:.2f}B, mint rate {contract['mint_rate']:.1f}"
+             + (f", OI long {contract['oi_long']/1e6:.0f}M short {contract['oi_short']/1e6:.0f}M, skew {contract['skew_x_house']:.1f}x house" if contract.get('skew_x_house') is not None else "")
+             + ")" if contract else ""))
 
 
 if __name__ == "__main__":
