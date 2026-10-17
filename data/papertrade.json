@@ -1,30 +1,30 @@
 {
  "contract": {
-  "asof": "2026-10-17T06:13:05Z",
+  "asof": "2026-10-17T10:38:44Z",
   "cap": 5000000.0,
   "date": "2026-10-17",
-  "lp": 4931331.089594201,
-  "margin": 9396367.346281381,
-  "mint_rate": 12.286085484524508,
+  "lp": 4820112.712207345,
+  "margin": 9439125.37580317,
+  "mint_rate": 12.241817405405413,
   "queue": 0.0,
-  "staked": 8388371799.708478,
+  "staked": 8396465539.0625305,
   "stale": false,
-  "supply": 8450802314.177598,
-  "tail": 222353269.42723626
+  "supply": 8458386813.091657,
+  "tail": 222971708.86746868
  },
  "contract_history": [
   {
-   "asof": "2026-10-17T06:13:05Z",
+   "asof": "2026-10-17T10:38:44Z",
    "cap": 5000000.0,
    "date": "2026-10-17",
-   "lp": 4931331.089594201,
-   "margin": 9396367.346281381,
-   "mint_rate": 12.286085484524508,
+   "lp": 4820112.712207345,
+   "margin": 9439125.37580317,
+   "mint_rate": 12.241817405405413,
    "queue": 0.0,
-   "staked": 8388371799.708478,
+   "staked": 8396465539.0625305,
    "stale": false,
-   "supply": 8450802314.177598,
-   "tail": 222353269.42723626
+   "supply": 8458386813.091657,
+   "tail": 222971708.86746868
   }
  ],
  "daily": [
@@ -78,7 +78,7 @@
   }
  ],
  "data_through": "2026-10-16",
- "fetched_at": "2026-10-17T06:13:05Z",
+ "fetched_at": "2026-10-17T10:38:44Z",
  "sources": {
   "contract": "https://paperdash-api.onrender.com/api/overview",
   "holders": "https://api.llama.fi/summary/fees/papertrade?dataType=dailyHoldersRevenue",
@@ -87,15 +87,15 @@
  },
  "today_so_far": {
   "date": "2026-10-17",
-  "holders": 4517323,
-  "revenue": 4916687,
-  "tvl": 68578542
+  "holders": 4331226,
+  "revenue": 4698689,
+  "tvl": 67761350
  },
  "totals": {
-  "holders_24h": 4517323,
-  "holders_all_time": 55630775,
-  "revenue_24h": 4916687,
-  "revenue_all_time": 60095763,
-  "tvl_now": 68578542.39416
+  "holders_24h": 4331226,
+  "holders_all_time": 55444678,
+  "revenue_24h": 4698689,
+  "revenue_all_time": 59877765,
+  "tvl_now": 67761350.08479
  }
 }
