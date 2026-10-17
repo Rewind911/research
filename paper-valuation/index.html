@@ -299,7 +299,7 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 
 <main class="wrap">
   <header class="top">
-    <div class="tag">Papertrade · PAPER token · Version 2, 17 Oct 2026, day 7 of trading · Version 1 kept at /v1/</div>
+    <div class="tag" id="topTag">Papertrade · PAPER token · Version 2, 17 Oct 2026, day 7 of trading · earlier versions kept at /v1/</div>
     <h1>PAPER Value Model</h1>
     <div class="keys">Tap any underlined number to see where it comes from:
       <span class="k m"><i></i>measured</span>
@@ -622,6 +622,7 @@ function setView(ms){
   if(lbl)lbl.textContent=isToday?"today":dstr(ms);
   if(sl){sl.max=Math.round((today-start)/DAY);sl.value=Math.round((ms-start)/DAY);}
   if(vl)vl.textContent=`Version ${ver.v} · updated ${dstr(pd(ver.date))}`;
+  const tt=document.getElementById("topTag");if(tt)tt.textContent=`Papertrade · PAPER token · Version ${ver.v}, ${dstr(pd(ver.date))} · day ${Math.round((ms-Date.UTC(2026,9,10))/DAY)+1} of trading${isToday?"":" · as it stood"} · earlier versions kept at /v1/`;
   if(ban){ban.hidden=isToday;ban.innerHTML=`You are viewing the page as it stood on <b>${dstr(ms)}</b>: Version ${ver.v} inputs, data through ${rows.length?dshort(pd(rows[rows.length-1].date)):"–"}. The text blocks describe the current version; every number, card and call is as of that day. <a href="#" id="backToday">Back to today</a>`;const bt=document.getElementById("backToday");if(bt)bt.addEventListener("click",e=>{e.preventDefault();stopReplay();setView(Date.now());});}
   if(history.replaceState){const u=new URL(location.href);if(isToday)u.searchParams.delete("asof");else u.searchParams.set("asof",iso);history.replaceState(null,"",u);}
 }
