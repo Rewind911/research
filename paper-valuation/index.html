@@ -240,6 +240,42 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
 .tchart{border:1px solid var(--line);border-radius:6px;padding:10px 8px 4px;background:var(--surface)}
 .tchart svg{display:block;max-width:100%}
 .trev{font-size:12.5px;color:var(--ink2);padding:8px 12px;border-radius:4px;background:var(--part-bg)}
+
+/* scorecard: the forecast marked against reality. Same blocks, same words, every update. */
+.scline{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:13px;color:var(--ink);text-decoration:none;padding:8px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--has);transition:border-color .15s}
+.scline .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scline b{font-weight:600}
+.scline:hover{border-color:var(--ink);border-left-color:var(--has)}
+.scline:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sc-verdict{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;align-items:baseline;padding:12px 14px;border-radius:6px;border:1px solid var(--line);background:var(--bg);font-size:13.5px}
+.sc-k{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.sc-v b{font-weight:600}
+@media (max-width:520px){.sc-verdict{grid-template-columns:1fr;gap:2px}.sc-k{margin-top:6px}}
+.st{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--pb);color:var(--pc);white-space:nowrap;vertical-align:1px}
+.st-met,.st-plus,.st-hold{--pb:var(--has-bg);--pc:var(--has)}
+.st-pending,.st-early,.st-flat{--pb:var(--part-bg);--pc:var(--part)}
+.st-missed,.st-minus,.st-weak{--pb:var(--lacks-bg);--pc:var(--lacks)}
+.st-zero{--pb:var(--grid);--pc:var(--ink2)}
+.sc-table{width:100%;border-collapse:collapse;font-size:13px}
+.sc-table th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:6px 10px 6px 0;border-bottom:2px solid var(--ink);white-space:nowrap}
+.sc-table th.r,.sc-table td.r{text-align:right}
+.sc-table td{padding:8px 10px 8px 0;border-bottom:1px solid var(--grid);vertical-align:top;color:var(--ink2);min-width:0}
+.sc-table td b{color:var(--ink);font-weight:600}
+.sc-table td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.sc-table tr:last-child td{border-bottom:none}
+.sc-wrong{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:13.5px;counter-reset:w}
+.sc-wrong li{display:grid;grid-template-columns:22px 1fr;gap:8px;color:var(--ink2)}
+.sc-wrong li::before{counter-increment:w;content:counter(w);font-family:var(--mono);font-weight:600;color:var(--lacks);font-size:13px;line-height:1.5}
+.sc-wrong b{color:var(--ink);font-weight:600}
+.sc-wrong code{font-family:var(--mono);font-size:12px}
+.sc-shadow{border-left:4px solid var(--part)}
+.sc-dev{display:grid;gap:0}
+.sc-row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:9px 0;border-top:1px solid var(--grid);font-size:13.5px;color:var(--ink2)}
+.sc-row:first-child{border-top:none}
+.sc-when{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink)}
+.sc-row .cap{display:block;margin-top:2px}
+@media (max-width:520px){.sc-row{grid-template-columns:1fr;gap:4px}}
+@media (max-width:640px){.sc-table.wide{min-width:620px}}
 </style>
 
 <div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
@@ -255,12 +291,127 @@ footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padd
     </div>
     <div class="tape" id="tape" aria-label="Forecast summary"></div>
     <div class="upd" id="upd" aria-live="polite">Loading today's numbers…</div>
+    <a class="scline" href="#scorecard"><span class="sl">Scorecard · Update 1 · 17 Oct 2026</span><span>Thesis <b>holding</b> · reading <b>above all three cases</b>, too early to count · next check <b>20 Oct</b></span></a>
   </header>
 
   <section class="panel" id="summary" aria-label="Executive summary">
     <div class="tag">Executive summary · tap any box for the details</div>
     <div class="dash" id="dash"></div>
   </section>
+
+<!-- scorecard:start -->
+  <section class="panel" id="scorecard" aria-label="Scorecard: the forecast against reality">
+    <div class="tag">Scorecard · Update 1 · 17 Oct 2026</div>
+    <h2>Is the forecast holding?</h2>
+    <div class="sc-verdict">
+      <span class="sc-k">Reading</span><span class="sc-v"><b>Above all three cases</b>, too early to count</span>
+      <span class="sc-k">Trend since the forecast</span><span class="sc-v"><span class="st st-plus">Better</span></span>
+      <span class="sc-k">Thesis</span><span class="sc-v"><span class="st st-hold">Holding</span> no test has resolved yet, no kill line crossed</span>
+      <span class="sc-k">Next check</span><span class="sc-v"><b>20 Oct</b>: first reading of the payout-bar test · <b>28 Oct</b>: Update 2</span>
+    </div>
+    <p class="lede">Three days after the forecast was frozen, Papertrade is making more money, not less: <b>$6.3M a day</b> on 14–16 Oct against the $4.45M a day the forecast started from, with <b>91%</b> of it paid to stakers against the 85% assumed. The market's bet moved up too: Polymarket's median one-day-after-launch value is now near <b>$200M</b>, up from about $100M, on fourteen times the volume. Two things went against us: PAPER supply is growing faster than the model assumed (<b>8.45B</b> on the live contract, not the 7.2B modelled for today), and DefiLlama revised down the three days the reference was built on. None of it changes the published call. The first real test starts when the pool's payout bar doubles to $10M, after 18:45 UTC on 17 Oct.</p>
+    <p class="cap">How to read this: the forecast of 14 Oct is frozen. Every block below marks it against what actually happened, in the same order and the same words every time. The full update with every source, as Markdown: <a href="/paper-valuation/updates/2026-10-17-update-01.md">update 1</a>. Raw data: the Tracking section below.</p>
+
+    <h3>1. The tests we set, and where they stand</h3>
+    <div class="tablewrap"><table class="sc-table wide">
+      <thead><tr><th>Test</th><th>We said</th><th>What happened</th><th>Status</th><th>Points to</th></tr></thead>
+      <tbody>
+        <tr><td><b>Payout bar doubles to $10M</b> (17 Oct)</td><td>Extra payouts to stakers pause while the pool refills, then restart ~20 Oct (bull), ~28 Oct (base) or ~12 Dec (bear)</td><td>At 04:46 UTC on 17 Oct the on-chain cap still read $5M, the pool held $4.96M, the queue was $0. The change is due after 18:45 UTC. At today's $6.3M a day the pool refills in about a day, so the first reading will likely say "above bull" rather than separate the cases</td><td><span class="st st-pending">Pending</span></td><td>–</td></tr>
+        <tr><td><b>Revenue after the rush</b></td><td>Bull keeps $1.51M a day, base $0.445M, bear $0.089M</td><td>14–16 Oct averaged <b>$6.29M a day</b>, 141% of the reference. 15 Oct ($7.49M) was the best day since launch day</td><td><span class="st st-early">Too early</span></td><td>Above bull</td></tr>
+        <tr><td><b>Mint rate under 10 PAPER per $1</b></td><td>Bull ~14 Nov, base ~29 Jan 2027, bear 2028</td><td>The live contract's high-water mark is $222M, which puts the formula rate at ~12 per $1 (16.6 reported on 16 Oct). At today's pace the model's line passes ~20–21 Oct, three weeks ahead of the bull path</td><td><span class="st st-pending">Pending</span></td><td>Above bull on pace; supply runs ahead too</td></tr>
+        <tr><td><b>Money back above $138M</b> by 30 Nov</td><td>The bull tell</td><td><b>$68.6M</b> on 17 Oct, up from $64M at the freeze. Halfway</td><td><span class="st st-pending">Pending</span></td><td>Not bull yet</td></tr>
+        <tr><td><b>Payout queue stays at zero</b></td><td>Robustness</td><td>$0 throughout 14–17 Oct</td><td><span class="st st-met">Met so far</span></td><td>0</td></tr>
+        <tr><td><b>New non-farm flow</b> (open contract, builder codes) by end-Nov</td><td>Bull needs it</td><td>Nothing announced 14–17 Oct</td><td><span class="st st-pending">Pending</span></td><td>–</td></tr>
+      </tbody>
+    </table></div>
+    <p class="cap">Calls record: <b>0 resolved</b> (0 met, 0 missed) · 6 pending.</p>
+
+    <div class="two">
+      <div>
+        <h3>2. What moved since the freeze</h3>
+        <div class="tablewrap"><table class="sc-table wide">
+          <thead><tr><th>Input</th><th>Frozen 14 Oct</th><th>Now 17 Oct</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Daily revenue (reference)</td><td class="num">$4.45M</td><td>$6.29M (14–16 Oct). The frozen days now read $3.69M after revisions</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>Share paid to stakers</td><td class="num">85%</td><td class="num">91%</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>PAPER supply</td><td class="num">~6.1B modelled</td><td>8.45B on the live contract, 99.2% staked</td><td><span class="st st-minus">−</span></td></tr>
+            <tr><td>Supply tuning (H ÷ revenue)</td><td class="num">3.0</td><td class="num">4.0 observed</td><td><span class="st st-minus">−</span></td></tr>
+            <tr><td>Mint rate, PAPER per $1</td><td class="num">~26 modelled</td><td>~12 by the formula; 16.6 reported</td><td><span class="st st-zero">0</span></td></tr>
+            <tr><td>Market bet (Polymarket median)</td><td>~$100M · $0.016 · $9K traded</td><td>~$200M · $0.024 on live supply · $132K traded</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>Money on platform</td><td class="num">$64M</td><td class="num">$68.6M</td><td><span class="st st-plus">+</span></td></tr>
+            <tr><td>Payout queue</td><td class="num">$0</td><td class="num">$0</td><td><span class="st st-zero">0</span></td></tr>
+          </tbody>
+        </table></div>
+        <p class="cap">+ better for PAPER's value · − worse · 0 neutral. Sources: DefiLlama API, PaperDash contract reads (17 Oct 04:46 UTC), Polymarket API (04:52 UTC), ChainCatcher.</p>
+      </div>
+      <div>
+        <h3>3. What we got wrong, and what changed under us</h3>
+        <ol class="sc-wrong">
+          <li><span><b>The reference was built on figures the feed later revised.</b> DefiLlama now shows 12 Oct at $3.93M (was $4.65M) and 13 Oct at $4.52M (was $6.08M): the same three days give $3.69M a day, 17% below the frozen $4.45M. Same method on the revised figures: $0.41 / $0.069 / $0.0091. The call stands as made; the miss is recorded.</span></li>
+          <li><span><b>The supply tuning was too low.</b> The model set the curve's high-water mark at 3.0 × revenue; the live contract shows 4.0, and 8.45B PAPER against 7.16B modelled for today. Frozen inputs with 4.0: $0.48 / $0.078 / $0.0096 (−2% to −8%). Best reading of why: the curve counts gross flow into the pool, not net losses. An inference from the contract's <code>tailProgress</code>; the docs still cannot be read as text.</span></li>
+          <li><span><b>The 17 Oct test was timed from each case's run-rate, not the actual one.</b> At today's pace the pool refills in a day, so its first reading will not separate the cases. The reading that counts is how long surplus payouts stay paused once the rush fades, from mid-November on.</span></li>
+          <li><span><b>Two doubts in the report are resolved; neither was a model input.</b> The "$910B daily volume" on 13 Oct was cumulative (the day itself was $73.7B). The 30.8 PAPER per $1 that did not fit the published curve fits it once the curve runs on gross flow.</span></li>
+          <li><span><b>"Market bet $0.016"</b> divided $100M by 6.1B modelled supply. On live supply the same strike is $0.012, and the new median near $200M is $0.024.</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>4. Shadow run: the same arithmetic on today's numbers</h3>
+    <div class="box sc-shadow">
+      <div class="tablewrap"><table class="sc-table">
+        <thead><tr><th>Run</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th></tr></thead>
+        <tbody>
+          <tr><td><b>The frozen call, 14 Oct 2026</b></td><td class="num r"><b>$0.49</b></td><td class="num r"><b>$0.081</b></td><td class="num r"><b>$0.0105</b></td></tr>
+          <tr><td>Same method, the feed's revised numbers for the same three days</td><td class="num r">$0.41</td><td class="num r">$0.069</td><td class="num r">$0.0091</td></tr>
+          <tr><td>Frozen inputs, supply tuning at the observed 4.0</td><td class="num r">$0.48</td><td class="num r">$0.078</td><td class="num r">$0.0096</td></tr>
+          <tr><td>Same method, today's numbers: $6.29M a day, $55.2M revenue so far, supply tuning 4.0, 85% to stakers</td><td class="num r">$0.68</td><td class="num r">$0.106</td><td class="num r">$0.0124</td></tr>
+        </tbody>
+      </table></div>
+      <p class="cap"><b>Not the forecast.</b> The forecast is the first row and does not move. The other rows show what the same arithmetic gives on different inputs, in both directions. At the 90% staker share seen since the freeze, the last row is about 6% higher. Per PAPER, Oct 2027.</p>
+    </div>
+
+    <h3>5. What happened, day by day</h3>
+    <div class="sc-dev">
+      <div class="sc-row"><div class="sc-when">14 Oct</div><div><span class="st st-zero">0</span> Revenue $5.93M. Papertrade #3 in crypto by daily revenue, behind Tether and Circle. <span class="cap">DefiLlama</span></div></div>
+      <div class="sc-row"><div class="sc-when">15 Oct</div><div><span class="st st-plus">+</span> Best day since launch: $7.49M, #2 by daily revenue, ahead of Circle. Cumulative net trader losses reported at $49.5M (one outlet, source unnamed). <span class="cap">DefiLlama · TokenPost · MarsBit</span></div></div>
+      <div class="sc-row"><div class="sc-when">16 Oct</div><div><span class="st st-zero">0</span> Revenue $5.45M. New PAPER minted that day halved to 313M (678M the day before). Reported mint rate 16.6 per $1. PaperStrategy, a wrapper that stakes PAPER, re-rated to a $9.6M market cap, which implies at most ~$0.062 per PAPER (an upper bound). The largest tracked farmer wallet turned a $762K profit. <span class="cap">DefiLlama · PaperDash · ChainCatcher · Odaily · Lookonchain</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 04:46 UTC</div><div><span class="st st-zero">0</span> Live contract: cap $5M, pool $4.96M, queue $0, supply 8.45B, 99.2% staked, high-water mark $222M, open interest $562M, 21,453 accounts, $1.24T traded since launch. <span class="cap">PaperDash API</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 04:52 UTC</div><div><span class="st st-plus">+</span> Polymarket re-priced: $100M strike 79% (47% at the freeze), $150M 64.5%, $200M 52.5%, $250M 44%; $132K traded. The rules now define "launch" as the token being publicly tradable. <span class="cap">Polymarket</span></div></div>
+      <div class="sc-row"><div class="sc-when">14–17 Oct</div><div><span class="st st-zero">0</span> No incident, pause, outage, exploit, refund or official announcement found in a sweep of 28 sources. The cap change remains scheduled for after 18:45 UTC on 17 Oct. <span class="cap">Research desk</span></div></div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>6. What would change the call</h3>
+        <div class="box"><ul>
+          <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue above $1.5M a day for 30 days after the mint rate is under 10 per $1; money on platform above $138M by 30 Nov; a dated transfer unlock, listing or distribution deal.</span></li>
+          <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear, or a new version:</b> revenue below $0.45M a day for 30 days after mid-November; surplus payouts still paused in December; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027, ahead of even the bull path.</span></li>
+        </ul></div>
+      </div>
+      <div>
+        <h3>7. Next checks, and the record so far</h3>
+        <div class="tablewrap"><table class="sc-table">
+          <thead><tr><th>Date</th><th>What resolves</th></tr></thead>
+          <tbody>
+            <tr><td class="num">18 Oct</td><td>Did the on-chain cap read $10M after 18:45 UTC on 17 Oct?</td></tr>
+            <tr><td class="num">20 Oct</td><td>Bull-case restart date for surplus payouts; the mint-rate line at today's pace</td></tr>
+            <tr><td class="num">28 Oct</td><td>Base-case restart date. <b>Update 2</b> is due then, or on the first resolved test</td></tr>
+            <tr><td class="num">14 Nov</td><td>Bull-case date for the mint rate under 10 per $1</td></tr>
+            <tr><td class="num">30 Nov</td><td>The $138M tell; the open-contract and builder-code phases</td></tr>
+            <tr><td class="num">Nov–Mar</td><td>The window in which the real run-rate shows. Monthly updates</td></tr>
+          </tbody>
+        </table></div>
+        <div class="tablewrap"><table class="sc-table">
+          <thead><tr><th>Version</th><th>Date</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td>Forecast v1</td><td class="num">14 Oct 2026</td><td>Frozen: bull $0.49, base $0.081, bear $0.011 by Oct 2027</td></tr>
+            <tr><td>Update 1</td><td class="num">17 Oct 2026</td><td>Above all three cases (too early) · Better · <b>Holding</b> · next check 20 Oct</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </section>
+<!-- scorecard:end -->
 
   <section class="panel" id="track" aria-label="Forecast against actual">
     <div class="tag">Tracking · is the forecast holding?</div>
