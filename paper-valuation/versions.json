@@ -69,6 +69,40 @@
    },
    "page": "/paper-valuation/",
    "note": "Same method, inputs re-read on 17 Oct: reference = average of 14–16 Oct; stakers' share 91%; revenue so far $55.2M; supply tuning 4.0 read from the live contract's high-water mark; market bet ~$200M on $132K traded. Method unchanged."
+  },
+  {
+   "v": 3,
+   "date": "2026-10-20",
+   "data_through": "2026-10-19",
+   "inputs": {
+    "R0": 1.7172,
+    "hold": 89,
+    "cum0": 60.33,
+    "hr": 4.2,
+    "poly": 25,
+    "hedge": 0.14
+   },
+   "cases": {
+    "bull": [
+     34,
+     12
+    ],
+    "base": [
+     10,
+     6
+    ],
+    "bear": [
+     2,
+     3
+    ]
+   },
+   "ref_days": {
+    "2026-10-17": 898397,
+    "2026-10-18": 2338673,
+    "2026-10-19": 1914597
+   },
+   "page": "/paper-valuation/",
+   "note": "Same method, inputs re-read on 20 Oct: reference = average of 17–19 Oct, the three days after the rush broke ($0.90M, $2.34M, $1.91M); stakers' share 89%; revenue so far $60.33M; supply tuning 4.2 read from the contract's high-water mark; market bet ~$25M on $285K traded (was ~$200M). Method unchanged; the payout bar never doubled."
   }
  ],
  "timeline": [
@@ -103,15 +137,27 @@
    "kind": "event"
   },
   {
-   "date": "2026-10-20",
-   "title": "Version 3: first reading",
-   "text": "How fast surplus payouts restart after the bar doubled.",
+   "date": "2026-10-18",
+   "title": "Bar did not double",
+   "text": "The 18 Oct contract read still showed the payout bar at $5M, so the page marked the 17 Oct call missed by itself. No official word found. The pool kept touching the bar and sweeping to stakers, so payouts never paused: the 17 Oct tell was a dip between sweeps, not a pause.",
+   "kind": "key"
+  },
+  {
+   "date": "2026-10-19",
+   "title": "The rush has broken",
+   "text": "17–19 Oct closed at $0.90M, $2.34M and $1.91M of revenue a day, down 73% from 14–16 Oct. Open bets fell from $569M to $315M; PAPER minted a day fell from 313M to about 130M.",
+   "kind": "event"
+  },
+  {
+   "date": "2026-10-27",
+   "title": "Version 4",
+   "text": "Weekly re-run. Does the three-day reference hold near $1.7M a day, or keep sliding?",
    "kind": "upcoming"
   },
   {
    "date": "2026-11-11",
    "title": "Base-case stop line",
-   "text": "When $1 lost earns under 8.8 PAPER, losing on purpose stops paying in the base case.",
+   "text": "Version 2's base-case stop line (8.8 PAPER per $1). Under Version 3 the base stop line is already past: losing on purpose no longer pays in the base case. The mint-rate reading on the day stands as the check.",
    "kind": "upcoming"
   },
   {

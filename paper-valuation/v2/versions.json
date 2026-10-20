@@ -1,0 +1,124 @@
+{
+ "study": "paper-valuation",
+ "horizon": "Oct 2027",
+ "versions": [
+  {
+   "v": 1,
+   "date": "2026-10-14",
+   "data_through": "2026-10-13",
+   "inputs": {
+    "R0": 4.4465,
+    "hold": 85,
+    "cum0": 38.58,
+    "hr": 3.0,
+    "poly": 100,
+    "hedge": 0.14
+   },
+   "cases": {
+    "bull": [
+     34,
+     12
+    ],
+    "base": [
+     10,
+     6
+    ],
+    "bear": [
+     2,
+     3
+    ]
+   },
+   "ref_days": {
+    "2026-10-11": 2615540,
+    "2026-10-12": 4647494,
+    "2026-10-13": 6076502
+   },
+   "page": "/paper-valuation/v1/",
+   "note": "First version. Reference = average of 11–13 Oct as the feed stood on 14 Oct; stakers' share 85%; supply tuning 3.0 estimated from two press figures; market bet ~$100M on $9K traded. 64 links audited, 23 corrections from the draft."
+  },
+  {
+   "v": 2,
+   "date": "2026-10-17",
+   "data_through": "2026-10-16",
+   "inputs": {
+    "R0": 6.2905,
+    "hold": 91,
+    "cum0": 55.18,
+    "hr": 4.0,
+    "poly": 200,
+    "hedge": 0.14
+   },
+   "cases": {
+    "bull": [
+     34,
+     12
+    ],
+    "base": [
+     10,
+     6
+    ],
+    "bear": [
+     2,
+     3
+    ]
+   },
+   "ref_days": {
+    "2026-10-14": 5929148,
+    "2026-10-15": 7489719,
+    "2026-10-16": 5452568
+   },
+   "page": "/paper-valuation/",
+   "note": "Same method, inputs re-read on 17 Oct: reference = average of 14–16 Oct; stakers' share 91%; revenue so far $55.2M; supply tuning 4.0 read from the live contract's high-water mark; market bet ~$200M on $132K traded. Method unchanged."
+  }
+ ],
+ "timeline": [
+  {
+   "date": "2026-10-10",
+   "title": "Launch",
+   "text": "Trading opens with $138M deposited by 11,465 wallets. Day one: $25.2M of trader losses, $24M paid to stakers.",
+   "kind": "context"
+  },
+  {
+   "date": "2026-10-11",
+   "title": "The rush fades",
+   "text": "Day two revenue $2.6M, down 90% from launch day. The question the study asks: how much of this survives?",
+   "kind": "context"
+  },
+  {
+   "date": "2026-10-15",
+   "title": "Best day since launch",
+   "text": "$7.49M of revenue, #2 in crypto behind Tether. Revenue is rising, not decaying, a week in.",
+   "kind": "event"
+  },
+  {
+   "date": "2026-10-17",
+   "title": "Payout bar doubles",
+   "text": "After 18:45 UTC the pool keeps the next $5M of losses before stakers see extra payouts. The page marks the call itself from tomorrow's contract read.",
+   "kind": "key"
+  },
+  {
+   "date": "2026-10-17",
+   "title": "Pool slips under the bar",
+   "text": "At 10:47 UTC the house pool read $4.83M, under the $5M bar, so stakers have had only the 1% win fee since about midnight UTC. About $172K of net trader losses tops it up again; the bar doubles to $10M after 18:45 UTC. First tell against the base case. One quiet Saturday is not new evidence.",
+   "kind": "event"
+  },
+  {
+   "date": "2026-10-20",
+   "title": "Version 3: first reading",
+   "text": "How fast surplus payouts restart after the bar doubled.",
+   "kind": "upcoming"
+  },
+  {
+   "date": "2026-11-11",
+   "title": "Base-case stop line",
+   "text": "When $1 lost earns under 8.8 PAPER, losing on purpose stops paying in the base case.",
+   "kind": "upcoming"
+  },
+  {
+   "date": "2026-11-30",
+   "title": "$138M money check",
+   "text": "The bull case needs money on the platform back above the pre-launch deposits.",
+   "kind": "upcoming"
+  }
+ ]
+}

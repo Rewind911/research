@@ -1,0 +1,1500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Executive dashboard and valuation model for Papertrade's PAPER token, built from comparable launches and re-run as reality comes in. Version 2, 17 Oct 2026. Every number is sourced; every call is tracked.">
+<style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style>
+</head>
+<body>
+<title>PAPER Value Model · Version 2 (17 Oct 2026)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: executive dashboard of question tiles on top; each tile jumps to its detail section below. The value section is one linked module: choosing a case or a grid square drives the chart and the readout together. Every number has a tappable source.
+   Look: a research desk. White sheets on faint graph paper, ink type, one ink-blue accent, monospace for every number and a ticker tape under the title. Single light theme by choice: the page never goes black. */
+:root{
+  color-scheme:light;
+  --bg:#f4f3ee; --gridline:rgba(20,22,26,.06); --surface:#ffffff; --ink:#14161a; --ink2:#484d55; --muted:#7a7f88;
+  --line:#d9d7cf; --grid:#e9e7e0; --ref:#6f747c;
+  --bull:#108a5c; --base:#1f4fd8; --bear:#d4521c; --mine:#6a4ed6;
+  --has:#0d6b2f; --has-bg:#e4f3e8; --part:#7a5200; --part-bg:#f7eed6; --lacks:#a8292b; --lacks-bg:#f9e4e3;
+  --focus:#1f4fd8; --input:#ffffff; --onfill:#ffffff;
+  --h0:#dde7fb; --h1:#bdd0f7; --h2:#9dbbf2; --h3:#7aa2ec; --h4:#3f74e0; --h5:#1f4fd8; --h6:#1a41b4; --h7:#15348f; --h8:#0f2666;
+  --hink:#0f1a33;
+  --sheet:0 1px 0 rgba(20,22,26,.05), 0 12px 32px -20px rgba(20,22,26,.28);
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background-color:var(--bg);background-image:linear-gradient(var(--gridline) 1px,transparent 1px),linear-gradient(90deg,var(--gridline) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 72px;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.08;text-wrap:balance}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-0.03em}
+h2{font-size:clamp(21px,3vw,27px);font-weight:800;letter-spacing:-0.02em}
+h3{font-size:15px;font-weight:600;font-family:var(--body)}
+p{margin:0;max-width:68ch}
+a{color:inherit}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:clamp(16px,3vw,26px);display:grid;gap:16px;min-width:0;scroll-margin-top:64px;box-shadow:var(--sheet)}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:9px}
+.tag::before{content:"";width:18px;height:2px;background:var(--base);flex:none}
+.lede{color:var(--ink2)}
+.cap{font-size:12.5px;color:var(--muted)}
+/* header */
+.top{display:grid;gap:10px}
+.keys{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink2);align-items:center}
+.k{display:inline-flex;align-items:center;gap:6px}
+.k i{width:22px;height:0;border-bottom:2px solid var(--ink2);display:inline-block}
+.k.c i{border-bottom-style:dashed}.k.e i{border-bottom-style:dotted}
+.tape{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center;padding:8px 12px;border-top:2px solid var(--ink);border-bottom:1px solid var(--line);background:var(--surface);font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.tape b{font-weight:600}
+.tape .nm{font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+.ev{text-decoration-line:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;text-decoration-color:var(--muted);cursor:help;border-radius:2px}
+.ev.c{text-decoration-style:dashed}.ev.e{text-decoration-style:dotted}
+.ev:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+#pop{position:fixed;z-index:60;background:var(--ink);color:var(--surface);border-radius:6px;padding:9px 11px;font-size:12.5px;line-height:1.4;display:grid;gap:2px;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:300px}
+#pop b{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;opacity:.8}
+#sticky{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--surface);border-bottom:2px solid var(--ink);padding:calc(env(safe-area-inset-top,0px) + 8px) max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px))}
+#sticky .in{max-width:1080px;margin:0 auto;display:flex;gap:6px 16px;flex-wrap:wrap;align-items:center;font-size:13px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+#sticky b{font-weight:600}
+#sticky .nm{font-weight:600;margin-right:auto;letter-spacing:.06em;text-transform:uppercase;font-size:11px;color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--c);display:inline-block;margin-right:5px}
+.chip{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--ink);color:var(--surface);white-space:nowrap}
+.fc{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:var(--base);color:var(--onfill);vertical-align:1px}
+/* dashboard */
+.dash{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{grid-column:span 1;display:grid;grid-template-rows:auto auto 1fr auto;gap:6px;padding:16px;border:1px solid var(--line);border-radius:6px;background:var(--surface);text-decoration:none;color:var(--ink);position:relative;transition:border-color .15s, transform .15s, box-shadow .15s;min-width:0}
+.tile:hover{border-color:var(--ink);transform:translateY(-1px);box-shadow:var(--sheet)}
+.tile:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.tile.wide{grid-column:span 2}
+.tile.hero{grid-column:span 2;grid-row:span 2;grid-template-rows:none;align-content:start;gap:10px}
+.cmp strong{font-weight:600;color:var(--ink)}
+.tile .q{font-size:13px;color:var(--ink2);font-weight:500}
+.tile .a{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.6vw,34px);line-height:1.02;letter-spacing:-0.03em}
+.tile .s{font-size:13.5px;color:var(--ink2)}
+.tile .s b{color:var(--ink);font-weight:600}
+.tile .go{font-size:12.5px;font-weight:600;color:var(--base)}
+.tile .go::after{content:" →"}
+.tile.hero{border-top:4px solid var(--base)}
+.tile .a.blue{color:var(--base)}
+.stopln{display:grid;gap:2px;padding:9px 12px;border-radius:4px;background:var(--part-bg);color:var(--ink);font-size:13.5px}
+.stopln .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--part)}
+.stopln b{font-weight:600}
+.cmp{display:grid;gap:4px;font-size:13px;color:var(--ink2)}
+.cmp b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.mrow{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.mrow b{font-family:var(--mono);font-weight:600}
+.path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:4px;overflow:hidden;margin-top:4px}
+.path > div{min-width:0;padding:6px 8px;display:grid;border-left:1px solid var(--line)}
+.path > div:first-child{border-left:none}
+.path span{font-size:11px;color:var(--muted)}
+.path b{font-family:var(--mono);font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.path > div.end{background:var(--bg)}
+@media (max-width:900px){.dash{grid-template-columns:repeat(2,minmax(0,1fr))}.tile,.tile.wide{grid-column:span 1}.tile.hero{grid-column:span 2;grid-row:auto}}
+@media (max-width:560px){.dash{grid-template-columns:1fr}.tile,.tile.wide,.tile.hero{grid-column:span 1}.path b{font-size:13px}}
+/* value module */
+.ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:10px 12px;border-radius:4px;background:var(--bg);border:1px solid var(--line)}
+.ctrl .lbl{font-size:13px;font-weight:600;margin-right:4px}
+.preset{font-family:var(--body);font-size:13.5px;font-weight:600;padding:6px 12px;border-radius:4px;border:2px solid var(--c);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.preset[aria-pressed="true"]{background:var(--c);color:var(--onfill)}
+.preset:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.ctrl .or{font-size:13px;color:var(--ink2)}
+.live{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--base);display:inline-flex;align-items:center;gap:6px;margin-left:auto}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--base)}
+.vm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.vm{grid-template-columns:minmax(0,1fr)}}
+.panel > *, .vm > *{min-width:0}
+.panel{grid-template-columns:minmax(0,1fr)}
+.step{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.heatwrap{overflow-x:auto}
+table.heat{border-collapse:separate;border-spacing:3px;width:100%;min-width:420px}
+.heat th{font-weight:500;font-size:11.5px;color:var(--ink2);text-align:center;padding:3px 2px;vertical-align:bottom}
+.heat th b{display:block;font-family:var(--mono);font-size:13.5px;color:var(--ink);font-weight:600}
+.heat th span{display:block;font-size:10.5px;color:var(--muted);line-height:1.2}
+.heat tbody th{text-align:left;padding-right:6px;width:108px;vertical-align:middle}
+.heat .corner{text-align:left;font-size:11px;color:var(--muted);font-weight:500}
+.cell{all:unset;box-sizing:border-box;cursor:pointer;display:grid;place-items:center;width:100%;min-height:40px;border-radius:4px;background:var(--hc);color:var(--hink);font-family:var(--mono);font-size:12.5px;font-weight:600;position:relative;transition:transform .12s;font-variant-numeric:tabular-nums}
+.cell.dk{color:var(--onfill)}
+.cell:hover{transform:scale(1.05)}
+.cell:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.cell.sel{outline:3px solid var(--ink);outline-offset:1px;z-index:1}
+.cell i{position:absolute;top:-7px;right:-3px;font-style:normal;font-family:var(--body);font-size:9.5px;font-weight:600;padding:1px 5px;border-radius:3px;background:var(--c);color:var(--onfill)}
+.readout{display:grid;gap:10px;padding:14px 16px;border-radius:6px;border:1px solid var(--line);border-left:5px solid var(--sc);background:var(--surface);box-shadow:var(--sheet)}
+.readout .rt{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.readout .rn{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-0.01em}
+.readout .rw{font-size:13px;color:var(--ink2)}
+.readout .rv{font-family:var(--display);font-weight:800;font-size:clamp(40px,6vw,58px);line-height:1;color:var(--sc);letter-spacing:-0.035em;font-variant-numeric:tabular-nums}
+.readout .rs{font-size:13.5px;color:var(--ink2)}
+.readout .rs b{color:var(--ink)}
+/* football field */
+.ff-plot{position:relative;margin-top:4px}
+.ff-refs{display:grid;gap:4px;margin-bottom:8px}
+.ff-ref{position:relative;height:20px}
+.ff-ref > span{position:absolute;top:0;white-space:nowrap;font-size:12px;color:var(--ink2);background:var(--surface);padding:0 6px 0 7px;z-index:2;border-left:2px dashed var(--ref)}
+.ff-ref.r > span{border-left:none;border-right:2px dashed var(--ref);padding:0 7px 0 6px;text-align:right}
+.ff-vline{position:absolute;top:0;bottom:24px;border-left:2px dashed var(--ref);opacity:.5;z-index:0}
+.ff-row{position:relative;padding-block:6px 10px;border-top:1px solid var(--grid);opacity:.42;transition:opacity .2s}
+.ff-row.on{opacity:1}
+.ff-name{position:relative;z-index:2;display:inline-flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;background:var(--surface);padding-right:8px;margin-bottom:6px;font-size:12.5px;color:var(--ink2)}
+.ff-name b{font-family:var(--display);font-weight:800;font-size:15px;color:var(--ink)}
+.ff-name strong{font-family:var(--mono);font-size:14px;font-weight:600;color:var(--ink)}
+.ff-name em{font-style:normal;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;background:var(--c);color:var(--onfill)}
+.ff-track{position:relative;height:16px}
+.ff-bar{position:absolute;top:2px;height:12px;border-radius:3px;background:var(--c);opacity:.35;z-index:1}
+.ff-dot{position:absolute;top:0;width:16px;height:16px;border-radius:50%;background:var(--c);border:3px solid var(--surface);transform:translateX(-50%);z-index:2}
+.ff-axis{position:relative;height:24px;border-top:1px solid var(--line)}
+.ff-axis span{position:absolute;top:5px;transform:translateX(-50%);font-family:var(--mono);font-size:11px;color:var(--muted)}
+/* farm */
+.farmgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.farmgrid{grid-template-columns:1fr}}
+.fcard{border:1px solid var(--line);border-left:4px solid var(--c);border-radius:6px;padding:12px 14px;display:grid;gap:6px;align-content:start;background:var(--surface)}
+.fcard h3{font-family:var(--display);font-weight:800;font-size:16px}
+.fcard dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;margin:0;font-size:13.5px}
+.fcard dt{color:var(--ink2)}.fcard dd{margin:0;font-family:var(--mono);text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.fcard .verdict{font-size:13px;font-weight:600;padding:4px 8px;border-radius:4px;background:var(--pb);color:var(--pc);justify-self:start}
+/* traits */
+.score{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.score .n{font-family:var(--display);font-weight:800;font-size:44px;line-height:1;letter-spacing:-0.03em}
+.pips{display:flex;gap:5px}
+.pip{width:20px;height:20px;border-radius:4px;background:var(--pb);color:var(--pc);display:grid;place-items:center;font-size:12px;font-weight:700}
+.traits{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.tcol{border-radius:6px;padding:12px 14px;background:var(--pb);display:grid;gap:8px;align-content:start}
+.tcol h3{color:var(--pc)}
+.tcol ul{margin:0;padding:0;list-style:none;display:grid;gap:7px;font-size:13.5px}
+.tcol li span{color:var(--ink2);display:block;font-size:12.5px}
+.has{--pb:var(--has-bg);--pc:var(--has)} .part{--pb:var(--part-bg);--pc:var(--part)} .lacks{--pb:var(--lacks-bg);--pc:var(--lacks)}
+/* timeline */
+.tl-row{display:grid;grid-template-columns:130px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--grid)}
+.tl-row:first-child{border-top:none}
+.tl-row.past{opacity:.55}
+.tl-when{display:grid;gap:5px;align-content:start}
+.tl-when b{font-family:var(--mono);font-size:13.5px;font-weight:600}
+.tl-row.nx .chip{background:var(--base)}
+.tl-row.past .chip{background:var(--muted)}
+.tl-what{display:grid;gap:5px;min-width:0}
+.tl-what p{font-size:13.5px;color:var(--ink2)}
+.cases{display:flex;flex-wrap:wrap;gap:6px}
+.case{font-size:12.5px;padding:2px 9px;border-radius:4px;border:1px solid var(--line);display:inline-flex;align-items:center;gap:4px}
+.case b{font-family:var(--mono);font-weight:600}
+@media (max-width:520px){.tl-row{grid-template-columns:1fr;gap:6px}.tl-when{grid-auto-flow:column;justify-content:start;align-items:center}}
+/* comps */
+.two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.bars{display:grid;gap:7px}
+.brow{display:grid;grid-template-columns:104px 1fr 44px;gap:10px;align-items:center;font-size:13.5px}
+.btrack{height:14px;background:var(--grid);border-radius:3px;position:relative;overflow:hidden}
+.bfill{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:var(--muted);opacity:.55}
+.bfill.pk{background:var(--c);opacity:1}
+.brow .v{font-family:var(--mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.brow .nm{display:flex;flex-direction:column;line-height:1.15}
+.brow .nm small{font-size:10px;font-weight:600;color:var(--c);letter-spacing:.03em;text-transform:uppercase}
+.brow .nm small.note{color:var(--muted);text-transform:none;letter-spacing:0;font-weight:500}
+.box{display:grid;gap:10px;padding:14px 16px;border-radius:6px;border:1px solid var(--line);background:var(--bg)}
+.box ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:13.5px}
+.box li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+.ic{width:20px;height:20px;border-radius:4px;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--pb);color:var(--pc)}
+.stat{display:flex;gap:12px;align-items:baseline}
+.stat .sv{font-family:var(--display);font-weight:800;font-size:26px;line-height:1;min-width:92px}
+.stat p{font-size:13.5px;color:var(--ink2)}
+/* deep */
+details{border-top:1px solid var(--grid);padding-block:4px}
+details:first-of-type{border-top:none}
+summary{cursor:pointer;padding:10px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--mono);font-size:18px;color:var(--muted)}
+details[open] summary::after{content:"–"}
+summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.dd{display:grid;gap:12px;padding-bottom:14px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table.inputs{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+.inputs th,.inputs td{padding:8px 10px;border-bottom:1px solid var(--grid);text-align:left;vertical-align:middle}
+.inputs thead th{font-size:12px;color:var(--ink2);font-weight:600}
+.inputs td.r,.inputs th.r{text-align:right}
+.inputs .why{font-size:12px;color:var(--ink2);max-width:340px}
+.inputs tr:last-child td{border-bottom:none}
+input[type=number]{width:86px;font-family:var(--mono);font-size:13.5px;padding:5px 7px;border:1px solid var(--line);border-radius:4px;background:var(--input);color:var(--ink);text-align:right}
+input[type=number]:focus{outline:2px solid var(--focus);outline-offset:1px}
+button.btn{font-family:var(--body);font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:4px;border:1px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;justify-self:start}
+button.btn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+ul.plain{margin:0;padding-left:18px;display:grid;gap:6px;font-size:14px;max-width:74ch}
+.src{display:grid;gap:4px;font-size:13px}
+.src a{color:var(--ink2)}
+footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+/* tracking */
+.upd{font-family:var(--mono);font-size:12px;color:var(--ink2)}
+.upd b{color:var(--ink);font-weight:600}
+.trk{display:grid;gap:2px;padding:9px 12px;border-radius:4px;background:var(--bg);border-left:3px solid var(--ink);font-size:13.5px;color:var(--ink)}
+.trk .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.trk b{font-weight:600}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tcard{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:6px;padding:12px 14px;display:grid;gap:6px;align-content:start;background:var(--surface)}
+.tcard h3{font-family:var(--body);font-weight:600;font-size:13.5px}
+.tcard .big{font-family:var(--display);font-weight:800;font-size:28px;line-height:1;letter-spacing:-0.03em;font-variant-numeric:tabular-nums}
+.tcard p{font-size:12.5px;color:var(--ink2)}
+.tcard p b{color:var(--ink)}
+.tchip{justify-self:start;font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--c);color:var(--onfill)}
+.tchart{border:1px solid var(--line);border-radius:6px;padding:10px 8px 4px;background:var(--surface)}
+.tchart svg{display:block;max-width:100%}
+.trev{font-size:12.5px;color:var(--ink2);padding:8px 12px;border-radius:4px;background:var(--part-bg)}
+
+/* scorecard: the forecast marked against reality. Same blocks, same words, every update. */
+.scline{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:13px;color:var(--ink);text-decoration:none;padding:8px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--has);transition:border-color .15s}
+.scline .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scline b{font-weight:600}
+.scline:hover{border-color:var(--ink);border-left-color:var(--has)}
+.scline:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sc-verdict{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;align-items:baseline;padding:12px 14px;border-radius:6px;border:1px solid var(--line);background:var(--bg);font-size:13.5px}
+.sc-k{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.sc-v b{font-weight:600}
+@media (max-width:520px){.sc-verdict{grid-template-columns:1fr;gap:2px}.sc-k{margin-top:6px}}
+.st{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px;background:var(--pb);color:var(--pc);white-space:nowrap;vertical-align:1px}
+.st-met,.st-plus,.st-hold{--pb:var(--has-bg);--pc:var(--has)}
+.st-pending,.st-early,.st-flat{--pb:var(--part-bg);--pc:var(--part)}
+.st-missed,.st-minus,.st-weak{--pb:var(--lacks-bg);--pc:var(--lacks)}
+.st-zero{--pb:var(--grid);--pc:var(--ink2)}
+.sc-table{width:100%;border-collapse:collapse;font-size:13px}
+.sc-table th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:6px 10px 6px 0;border-bottom:2px solid var(--ink);white-space:nowrap}
+.sc-table th.r,.sc-table td.r{text-align:right}
+.sc-table td{padding:8px 10px 8px 0;border-bottom:1px solid var(--grid);vertical-align:top;color:var(--ink2);min-width:0}
+.sc-table td b{color:var(--ink);font-weight:600}
+.sc-table td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--ink)}
+.sc-table tr:last-child td{border-bottom:none}
+.sc-wrong{margin:0;padding:0;list-style:none;display:grid;gap:10px;font-size:13.5px;counter-reset:w}
+.sc-wrong li{display:grid;grid-template-columns:22px 1fr;gap:8px;color:var(--ink2)}
+.sc-wrong li::before{counter-increment:w;content:counter(w);font-family:var(--mono);font-weight:600;color:var(--lacks);font-size:13px;line-height:1.5}
+.sc-wrong b{color:var(--ink);font-weight:600}
+.sc-wrong code{font-family:var(--mono);font-size:12px}
+.sc-shadow{border-left:4px solid var(--part)}
+.sc-dev{display:grid;gap:0}
+.sc-row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:9px 0;border-top:1px solid var(--grid);font-size:13.5px;color:var(--ink2)}
+.sc-row:first-child{border-top:none}
+.sc-when{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink)}
+.sc-row .cap{display:block;margin-top:2px}
+@media (max-width:520px){.sc-row{grid-template-columns:1fr;gap:4px}}
+@media (max-width:640px){.sc-table.wide{min-width:620px}}
+.ver{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px;color:var(--ink2);padding:8px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line)}
+.ver b{color:var(--ink);font-weight:600}
+.st-hit{--pb:var(--has-bg);--pc:var(--has)}
+.st-ontrack{--pb:#e4ecfb;--pc:var(--base)}
+.st-offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.was{display:block;font-size:12.5px;color:var(--ink2);font-family:var(--body);font-weight:500;letter-spacing:0;margin-top:4px}
+.was b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.scrub{display:grid;gap:8px;padding:10px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink)}
+.scrub-row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px}
+.scrub-row .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.scrub-row label b{font-family:var(--mono);font-weight:600}
+.scrub-row input[type=range]{flex:1 1 220px;min-width:160px;accent-color:var(--base)}
+.scrub-row button{font-family:var(--body);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:4px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.scrub-row button:hover{background:var(--ink);color:var(--surface)}
+.scrub-row button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.scrub-ban{font-size:13px;color:var(--ink);padding:8px 10px;border-radius:4px;background:var(--part-bg)}
+.drift{display:grid;gap:6px}
+.story{display:grid;gap:8px;padding:10px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink)}
+.story-head{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.story-head .sl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.story-head button{margin-left:auto;font-family:var(--body);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:4px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer}
+.story-head button:hover{background:var(--ink);color:var(--surface)}
+.story-head button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.story-track{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 6px;scroll-snap-type:x proximity;position:relative}
+.story-track::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:var(--line);z-index:0}
+.moment{position:relative;z-index:1;flex:0 0 auto;display:grid;gap:2px;text-align:left;min-width:128px;max-width:170px;padding:8px 10px;border-radius:6px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font-family:var(--body);cursor:pointer;scroll-snap-align:center;transition:border-color .15s,transform .15s}
+.moment .m-date{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.moment .m-title{font-size:13px;font-weight:600;line-height:1.25}
+.moment.version{border-color:var(--base);background:#eef3fd}
+.moment.key{border-color:var(--part)}
+.moment.ahead{border-style:dashed;color:var(--ink2);background:var(--bg)}
+.moment.ctx{cursor:default;opacity:.75}
+.moment.now{border-color:var(--ink);background:var(--ink);color:var(--surface)}
+.moment.now .m-date{color:rgba(255,255,255,.7)}
+.moment.on{outline:3px solid var(--has);outline-offset:1px;transform:translateY(-1px)}
+.moment:not(.ctx):hover{border-color:var(--ink)}
+.moment:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* ---- the call sheet (design pass, 17 Oct 2026) ---- */
+/* ==========================================================================
+   The call sheet: top of the PAPER Value Model page.
+   One block answers four questions: what we say, how reality is running,
+   how our calls have scored, and what we said on any earlier day (the record).
+   Uses only the page's existing tokens (:root in index.html). Single light theme.
+   Prefix "cs-" for the sheet and "rec-" for the record line, to avoid the
+   page's existing .st / .on / .now / .moment classes.
+   ========================================================================== */
+
+/* Sheet: one white sheet with the ink rule the tape used to carry */
+.cs{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:0 0 6px 6px;box-shadow:var(--sheet);display:grid;min-width:0;transition:background-color .35s}
+.cs-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:0;min-width:0}
+.cs-call{display:grid;gap:8px;align-content:start;padding:clamp(16px,3vw,26px);min-width:0}
+.cs-side{display:grid;align-content:start;border-left:1px solid var(--line);min-width:0}
+.cs-read{display:grid;gap:6px;padding:16px clamp(16px,2.4vw,22px);min-width:0}
+.cs-read + .cs-read{border-top:1px solid var(--line)}
+@media (max-width:820px){.cs-body{grid-template-columns:minmax(0,1fr)}.cs-side{border-left:none;border-top:1px solid var(--line)}}
+
+/* Small uppercase label used for every reading */
+.cs-k{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* The call itself */
+.cs-when{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--base)}
+.cs-val{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.cs-val .n{font-family:var(--display);font-weight:800;font-size:clamp(46px,8vw,76px);line-height:.95;letter-spacing:-0.04em;color:var(--base);font-variant-numeric:tabular-nums}
+.cs-val .u{font-size:15px;color:var(--ink2);max-width:22ch;line-height:1.3}
+.cs-val .u b{color:var(--ink);font-weight:600}
+.cs-was{font-size:14px;color:var(--ink2);max-width:56ch}
+.cs-was b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+.cs-delta{display:inline-block;font-family:var(--mono);font-size:11.5px;font-weight:600;padding:1px 7px;border-radius:4px;background:var(--has-bg);color:var(--has);vertical-align:1px}
+.cs-delta.dn{background:var(--lacks-bg);color:var(--lacks)}
+/* #tape is filled by render() with the sticky row; inside the sheet its "PAPER forecast" name is redundant */
+.cs .tape{border:none;background:none;padding:6px 0 0;border-top:1px dashed var(--line);font-size:12.5px;gap:4px 16px}
+.cs .tape .nm{display:none}
+
+/* Reality reading */
+.cs-big{font-family:var(--display);font-weight:800;font-size:clamp(19px,2.3vw,23px);line-height:1.1;letter-spacing:-0.015em;text-wrap:balance}
+.cs-big.bull{color:var(--bull)}.cs-big.base{color:var(--base)}.cs-big.bear{color:var(--bear)}
+.cs-sub{font-size:13.5px;color:var(--ink2)}
+.cs-sub b{font-family:var(--mono);font-weight:600;color:var(--ink)}
+
+/* Calls reading: one square per call, coloured by status, in the order of calls.json */
+.cs-pips{display:flex;flex-wrap:wrap;gap:4px}
+.cs-pip{width:16px;height:16px;border-radius:3px;background:var(--pb);box-shadow:inset 0 0 0 1.5px var(--pc)}
+.cs-pip.hit{--pb:var(--has);--pc:var(--has)}
+.cs-pip.missed{--pb:var(--lacks);--pc:var(--lacks)}
+.cs-pip.ontrack{--pb:var(--surface);--pc:var(--base)}
+.cs-pip.offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.cs-tally{font-size:13.5px;color:var(--ink2)}
+.cs-tally b{font-weight:600;color:var(--ink)}
+.cs-link{font-size:13px;font-weight:600;color:var(--base);text-decoration:none;justify-self:start;border-radius:2px}
+.cs-link:hover{text-decoration:underline;text-underline-offset:3px}
+.cs-link:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ---------- The record: the line of dated moments ---------- */
+.rec{display:grid;gap:10px;padding:14px clamp(16px,3vw,26px) 16px;border-top:1px solid var(--line);background:var(--bg);min-width:0}
+.rec-head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.rec-head .cs-k{color:var(--ink)}
+.rec-hint{font-size:13px;color:var(--ink2);margin-right:auto}
+.rec-btns{display:flex;gap:6px;flex-wrap:wrap}
+.rec-btn{font-family:var(--body);font-size:13px;font-weight:600;min-height:36px;padding:6px 12px;border-radius:4px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.rec-btn:hover{background:var(--ink);color:var(--surface)}
+.rec-btn:disabled{opacity:.4;cursor:default;background:var(--surface);color:var(--ink)}
+.rec-btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.rec-btn.play[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+
+/* Track: equal spacing per date (order matters more than distance), scrolls sideways on its own when narrow */
+.rec-track{overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;padding:30px 2px 4px;margin:0 -2px;scrollbar-width:thin}
+.rec-line{list-style:none;margin:0;padding:0;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(104px,1fr);min-width:max-content}
+@media (min-width:821px){.rec-line{min-width:100%}}
+.rec-stop{position:relative;scroll-snap-align:center;min-width:0}
+/* the line between stops: solid for what has happened, dashed for what is ahead */
+.rec-stop::before{content:"";position:absolute;top:9px;left:0;right:0;border-top:2px solid var(--ink)}
+.rec-stop:first-child::before{left:50%}
+.rec-stop:last-child::before{right:50%}
+.rec-stop.ahead::before{border-top:2px dashed var(--muted)}
+.rec-stop.is-today::before{right:50%}
+.rec-stop.is-today::after{content:"";position:absolute;top:9px;left:50%;right:0;border-top:2px dashed var(--muted)}
+.rec-stop.is-today:last-child::after{display:none}
+
+.rec-hit{all:unset;box-sizing:border-box;position:relative;display:grid;justify-items:center;gap:5px;width:100%;padding:0 4px 4px;text-align:center;border-radius:6px;cursor:pointer;color:var(--ink)}
+span.rec-hit{cursor:default}
+.rec-hit:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.rec-dot{width:20px;height:20px;border-radius:50%;background:var(--surface);border:2px solid var(--ink);position:relative;z-index:1;transition:transform .2s}
+button.rec-hit:hover .rec-dot{transform:scale(1.18)}
+.rec-stop.context .rec-dot{width:14px;height:14px;margin-top:3px;border-color:var(--muted);background:var(--bg)}
+.rec-stop.event .rec-dot{background:var(--ink)}
+.rec-stop.key .rec-dot{background:var(--part-bg);border-color:var(--part)}
+.rec-stop.version .rec-dot{border-radius:3px;transform:rotate(45deg) scale(.86);background:var(--base);border-color:var(--base)}
+.rec-stop.version button.rec-hit:hover .rec-dot{transform:rotate(45deg)}
+.rec-stop.ahead .rec-dot{border-style:dashed;border-color:var(--muted);background:var(--bg)}
+.rec-stop.is-today .rec-dot{box-shadow:0 0 0 4px var(--surface),0 0 0 6px var(--ink)}
+.rec-stop.is-today:not(.version):not(.event):not(.key) .rec-dot{background:var(--ink)}
+.rec-date{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;white-space:nowrap}
+.rec-what{font-size:12.5px;line-height:1.25;font-weight:600;max-width:15ch;text-wrap:balance}
+.rec-what small{display:block;font-weight:500;color:var(--ink2);font-size:12px}
+.rec-val{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--base)}
+.rec-stop.context .rec-what,.rec-stop.ahead .rec-what{color:var(--ink2);font-weight:500}
+.rec-stop.ahead .rec-date{color:var(--muted)}
+
+/* "You are here" pin over the stop in view */
+.rec-pin{position:absolute;top:-27px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;padding:2px 7px;border-radius:3px;background:var(--ink);color:var(--surface);pointer-events:none}
+.rec-pin::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;background:inherit;transform:translateX(-50%) rotate(45deg)}
+.rec-stop.is-view .rec-what{color:var(--ink)}
+
+/* Caption under the line: what that moment was. Polite live region. */
+.rec-cap{font-size:13.5px;color:var(--ink);min-height:1.5em;max-width:78ch}
+.rec-cap b{font-family:var(--mono);font-weight:600}
+.cs-foot{padding:10px clamp(16px,3vw,26px) 12px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-size:12px;color:var(--ink2)}
+.cs-foot .upd{font-size:12px}
+.cs-foot a{color:var(--ink2)}
+
+/* ---------- Reading a past day ---------- */
+/* The banner is the first thing inside the sheet; the whole sheet takes the paper tint so the state is visible without reading */
+.cs-ban{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:10px clamp(16px,3vw,26px);background:var(--ink);color:var(--surface);font-size:13.5px}
+.cs-ban b{font-family:var(--mono);font-weight:600}
+.cs-ban .sp{margin-right:auto;min-width:0;flex:1 1 40ch}
+.cs-ban a{color:var(--surface);font-size:12.5px}
+.cs-ban .rec-btn{border-color:var(--surface);background:var(--surface);color:var(--ink)}
+.cs-ban .rec-btn:hover{background:var(--bg)}
+.cs-ban .rec-btn:focus-visible{outline-color:var(--surface)}
+.cs.is-past{background:var(--part-bg)}
+.cs.is-past .cs-when{color:var(--part)}
+.cs.is-past .cs-side{border-color:rgba(122,82,0,.22)}
+.cs.is-past .cs-read + .cs-read{border-color:rgba(122,82,0,.22)}
+.cs.is-past .rec-pin{background:var(--part)}
+/* What happened next: the hindsight box, only on a past day */
+.cs-next{display:grid;gap:4px;padding:10px 12px;border-radius:4px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ink);font-size:13.5px;color:var(--ink2);max-width:60ch}
+.cs-next b{color:var(--ink);font-weight:600}
+
+/* Sticky bar while reading a past day (add class .past to #sticky; JS prepends the chip) */
+#sticky.past{background:var(--part-bg)}
+.past-chip{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:4px;background:var(--ink);color:var(--surface);white-space:nowrap}
+.past-chip a{color:var(--surface);margin-left:6px}
+
+/* Replay: number change is a short rise; nothing moves for readers who ask for less motion */
+.cs-val .n.swap{animation:cs-rise .45s ease-out}
+.rec-cap.swap{animation:cs-fade .45s ease-out}
+@keyframes cs-rise{from{opacity:.15;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes cs-fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion: reduce){.cs-val .n.swap,.rec-cap.swap{animation:none}.cs{transition:none}}
+
+/* Phone */
+@media (max-width:560px){
+  .cs-val .u{max-width:none;flex-basis:100%}
+  .rec-head{display:grid;grid-template-columns:1fr;gap:8px}
+  .rec-btns{display:grid;grid-template-columns:1fr 1fr 1fr}
+  .rec-long{display:none}
+  .rec-btn{justify-content:center;padding:6px 8px}
+  .rec-line{grid-auto-columns:96px}
+}
+.rec-what .rec-val{display:block}
+.sc-more{border:1px solid var(--line);border-radius:6px;background:var(--bg)}
+.sc-more summary{cursor:pointer;padding:12px 14px;font-weight:600;font-size:14px;list-style:none;display:flex;align-items:center;gap:10px}
+.sc-more summary::-webkit-details-marker{display:none}
+.sc-more summary::before{content:"+";font-family:var(--mono);font-weight:600;width:20px;height:20px;border-radius:4px;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:14px;line-height:1}
+.sc-more[open] summary::before{content:"−"}
+.sc-more summary:focus-visible{outline:3px solid var(--focus);outline-offset:-3px;border-radius:6px}
+.sc-more-in{display:grid;gap:16px;padding:4px 14px 16px}
+
+/* ---- said / happened / scored chart and the calls list (design pass, 17 Oct 2026) ---- */
+/* Said / happened / scored chart (#drift). Existing tokens only. */
+.dv-keys{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink2)}
+.dv-k{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.dv-k i{flex:none;width:18px;height:0;border-bottom:2px solid var(--c);display:inline-block}
+.dv-k.k-dot i{width:9px;height:9px;border:0;border-radius:50%;background:var(--c)}
+.dv-k.k-bar i{width:8px;height:12px;border:0;border-radius:2px 2px 0 0;background:var(--c)}
+.dv-k.k-need i{border-bottom:1.5px dashed var(--c)}
+.dv-wrap{width:100%;overflow:hidden}
+.dv{display:block;max-width:100%;height:auto}
+.dv text{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:10.5px;fill:var(--muted)}
+.dv .dv-band{font-size:10px;font-weight:600;letter-spacing:.08em;fill:var(--muted)}
+.dv .dv-tick{fill:var(--muted)}
+.dv .dv-val{fill:var(--ink);font-weight:500}
+.dv .dv-end{fill:var(--ink);font-weight:600}
+.dv .dv-endk{fill:var(--ink2);font-weight:500}
+.dv .dv-chipt{fill:var(--ink2);font-size:10px;font-weight:600}
+.dv .dv-pillt{fill:var(--surface);font-size:10px;font-weight:600}
+.dv .dv-glyph{fill:var(--onfill);font-size:10px;font-weight:700}
+.dv-grid{stroke:var(--grid);stroke-width:1}
+.dv-axis{stroke:var(--line);stroke-width:1}
+.dv-ver{stroke:var(--line);stroke-width:1}
+.dv-chip{fill:var(--bg);stroke:var(--line)}
+.dv-line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.dv-need{fill:none;stroke-width:1.5;stroke-dasharray:5 4}
+.dv-bar{fill:var(--ink2);opacity:.55}
+.dv-bar.dv-part{fill:none;stroke:var(--ink2);stroke-width:1.5;stroke-dasharray:3 3;opacity:.8}
+.dv-mkt{fill:var(--ref);stroke:var(--surface);stroke-width:2}
+.dv-ring{stroke:var(--surface);stroke-width:2}
+.dv-rail{stroke-width:3;stroke-linecap:round;opacity:.45}
+.dv-curtain{fill:var(--bg);opacity:.85}
+.dv-view{stroke:var(--ink);stroke-width:1.5}
+.dv-pill{fill:var(--ink)}
+.dv-hit{fill:transparent}
+.dv-hit:hover{fill:var(--ink);fill-opacity:.05}
+.dv-tbl summary{font-size:13px}
+
+/* Calls so far (#callsBox) */
+.st-ontrack{--pb:#e4ecfb;--pc:var(--base)}
+.st-offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.cl-head{display:grid;gap:8px}
+.cl-rail{display:flex;gap:2px}
+.cl-cell{flex:1 1 0;max-width:56px;height:22px;display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:700;border-radius:3px;background:var(--pb);color:var(--pc)}
+.cl-cell.cl-missed{background:var(--lacks);color:var(--onfill)}
+.cl-cell.cl-hit{background:var(--has);color:var(--onfill)}
+.cl-cell.cl-offtrack{--pb:var(--part-bg);--pc:var(--part)}
+.cl-cell.cl-ontrack{--pb:#e4ecfb;--pc:var(--base)}
+.cl-sum{font-size:13.5px;color:var(--ink2)}
+.cl-sum b{color:var(--ink);font-weight:600}
+.cl-grp{display:grid;gap:6px;margin-top:6px}
+.cl-grp h4{margin:0;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);padding-bottom:4px;border-bottom:2px solid var(--ink)}
+.cl-grp h4 .cap{text-transform:none;letter-spacing:0;font-family:var(--body);font-weight:400}
+.cl-list{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.cl{display:grid;grid-template-columns:132px minmax(0,1fr);gap:4px 14px;padding:10px 12px;border-left:4px solid var(--rc,var(--line));border-bottom:1px solid var(--grid);font-size:13.5px}
+.cl-missed{--rc:var(--lacks);background:var(--lacks-bg)}
+.cl-hit{--rc:var(--has)}
+.cl-offtrack{--rc:var(--part)}
+.cl-ontrack{--rc:var(--base)}
+.cl-top{display:grid;gap:4px;align-content:start}
+.cl-top .st{justify-self:start}
+.cl-due{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.cl-body{display:grid;gap:3px;min-width:0}
+.cl-txt{font-weight:600;color:var(--ink)}
+.cl-ev{color:var(--ink2);font-size:13px;border:0;padding:0}
+details.cl-ev summary{display:inline;padding:0;font-weight:400;cursor:pointer}
+details.cl-ev summary::after{content:" more";font-family:var(--body);font-size:12px;color:var(--base);text-decoration:underline}
+details.cl-ev[open] summary::after{content:" less"}
+details.cl-ev p{margin-top:2px}
+.cl-meta{font-size:12px;color:var(--muted)}
+.cl-meta b{color:var(--ink);font-weight:600}
+.cl-how{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:1px 5px;border-radius:3px;border:1px solid var(--line);color:var(--ink2)}
+.cl-how.auto{border-color:var(--ink);color:var(--ink)}
+@media (max-width:560px){
+  .cl{grid-template-columns:1fr;padding:10px}
+  .cl-top{grid-auto-flow:column;justify-content:space-between;align-items:center}
+}
+</style>
+
+<div id="sticky" hidden><div class="in" id="stickyIn"></div></div>
+
+<main class="wrap">
+  <header class="top">
+    <div class="tag" id="topTag">Papertrade · PAPER token · Personal research, re-run as reality comes in</div>
+    <h1>PAPER Value Model</h1>
+  
+    <section class="cs" id="sheet" aria-labelledby="sayWhen">
+      <div class="cs-ban" id="viewBan" role="status" hidden>
+        <span class="sp">Reading this page as it stood on <b>15 Oct 2026</b>. Numbers, cards and calls are as they were that day; the written analysis is today's.</span>
+        <a id="recLink" href="?asof=2026-10-15">Link to this day</a>
+        <button type="button" class="rec-btn" id="backToday">Back to today, 17 Oct</button>
+      </div>
+  
+      <div class="cs-body">
+        <div class="cs-call">
+          <div class="cs-when" id="sayWhen">Our call today · 17 Oct</div>
+          <div class="cs-val">
+            <span class="n" id="sayVal">$0.11</span>
+            <span class="u" id="sayUnit">per PAPER by <b>Oct 2027</b>, base case</span>
+          </div>
+          <p class="cs-was" id="sayWas">First said <b>$0.081</b> on 14 Oct. Re-run on 17 Oct with three more days of data, same method. <span class="cs-delta">+36%</span></p>
+          <div class="tape" id="tape" aria-label="All three cases and the market's bet">
+            <span><span class="dot" style="--c:var(--bull)"></span>Bull <b>$0.72</b></span>
+            <span><span class="dot" style="--c:var(--base)"></span>Base <b>$0.11</b></span>
+            <span><span class="dot" style="--c:var(--bear)"></span>Bear <b>$0.013</b></span>
+            <span><span class="dot" style="--c:var(--ref)"></span>Market bet <b>$0.025</b></span>
+          </div>
+          <div class="cs-next" id="sayNext" hidden>
+            <span class="cs-k">What happened next</span>
+            <span><b>17 Oct:</b> re-run on new data, base case $0.081 → <b>$0.11</b>.</span>
+            <span><b>1 call since marked missed:</b> the farming stop line came 2½ months early.</span>
+          </div>
+        </div>
+  
+        <div class="cs-side">
+          <div class="cs-read">
+            <span class="cs-k">Reality so far</span>
+            <div class="cs-big bull" id="closestBig">Revenue is running ahead of even the bull case</div>
+            <p class="cs-sub" id="closest"><b>$5.0M</b> a day over the last 6 days. The bull case needs <b>$2.1M</b> once the rush fades. Too early to count while the launch rush lasts.</p>
+          </div>
+          <div class="cs-read">
+            <span class="cs-k" id="tallyWhen">Calls scored so far</span>
+            <div class="cs-pips" id="tallyPips" role="img" aria-label="10 calls: 1 hit, 1 missed, 6 on track, 2 off track">
+              <span class="cs-pip ontrack" title="Base case $0.081: on track"></span>
+              <span class="cs-pip ontrack" title="Bull case $0.49: on track"></span>
+              <span class="cs-pip offtrack" title="Bear case $0.011: off track"></span>
+              <span class="cs-pip ontrack" title="Payout bar doubles on 17 Oct: on track"></span>
+              <span class="cs-pip ontrack" title="Surplus payouts restart: on track"></span>
+              <span class="cs-pip ontrack" title="Mint rate under 10 per $1: on track"></span>
+              <span class="cs-pip missed" title="Farming stop line, base case: missed"></span>
+              <span class="cs-pip offtrack" title="Money on platform above $138M by 30 Nov: off track"></span>
+              <span class="cs-pip hit" title="Payout queue stays at zero: hit so far"></span>
+            </div>
+            <p class="cs-tally" id="tallyTop"><b>1</b> hit · <b>1</b> missed · <b>5</b> on track · <b>2</b> off track</p>
+            <a class="cs-link" href="#scorecard">Every call, and what we got wrong ↓</a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="rec" id="storyWrap" hidden>
+        <div class="rec-head">
+          <span class="cs-k">The record</span>
+          <span class="rec-hint">Tap a date to see this page as it stood that day.</span>
+          <div class="rec-btns">
+            <button type="button" class="rec-btn" id="recPrev" aria-label="Show the page as it stood at the previous date">← Earlier</button>
+            <button type="button" class="rec-btn" id="recNext" aria-label="Show the page as it stood at the next date" disabled>Later →</button>
+            <button type="button" class="rec-btn play" id="watch" aria-label="Replay the record from 14 Oct" aria-pressed="false">▶ Replay<span class="rec-long"> from 14 Oct</span></button>
+          </div>
+        </div>
+        <div class="rec-track">
+          <ol class="rec-line" id="story" aria-label="Dated moments in this study">
+            <li class="rec-stop context past"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">10 Oct</span><span class="rec-what">Launch</span></span></li>
+            <li class="rec-stop context past"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">11 Oct</span><span class="rec-what">The rush fades</span></span></li>
+            <li class="rec-stop version past"><button type="button" class="rec-hit" aria-label="14 Oct: first published, base case $0.081. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">14 Oct</span><span class="rec-what">First published<span class="rec-val">$0.081</span></span></button></li>
+            <li class="rec-stop event past"><button type="button" class="rec-hit" aria-label="15 Oct: best day since launch. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">15 Oct</span><span class="rec-what">Best day since launch</span></button></li>
+            <li class="rec-stop version past is-today is-view"><button type="button" class="rec-hit" aria-current="date" aria-label="17 Oct, today: re-run, base case $0.11; payout bar doubles. Showing today."><span class="rec-pin">You are here</span><span class="rec-dot"></span><span class="rec-date">17 Oct · today</span><span class="rec-what">Re-run<span class="rec-val">$0.11</span><small>Payout bar doubles</small></span></button></li>
+            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">20 Oct</span><span class="rec-what">Next re-run<small>in 3 days</small></span></span></li>
+            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">11 Nov</span><span class="rec-what">Base-case stop line</span></span></li>
+            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">30 Nov</span><span class="rec-what">$138M money check</span></span></li>
+          </ol>
+        </div>
+        <p class="rec-cap" id="recCap" aria-live="polite"><b>Next:</b> 20 Oct, the first reading of how fast stakers' payouts restart after the bar doubled. The model is re-run on that day's data.</p>
+      </div>
+      <div class="cs-foot">
+        <span class="upd" id="upd">Loading today's numbers…</span>
+        <span><span id="verLbl">Version 2 · published 17 Oct 2026</span> · <a href="/paper-valuation/v1/">Version 1 as published</a></span>
+      </div>
+      <div class="ver old"><span class="fc" style="background:var(--muted)">Version 2</span><span>17 Oct 2026 data, kept exactly as published. Superseded by <a href="/paper-valuation/">Version 3, 20 Oct 2026</a>. The calls and the Tracking section below still read today's live numbers against this version's forecast.</span></div>
+    </section>
+  </header>
+
+  <section class="panel" id="summary" aria-label="Executive summary">
+    <div class="tag">Executive summary · tap any box for the details</div>
+    <div class="keys">Tap any underlined number to see where it comes from:
+      <span class="k m"><i></i>measured</span>
+      <span class="k c"><i></i>from similar launches</span>
+      <span class="k e"><i></i>model result</span>
+    </div>
+    <div class="dash" id="dash"></div>
+  </section>
+
+<!-- scorecard:start -->
+  <section class="panel" id="scorecard" aria-label="Scorecard: calls, what changed, what moved">
+    <div class="tag">Scorecard · Version 2 · 17 Oct 2026</div>
+    <h2>Is the forecast holding?</h2>
+    <div class="sc-verdict">
+      <span class="sc-k">Tracking closest to</span><span class="sc-v" id="closest2"><b>Bull</b>, on revenue: the live daily average is above even the bull case's requirement. Too early to count: the launch rush has not faded.</span>
+      <span class="sc-k">Calls so far</span><span class="sc-v" id="tally"><span class="st st-hit">1 hit</span> <span class="st st-missed">1 missed</span> <span class="st st-ontrack">6 on track</span> <span class="st st-offtrack">2 off track</span></span>
+      <span class="sc-k">This version</span><span class="sc-v">Same method, inputs re-read on 17 Oct. Bull <b>$0.72</b>, base <b>$0.11</b>, bear <b>$0.013</b> per PAPER by Oct 2027. Version 1 said $0.49 / $0.081 / $0.011.</span>
+      <span class="sc-k">Next version</span><span class="sc-v"><b>20 Oct</b>: first reading of the payout-bar test. Then weekly through November.</span>
+    </div>
+    <p class="lede">Three days after Version 1, Papertrade is making more money, not less: <b>$6.3M a day</b> on 14–16 Oct against the $4.45M a day Version 1 started from, with <b>91%</b> of it paid to stakers against the 85% assumed. Polymarket's median one-day-after-launch value moved from about $100M to about <b>$200M</b> on fourteen times the volume. Two things went the other way: PAPER supply is growing faster than Version 1 assumed (<b>8.45B</b> on the live contract against 7.2B modelled), and DefiLlama revised down the three days the first reference was built on. Re-run on today's inputs, the same model lands higher. The first real test starts when the pool's payout bar doubles after 18:45 UTC on 17 Oct.</p>
+
+    <h3>1. Said, happened, scored</h3>
+    <div class="drift" id="drift"></div>
+
+    <h3>2. Calls so far</h3>
+    <p class="cap">Every dated call, marked against the evidence as of the day in view. Misses stay here in every later version. Full version note with every source: <a href="/paper-valuation/updates/2026-10-17-version-02.md">version 2</a>; the page as it stood: <a href="/paper-valuation/v1/">Version 1</a>.</p>
+    <div id="callsBox"><p class="cap">Loading the calls…</p></div>
+
+    <div class="two">
+      <div>
+        <h3>3. What we got wrong in Version 1</h3>
+        <ol class="sc-wrong">
+          <li><span><b>The reference was built on figures the feed later revised.</b> The same three days now give $3.69M a day, 17% below the $4.45M used. Version 2 uses the three newest complete days and the tracker flags any revision to them.</span></li>
+          <li><span><b>The supply tuning was too low.</b> 3.0 × revenue against 4.0 on the live contract; 7.16B modelled against 8.45B minted. Version 2 reads it from the contract's <code>tailProgress</code>. Our best reading of why: the curve counts gross flow into the pool, not net losses. The docs still cannot be read as text, so this stays an inference.</span></li>
+          <li><span><b>The farming stop line came 2½ months early</b> for the same reason. It is the one call marked missed.</span></li>
+          <li><span><b>The 17 Oct test was timed from each case's run-rate, not the actual one.</b> Its first reading will not separate the cases.</span></li>
+          <li><span><b>Two doubts in the report are resolved; neither was a model input.</b> The "$910B daily volume" on 13 Oct was cumulative (the day itself was $73.7B). The 30.8 PAPER per $1 that did not fit the published curve fits it once the curve runs on gross flow.</span></li>
+        </ol>
+      </div>
+      <div>
+        <h3>4. What changed</h3>
+        <div class="sc-dev">
+          <div class="sc-row"><div class="sc-when">17 Oct · 10:47 UTC</div><div><b>Tell logged, no re-run:</b> the house pool read <b>$4.83M</b>, under the $5M bar, so stakers have had only the 1% win fee since about midnight UTC ($20K paid between 04:46 and 10:47, against $51.2M all time). A quiet Saturday: Bitcoin $81.5K, down 0.7% on the day; traders ahead $1.0M on open trades. About $172K of net losses tops the pool over the bar again, and the bar doubles to $10M after 18:45 UTC. One self-checking call added: stakers' share back above 80% on a closed day by <b>28 Oct</b>, the base-case date; if not, the base case comes down. One quiet day is not new evidence; the forecast was not touched. <span class="cap">PaperDash API · CoinGecko</span></div></div>
+          <div class="sc-row"><div class="sc-when">17 Oct · v2</div><div><b>New data:</b> three more complete days ($5.93M, $7.49M, $5.45M); live contract readings (supply 8.45B, 99.2% staked, high-water mark $222M, cap $5M, pool $4.96M, queue $0); Polymarket re-priced ($100M strike 79%, was 47%; $132K traded, was $9K); DefiLlama revised 12 Oct to $3.93M (was $4.65M) and 13 Oct to $4.52M (was $6.08M).</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $4.45M → $6.29M a day (same method: the last three complete days); share to stakers 85% → 91%; revenue so far $38.6M → $55.2M; supply tuning 3.0 → 4.0, read from the contract instead of estimated from press figures; market bet $100M → $200M.</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Outputs moved:</b> bull $0.49 → $0.72; base $0.081 → $0.11; bear $0.0105 → $0.013. The method is unchanged: the same comparables' retention and multiples, the same published supply curve. The supply tuning is an input re-read from the contract, not a method change.</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Fixed:</b> the tracker's recent-average card had included the feed's 9 Oct pre-launch row (revenue 0), understating the average. The forecast was not touched.</div></div>
+          <div class="sc-row"><div class="sc-when">14 Oct · v1</div><div>First version. 64 links opened and audited; 23 corrections from the draft (retention measured from each comparable's own peak; Pump.fun dropped from the base set; misattributions fixed; our own arithmetic labelled). Kept at <a href="/paper-valuation/v1/">/paper-valuation/v1/</a>.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <details class="sc-more">
+      <summary>The full record: inputs, days, triggers, schedule</summary>
+      <div class="sc-more-in">
+    <h3>What moved: Version 1 against Version 2</h3>
+    <div class="tablewrap"><table class="sc-table wide">
+      <thead><tr><th>Input</th><th>Version 1 (14 Oct)</th><th>Version 2 (17 Oct)</th><th>Source</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Daily revenue, reference</td><td class="num">$4.45M</td><td class="num">$6.29M</td><td>DefiLlama, last three complete days</td><td><span class="st st-plus">+</span></td></tr>
+        <tr><td>Share paid to stakers</td><td class="num">85%</td><td class="num">91%</td><td>DefiLlama; PaperDash agrees</td><td><span class="st st-plus">+</span></td></tr>
+        <tr><td>Revenue so far</td><td class="num">$38.6M</td><td class="num">$55.2M</td><td>DefiLlama, closed days</td><td><span class="st st-zero">0</span></td></tr>
+        <tr><td>PAPER supply</td><td class="num">~6.1B modelled</td><td class="num">8.45B live</td><td>PaperDash contract read</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Supply tuning (H ÷ revenue)</td><td class="num">3.0 estimated</td><td class="num">4.0 observed</td><td>PaperDash <code>tailProgress</code></td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Mint rate, PAPER per $1</td><td class="num">~26 modelled</td><td class="num">~12 by the formula</td><td>PaperDash; ChainCatcher 16.6</td><td><span class="st st-zero">0</span></td></tr>
+        <tr><td>Market bet, all PAPER</td><td class="num">~$100M · $0.016</td><td class="num">~$200M · $0.025</td><td>Polymarket</td><td><span class="st st-plus">+</span></td></tr>
+        <tr><td>Money on platform</td><td class="num">$64M</td><td class="num">$68.6M</td><td>DefiLlama; PaperDash</td><td><span class="st st-plus">+</span></td></tr>
+        <tr><td>Payout queue</td><td class="num">$0</td><td class="num">$0</td><td>PaperDash</td><td><span class="st st-zero">0</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="cap">+ better for PAPER's value · − worse · 0 neutral. Retention (34% / 10% / 2%) and multiples (12× / 6× / 3×) are unchanged: they come from the comparables, not from Papertrade's week.</p>
+
+    <h3>What happened, day by day</h3>
+    <div class="sc-dev">
+      <div class="sc-row"><div class="sc-when">14 Oct</div><div><span class="st st-zero">0</span> Revenue $5.93M. Papertrade #3 in crypto by daily revenue, behind Tether and Circle. <span class="cap">DefiLlama</span></div></div>
+      <div class="sc-row"><div class="sc-when">15 Oct</div><div><span class="st st-plus">+</span> Best day since launch: $7.49M, #2 by daily revenue, ahead of Circle. Cumulative net trader losses reported at $49.5M (one outlet, source unnamed). <span class="cap">DefiLlama · TokenPost · MarsBit</span></div></div>
+      <div class="sc-row"><div class="sc-when">16 Oct</div><div><span class="st st-zero">0</span> Revenue $5.45M. New PAPER minted that day halved to 313M (678M the day before). Reported mint rate 16.6 per $1. PaperStrategy, a wrapper that stakes PAPER, re-rated to a $9.6M market cap, which implies at most ~$0.062 per PAPER (an upper bound). The largest tracked farmer wallet turned a $762K profit. <span class="cap">DefiLlama · PaperDash · ChainCatcher · Odaily · Lookonchain</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 04:46 UTC</div><div><span class="st st-zero">0</span> Live contract: cap $5M, pool $4.96M, queue $0, supply 8.45B, 99.2% staked, high-water mark $222M, open interest $562M, 21,453 accounts, $1.24T traded since launch. <span class="cap">PaperDash API</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 04:52 UTC</div><div><span class="st st-plus">+</span> Polymarket re-priced: $100M strike 79% (47% at Version 1), $150M 64.5%, $200M 52.5%, $250M 44%; $132K traded. The rules now define "launch" as the token being publicly tradable. <span class="cap">Polymarket</span></div></div>
+      <div class="sc-row"><div class="sc-when">17 Oct 10:47 UTC</div><div><span class="st st-minus">−</span> The pool slipped under the bar: $4.83M against the $5M cap (it read $5.00M at 10:48 UTC on 16 Oct). Funds $3.83M plus open house PnL −$1.00M; queue $0; cap still $5M until the scheduled change. Stakers' payouts all time $51.20M, up $20K in six hours. <span class="cap">PaperDash API</span></div></div>
+      <div class="sc-row"><div class="sc-when">14–17 Oct</div><div><span class="st st-zero">0</span> No incident, pause, outage, exploit, refund or official announcement found in a sweep of 28 sources. The cap change remains scheduled for after 18:45 UTC on 17 Oct. <span class="cap">Research desk</span></div></div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>What would change the call</h3>
+        <div class="box"><ul>
+          <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue above $2.1M a day for 30 days after the mint rate is under 10 per $1; money on platform above $138M by 30 Nov; a dated transfer unlock, listing or distribution deal.</span></li>
+          <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear:</b> revenue below $0.63M a day for 30 days after mid-November; stakers' share still under 80% on 28 Oct (the tell logged 17 Oct); surplus payouts still paused in December; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027, ahead of even the bull path.</span></li>
+        </ul></div>
+      </div>
+      <div>
+        <h3>Update schedule and versions</h3>
+        <div class="tablewrap"><table class="sc-table">
+          <thead><tr><th>Date</th><th>What</th></tr></thead>
+          <tbody>
+            <tr><td class="num">18 Oct</td><td>Mark the payout-bar call hit or missed (cap reads $10M?)</td></tr>
+            <tr><td class="num">20 Oct</td><td><b>Version 3</b>: first reading of the payout-bar test; the mint-rate line</td></tr>
+            <tr><td class="num">28 Oct</td><td>The tell resolves itself: stakers' share back above 80% on a closed day (base or better), or not</td></tr>
+            <tr><td class="num">weekly</td><td>A version every week through November, data re-read each time</td></tr>
+            <tr><td class="num">11 Nov</td><td>Base-case farming stop line (Version 2)</td></tr>
+            <tr><td class="num">30 Nov</td><td>The $138M money check; the open-contract and builder-code phases</td></tr>
+            <tr><td class="num">Dec on</td><td>A version on each resolved call, at least monthly</td></tr>
+          </tbody>
+        </table></div>
+        <div class="tablewrap"><table class="sc-table">
+          <thead><tr><th>Version</th><th>Data as of</th><th>Bull · base · bear, Oct 2027</th></tr></thead>
+          <tbody>
+            <tr><td><a href="/paper-valuation/v1/">Version 1</a></td><td class="num">14 Oct 2026</td><td class="num">$0.49 · $0.081 · $0.011</td></tr>
+            <tr><td><b>Version 2</b> (this page)</td><td class="num">17 Oct 2026</td><td class="num">$0.72 · $0.11 · $0.013</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+      </div>
+    </details>
+  </section>
+<!-- scorecard:end -->
+
+  <section class="panel" id="track" aria-label="Forecast against actual">
+    <div class="tag">Tracking · is the forecast holding?</div>
+    <h2>What has actually happened since the forecast</h2>
+    <p class="lede">The forecast was fixed on 14 Oct 2026 and is not re-tuned. Every day the live numbers are laid against it, plus the model's own dated tests. The cases describe revenue <em>after the launch rush fades</em> (similar tokens took 1–9 months), so early readings run high; the dated tests are the sharper check.</p>
+    <div id="trackIn"><p class="cap">Loading today's numbers…</p></div>
+  </section>
+
+  <section class="panel" id="worth" aria-label="Value and assumptions">
+    <div class="tag">Details · value</div>
+    <h2>What could PAPER be worth, and when?</h2>
+    <p class="lede">Two things decide the value: how much of today's revenue survives once the launch rush fades, and what buyers pay for each $1 of yearly cash. Pick a case or tap any square. The chart and the numbers update together.</p>
+    <div class="ctrl" role="group" aria-label="Pick a case">
+      <span class="lbl">Pick a case:</span>
+      <span id="presets"></span>
+      <span class="or">or tap any square below</span>
+      <span class="live">Live</span>
+    </div>
+    <div class="vm">
+      <div>
+        <div class="step">1 · Choose the two assumptions</div>
+        <div class="heatwrap"><table class="heat" id="heat" aria-label="Value per PAPER by Oct 2027, by revenue kept and multiple"></table></div>
+        <p class="cap" style="margin-top:8px">Rows: share of revenue kept. Columns: value ÷ yearly cash to holders. Every row and column is a real token. Squares show the forecast value per PAPER in Oct 2027.</p>
+      </div>
+      <div style="display:grid;gap:14px">
+        <div class="step" style="margin-bottom:-8px">2 · See the result</div>
+        <div class="readout" id="readout" aria-live="polite"></div>
+        <div>
+          <h3 style="margin-bottom:4px">All three cases side by side</h3>
+          <div id="ff"></div>
+          <p class="cap">Bar: value from Nov 2026 (right end) down to Oct 2027 (dot). It slides because losses keep creating new PAPER. Dashed lines: reference points, not forecasts. Log scale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="farm" aria-label="When farming stops paying">
+    <div class="tag">Details · farming</div>
+    <h2>When does getting PAPER stop being worth it?</h2>
+    <p class="lede">PAPER is only created when someone loses a trade. Each $1 lost earns fewer new PAPER as more exist. Once 1 PAPER costs more to get than it's worth, chasing it stops paying. <span id="farmNow"></span></p>
+    <div class="farmgrid" id="farmgrid"></div>
+    <p class="cap" id="farmCap"></p>
+  </section>
+
+  <section class="panel" id="dates" aria-label="Key dates">
+    <div class="tag">Details · dates</div>
+    <h2>Key dates: when we'll know which case is real</h2>
+    <div id="tl"></div>
+  </section>
+
+  <section class="panel" id="bull" aria-label="Bull case checklist">
+    <div class="tag">Details · bull case</div>
+    <h2>What has to go right for the bull case?</h2>
+    <div class="score">
+      <div class="n">2.5<span style="font-size:22px;color:var(--muted)"> of 9</span></div>
+      <div class="pips" aria-hidden="true"><span class="pip has">✓</span><span class="pip has">✓</span><span class="pip has">✓</span><span class="pip part">~</span><span class="pip part">~</span><span class="pip lacks">✕</span><span class="pip lacks">✕</span><span class="pip lacks">✕</span><span class="pip lacks">✕</span></div>
+      <p class="lede" style="flex:1 1 260px">The 9 traits Hyperliquid had. Every similar token that failed missed at least one. The 4 PAPER lacks are the ones that decide how much revenue stays.</p>
+    </div>
+    <div class="traits" id="traits"></div>
+  </section>
+
+  <section class="panel" id="comps" aria-label="Similar tokens">
+    <div class="tag">Details · evidence</div>
+    <h2>How did similar tokens do?</h2>
+    <div class="two">
+      <div style="display:grid;gap:12px;align-content:start">
+        <h3>Share of revenue still there after the launch rush</h3>
+        <div class="bars" id="bars"></div>
+        <p class="cap">Latest 30 days of revenue ÷ the best 30 days around launch. Highlighted: the three picks used in the cases.</p>
+      </div>
+      <div style="display:grid;gap:12px;align-content:start">
+        <div class="box">
+          <h3>Are these results already in the value?</h3>
+          <ul id="baked"></ul>
+        </div>
+        <div class="box">
+          <h3>Does the strong launch and marketing raise the value?</h3>
+          <ul id="mkt"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="more" aria-label="Assumptions, method and sources">
+    <div class="tag">Details · how it's built</div>
+    <h2>Assumptions, method and sources</h2>
+    <details>
+      <summary>Change any assumption</summary>
+      <div class="dd">
+        <div class="tablewrap"><table class="inputs" id="inputs"></table></div>
+        <button type="button" class="btn" id="reset">Reset to the evidence</button>
+      </div>
+    </details>
+    <details>
+      <summary>How the math works</summary>
+      <div class="dd"><ul class="plain">
+        <li>Daily revenue today × share a similar token kept = future daily revenue.</li>
+        <li>× 365 × share paid to stakers = yearly cash to stakers.</li>
+        <li>× the multiple buyers paid for that similar token = value of all PAPER.</li>
+        <li>÷ PAPER that will exist by then = value per PAPER.</li>
+        <li>Supply rule: 100 new PAPER per $1 lost until the pool reaches $2M, then fewer as more is created, heading toward about 12B.</li>
+        <li>Farming stop line = cost to get $1 of loss ÷ value per PAPER. Below that many PAPER per $1, it costs more than it's worth.</li>
+      </ul></div>
+    </details>
+    <details>
+      <summary>Best estimates, where no public number exists</summary>
+      <div class="dd"><ul class="plain" id="ests"></ul></div>
+    </details>
+    <details>
+      <summary>Sources (all checked 14 Oct 2026)</summary>
+      <div class="dd src" id="srcs"></div>
+    </details>
+  </section>
+
+  <footer>Version 1 built 14 Oct 2026 (64 links opened and checked). Version 2 on 17 Oct 2026 (28 more sources; same method, inputs re-read). Figures that are our own arithmetic are labelled as such. Numbers move daily. Personal research, done for my own interest and shared as-is. Not financial advice. Do your own research.</footer>
+</main>
+
+<div id="pop" role="tooltip" hidden></div>
+
+<script>
+(function(){
+let ASOF=Date.UTC(2026,9,17); const DAY=864e5; // set per version by applyVersion()
+const SC=["bull","base","bear"];
+const NAME={bull:"Bull",base:"Base",bear:"Bear",mine:"Your pick"};
+const T={m:"Measured",c:"From similar launches",e:"Model result"};
+const SRC={
+  defi:"DefiLlama daily revenue: 14 Oct $5.93M, 15 Oct $7.49M, 16 Oct $5.45M. Average $6.29M a day over the last three complete days, the same method Version 1 used on 11–13 Oct ($4.45M then; $3.69M after DefiLlama's revisions). Launch day ($25.24M) left out as a one-off.",
+  hold:"DefiLlama: $17.2M of $18.9M paid to stakers on 14–16 Oct (91%); $51.1M of $55.2M since launch (93%). PaperDash's on-chain allocation agrees to the dollar. Version 1 used 85%.",
+  cum:"DefiLlama: total revenue 10–16 Oct, complete days only, $55.18M.",
+  supply:"Papertrade docs: 100 PAPER per $1 lost while the pool is under $2M, then it shrinks. TechFlow's reading of the docs gives the constants: 100 × (120M ÷ (120M + H))², heading to about 12B.",
+  hr:"Read from the live contract (PaperDash, 17 Oct 04:46 UTC): the curve's high-water mark is $222M against $55M of revenue, a ratio of 4.0. Version 1 estimated 3.0 from two press figures. The contract shows the curve counts gross flow into the pool, not net losses; at this ratio the rule's supply sits within 5% of the 8.45B actually minted.",
+  rate:"Live contract high-water mark $222M (PaperDash, 17 Oct): 100 × (120 ÷ 342)² ≈ 12 PAPER per $1. ChainCatcher reported 16.6 on 16 Oct and 30.8 on 12 Oct.",
+  poly:"Polymarket, 'Papertrade FDV above ___ one day after launch', 17 Oct: $100M 79%, $150M 64.5%, $200M 52.5%, $250M 44%. $132K traded. The midpoint is about $200M for all PAPER (about $100M on $9K traded at Version 1). Still thin.",
+  farm:"Odaily (Lookonchain wallet data): about $4.50 per 1,000 PAPER by betting both ways; about $33 per 1,000 by losing outright.",
+  hedge:"Odaily: $4.50 per 1,000 PAPER at ~31 PAPER per $1 = about $0.14 per $1 of loss counted.",
+  ceil:"Keeps 100% of today's revenue and gets 15×, Hyperliquid's first-year high. No farmed launch has kept 100%.",
+  lighter:"Lighter: last 30 days $4.83M (DefiLlama) vs ~$14M in Nov 2025 (Tokenomist) = 34% kept.",
+  jup:"Jupiter perps kept 12.8% (DefiLlama). edgeX kept 7.9% from its Q4 2025 peak (DefiLlama). Middle of the 8 similar tokens: ~10%.",
+  edgex:"edgeX: Q4 2025 revenue $155.8M vs latest quarter $12.29M = 7.9% (DefiLlama). edgeX is an Amber Group-backed perp exchange; EDGE token launched 31 Mar 2026 (The Defiant, crypto.news).",
+  aster:"Aster kept 1.7% (30-day fees $5.1M vs a peak-week pace of ~$298M per 30 days, DefiLlama). Gains kept 1.8% (DefiLlama).",
+  hype:"Hyperliquid: value ÷ yearly holder cash was 12–15× through its first year (our arithmetic: CoinMarketCap value ÷ DefiLlama holder revenue). GMX at its peak: 12.4× (Sam Andrew).",
+  pump:"Pump.fun: value $2.22B ÷ $359M yearly holder cash = 6.2× (DefiLlama). Rollbit: 6.2× in Oct 2023 (Blockcrunch), ~5.6× now (CoinGecko ÷ FairGambling).",
+  gains:"Gains: ~2.5–3.2× (CoinGecko value ÷ DefiLlama holder revenue) before it paused holder payouts in Jun 2026 (Gains docs).",
+  rollbit:"Rollbit: revenue ~$67.8M in Jan 2024 → ~$14M a month in 2026 = 21% kept (FairGambling).",
+  bera:"Berachain: trading volume kept 20.8% (Arrakis). Volume, not revenue.",
+  gmx:"GMX: holder cash, best 30 days $5.99M → latest $0.31M = 5% (DefiLlama).",
+  hype26:"Lighter today: ~26× (DefiLlama). Hyperliquid at its 2026 high: ~27× (our arithmetic). CoinShares puts Hyperliquid's range at 7–25× over the year to Jun 2026.",
+  x17:"Team post on X (10 Oct) and Odaily: after 18:45 UTC on 17 Oct the pool's payout bar rises from $5M to $10M. The pool held $4.96M and the on-chain cap still read $5M at 04:46 UTC on 17 Oct (PaperDash).",
+  tvl:"DefiLlama: money on platform $68.6M on 17 Oct ($64M on 13 Oct), vs $138M deposited before launch (MarsBit).",
+  hl18:"ForkLog: Hyperliquid's money on platform went from ~$191M (29 Nov 2024) to over $3B (17 Dec 2024).",
+  phase:"Bitrue launch guide: phase 0 pre-deposit, 1 trading, 2 open contract, 3 builder codes, 4 PAPER transfers, the final step. Bankless: transfers come later; no date set.",
+  base:"Memento Research (118 launches in 2025): 84.7% below their opening value (ForkLog). CryptoRank (113 launches 2024–26): 92.9% below launch price (AMBCrypto).",
+  peak:"Drawdowns from peak: PUMP −87%, LIT −90%, ASTER −77%, EDGE −85% at its low, AVNT −97%, GMX −95%, GNS −97%, RLB −83%, JUP −93% (CoinGecko, CryptoRank, DefiLlama). Hyperliquid kept climbing.",
+  early:"Lighter (day 0), Jupiter (day 0), Aster (day 7) and Avantis (day 13) peaked within two weeks of trading opening (CoinGecko, Decrypt, CCN).",
+  mkt:"MarsBit: $138M from 11,465 wallets before trading. ChainThink: #3 in crypto for 24-hour revenue on 13 Oct, behind only Tether and Circle. The Defiant: payout queue stayed empty.",
+  pumpbuy:"Pump.fun's $4B token sale had 10,145 buyers (Blockworks).",
+  hype2:"Aster rose about 30× in a week, then fell 77% (The Block, Decrypt). Avantis rose ~400% on big listings, then fell 97% (CCN, CoinGecko). The Tie, 1,844 listings: gains mostly reverse within two weeks.",
+  drop82:"DefiLlama: launch day $25.24M vs $4.45M average for days 2–4 = down 82%. Days 5–7 (14–16 Oct) came back to $6.29M a day.",
+  admin:"crypto.news / The Defiant: the team can pause new trades, freeze markets and change fees.",
+  drain:"The Block: about $1.28M taken by moving Hyperliquid's ETH price. DefiLlama logs the incident.",
+  share:"Cointelegraph (VanEck): Hyperliquid went from 10% to 70% share within a year.",
+  perpvol:"ForkLog: on-chain perp volume fell from $1.36T (Oct 2025) to $699B (Mar 2026).",
+  lighterLong:"Lighter's volume fell ~70% in three weeks (BlockEden), but its revenue kept falling for 7–9 months after its Nov 2025 peak (Tokenomist, DefiLlama)."
+};
+const ev=(txt,t,k)=>`<span class="ev ${t}" tabindex="0" data-t="${t}" data-src="${SRC[k].replace(/"/g,"&quot;")}">${txt}</span>`;
+
+let DEF={R0:6.2905,hold:91,cum0:55.18,hr:4.0,poly:200,hedge:0.14}; // Version 2 defaults; versions.json overrides
+let DEFS={bull:{ret:34,mult:12},base:{ret:10,mult:6},bear:{ret:2,mult:3}};
+const SRCOF={bull:{ret:"lighter",mult:"hype"},base:{ret:"jup",mult:"pump"},bear:{ret:"aster",mult:"gains"}};
+const LIKE={bull:"Keeps revenue like Lighter, valued like Hyperliquid in year 1",base:"Keeps revenue like the middle of 8 similar tokens, valued like Pump.fun",bear:"Keeps revenue like Aster and Gains, valued like Gains"};
+let I,S,pick;
+let LIVE=null,LIVEERR=null;
+let FROZEN={"2026-10-14":5929148,"2026-10-15":7489719,"2026-10-16":5452568}; // what the feed said on the version date, for the days its reference is built from
+let FORECAST_DAY="2026-10-16"; // last complete day the version used
+const pd=str=>{const [y,m,d]=str.split("-").map(Number);return Date.UTC(y,m-1,d);};
+const pct=x=>(x*100).toFixed(x*100>=10?0:1)+"%";
+function reset(){I={...DEF};S={bull:{...DEFS.bull},base:{...DEFS.base},bear:{...DEFS.bear}};pick={r:S.base.ret,m:S.base.mult};}
+reset();
+// Time machine. versions.json holds every version's inputs; calls.json every dated call. setView(date) re-renders the page as it stood that day.
+let VERSIONS=null,CALLS=null,FULL_LIVE=null,VIEW=null,CURV=null,replayTimer=null;
+function applyVersion(ver){CURV=ver;ASOF=pd(ver.date);DEF={...ver.inputs};DEFS={bull:{ret:ver.cases.bull[0],mult:ver.cases.bull[1]},base:{ret:ver.cases.base[0],mult:ver.cases.base[1]},bear:{ret:ver.cases.bear[0],mult:ver.cases.bear[1]}};FROZEN=ver.ref_days||{};FORECAST_DAY=ver.data_through;reset();}
+const utcMidnight=ms=>{const d=new Date(ms);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate());};
+function setView(ms){
+  if(!VERSIONS||!FULL_LIVE)return;
+  const start=pd(VERSIONS.versions[0].date),today=utcMidnight(Date.now());
+  ms=Math.min(Math.max(utcMidnight(ms),start),today);VIEW=ms;
+  const iso=new Date(ms).toISOString().slice(0,10),isToday=ms>=today;
+  const ver=VERSIONS.versions.filter(v=>pd(v.date)<=ms).slice(-1)[0]||VERSIONS.versions[0];
+  applyVersion(ver);
+  const rows=(FULL_LIVE.daily||[]).filter(x=>isToday||x.date<iso);
+  const hist=(FULL_LIVE.contract_history||[]).filter(h=>h.date<=iso);
+  LIVE={...FULL_LIVE,daily:rows,today_so_far:isToday?FULL_LIVE.today_so_far:null,fetched_at:isToday?FULL_LIVE.fetched_at:null,
+    totals:isToday?FULL_LIVE.totals:{...(FULL_LIVE.totals||{}),tvl_now:rows.length?rows[rows.length-1].tvl:null},
+    contract:hist.length?hist[hist.length-1]:null,contract_history:hist};
+  buildInputs();render();renderTrack();renderCalls();renderDrift();
+  const ban=document.getElementById("viewBan"),vl=document.getElementById("verLbl"),$=id=>document.getElementById(id);
+  if(vl)vl.textContent=`Version ${ver.v} · published ${dstr(pd(ver.date))}`;
+  const sheet=$("sheet");if(sheet)sheet.classList.toggle("is-past",!isToday);
+  const v1=VERSIONS.versions[0],baseNow=verValue(ver,"base"),base1=verValue(v1,"base");
+  if($("sayWhen"))$("sayWhen").textContent=isToday?`Our call today · ${dshort(today)}`:`Our call on ${dshort(ms)}`;
+  if($("sayVal")){const el=$("sayVal");const txt=fmtP(baseNow);if(el.textContent!==txt){el.textContent=txt;el.classList.remove("swap");void el.offsetWidth;el.classList.add("swap");}}
+  if($("sayUnit"))$("sayUnit").innerHTML=`per PAPER by <b>${VERSIONS.horizon||"Oct 2027"}</b>, base case`;
+  if($("sayWas")){if(ver.v===v1.v)$("sayWas").innerHTML=`First published on ${dshort(pd(ver.date))}, with data through ${dshort(pd(ver.data_through))}.`;
+    else{const more=Math.round((pd(ver.data_through)-pd(v1.data_through))/DAY),delta=Math.round((baseNow/base1-1)*100);$("sayWas").innerHTML=`First said <b>${fmtP(base1)}</b> on ${dshort(pd(v1.date))}. Re-run on ${dshort(pd(ver.date))} with ${more} more day${more===1?"":"s"} of data, same method. <span class="cs-delta${delta<0?" dn":""}">${delta>=0?"+":""}${delta}%</span>`;}}
+  if($("sayNext")){const nx=$("sayNext");if(isToday)nx.hidden=true;else{const later=VERSIONS.versions.filter(v=>pd(v.date)>ms);let lines=later.map((v,i)=>{const prev=i?later[i-1]:ver;return `<span><b>${dshort(pd(v.date))}:</b> re-run on new data, base case ${fmtP(verValue(prev,"base"))} → <b>${fmtP(verValue(v,"base"))}</b>.</span>`;});
+      if(CALLS){const keep=LIVE;LIVE=FULL_LIVE;const nowS=CALLS.calls.map(c=>evalCall(c,today));LIVE=keep;const thenS=CALLS.calls.map(c=>evalCall(c,ms));
+        const ch=st=>CALLS.calls.map((c,i)=>({c,n:nowS[i],t:thenS[i]})).filter(x=>x.n.st===st&&x.t.st!==st);
+        const first=t=>(t||"").split(/(?<=\.)\s/)[0];
+        [["missed","call","since marked missed"],["hit","call","since marked hit"],["off track","call","since moved off track"]].forEach(([st,w,label])=>{const xs=ch(st);if(xs.length)lines.push(`<span><b>${xs.length} ${w}${xs.length>1?"s":""} ${label}:</b> ${xs.map(x=>`${x.c.text.split(":")[0].split(" (")[0]}: ${(first(x.n.evd)||"").replace(/^./,c=>c.toLowerCase())}`).join(" ")}</span>`);});}
+      nx.hidden=!lines.length;nx.innerHTML=`<span class="cs-k">What happened next</span>`+lines.join("");}}
+  if($("tallyWhen"))$("tallyWhen").textContent=isToday?"Calls scored so far":`Calls scored by ${dshort(ms)}`;
+  if($("recLink"))$("recLink").setAttribute("href",`?asof=${iso}`);
+  if($("backToday"))$("backToday").textContent=`Back to today, ${dshort(today)}`;
+  const st=$("sticky");if(st){st.classList.toggle("past",!isToday);const sin=$("stickyIn");if(sin&&!isToday){sin.insertAdjacentHTML("afterbegin",`<span class="past-chip">Reading ${dshort(ms)}<a href="#" id="chipBack">Back to today</a></span>`);const cb=$("chipBack");if(cb)cb.addEventListener("click",e=>{e.preventDefault();stopReplay();setView(Date.now());});}}
+  if(ban){ban.hidden=isToday;const sp=ban.querySelector(".sp");if(sp)sp.innerHTML=`Reading this page as it stood on <b>${dstr(ms)}</b>. Numbers, cards and calls are as they were that day; the written analysis is today's.`;}
+  const cap=$("recCap");if(cap){let html="";if(isToday){const up=moments().filter(e=>e.ms>today)[0];html=up?`<b>Next:</b> ${dshort(up.ms)}, ${(up.text||up.title).replace(/^./,c=>c.toLowerCase())} The model is re-run on that day's data.`:`The record is up to date.`;}
+    else{const ms_=moments().filter(e=>e.ms===ms);html=ms_.length?`<b>${dshort(ms)} · ${ms_.map(e=>e.title).join(" · ")}.</b> ${ms_.map(e=>e.text||"").join(" ")}`:`<b>${dshort(ms)}.</b> No moment recorded on this day; numbers are as the data stood.`;}
+    if(cap.innerHTML!==html){cap.innerHTML=html;cap.classList.remove("swap");void cap.offsetWidth;cap.classList.add("swap");}}
+  renderStory();
+  if(history.replaceState){const u=new URL(location.href);if(isToday)u.searchParams.delete("asof");else u.searchParams.set("asof",iso);history.replaceState(null,"",u);}
+}
+function stopReplay(){if(replayTimer){clearInterval(replayTimer);replayTimer=null;}const b=document.getElementById("watch");if(b){b.innerHTML='▶ Replay<span class="rec-long"> from 14 Oct</span>';b.setAttribute("aria-pressed","false");}}
+// The story line: dated moments (launch, versions, events, what is ahead). Tapping a past moment shows the page as it stood that day.
+function moments(){
+  const today=utcMidnight(Date.now()),list=[];
+  VERSIONS.versions.forEach(v=>list.push({date:v.date,title:`Version ${v.v}`,text:`${v.note||""} Base case ${fmtP(verValue(v,"base"))}, bull ${fmtP(verValue(v,"bull"))}, bear ${fmtP(verValue(v,"bear"))} per PAPER by Oct 2027.`,kind:"version"}));
+  (VERSIONS.timeline||[]).forEach(e=>list.push({...e}));
+  list.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:(a.kind==="version"?-1:1));
+  return list.map(e=>({...e,ms:pd(e.date),past:pd(e.date)<=today,clickable:pd(e.date)<=today&&pd(e.date)>=pd(VERSIONS.versions[0].date)}));
+}
+function renderStory(){
+  const el=document.getElementById("story");if(!el||!VERSIONS)return;
+  const today=utcMidnight(Date.now()),view=VIEW||today,list=moments();
+  const byDate=[];list.forEach(e=>{const g=byDate.find(x=>x.ms===e.ms);if(g)g.items.push(e);else byDate.push({ms:e.ms,items:[e],clickable:e.clickable,past:e.past});});
+  const viewStop=byDate.filter(g=>g.clickable&&g.ms<=view).slice(-1)[0];
+  const vlabel=e=>e.kind==="version"?(e===list.find(x=>x.kind==="version")?"First published":"Re-run"):e.title;
+  el.innerHTML=byDate.map(g=>{const lead=g.items[0],kind=g.items.some(e=>e.kind==="version")?"version":lead.kind;const isT=g.ms===today,isV=viewStop&&g===viewStop;
+    const ver=g.items.find(e=>e.kind==="version");const vv=ver?VERSIONS.versions.find(v=>pd(v.date)===g.ms):null;
+    const what=`<span class="rec-what">${ver?vlabel(ver):lead.title}${vv?`<span class="rec-val">${fmtP(verValue(vv,"base"))}</span>`:""}${g.items.filter(e=>e!==(ver||lead)).map(e=>`<small>${e.title}</small>`).join("")}${!g.past&&g===byDate.filter(x=>!x.past)[0]?`<small>${until(g.ms)}</small>`:""}</span>`;
+    const inner=`${isV?`<span class="rec-pin">${view<today?"You are reading":"You are here"}</span>`:""}<span class="rec-dot"></span><span class="rec-date">${dshort(g.ms)}${isT?" · today":""}</span>${what}`;
+    const label=`${dshort(g.ms)}${isT?", today":""}: ${g.items.map(e=>e.title).join("; ")}. ${g.clickable?(isV?"Showing this day.":"Show the page as it stood that day."):""}`;
+    return `<li class="rec-stop ${kind}${g.past?" past":" ahead"}${isT?" is-today":""}${isV?" is-view":""}">${g.clickable?`<button type="button" class="rec-hit" data-ms="${g.ms}" tabindex="${isV?0:-1}"${isT?' aria-current="date"':""} aria-label="${label.replace(/"/g,"&quot;")}">${inner}</button>`:`<span class="rec-hit">${inner}</span>`}</li>`;}).join("");
+  const hits=[...el.querySelectorAll("button.rec-hit")];
+  hits.forEach(b=>b.addEventListener("click",()=>{stopReplay();setView(+b.dataset.ms);}));
+  const stops=byDate.filter(g=>g.clickable).map(g=>g.ms),vi=viewStop?stops.indexOf(viewStop.ms):stops.length-1;
+  const prev=document.getElementById("recPrev"),next=document.getElementById("recNext");
+  if(prev)prev.disabled=vi<=0;if(next)next.disabled=view>=today;
+  if(prev)prev.onclick=()=>{stopReplay();if(vi>0)setView(stops[vi-1]);};
+  if(next)next.onclick=()=>{stopReplay();const n=stops[vi+1];setView(n===undefined||n>=today?Date.now():n);};
+  el.onkeydown=e=>{const i=hits.findIndex(b=>b===document.activeElement);if(i<0)return;let j=null;if(e.key==="ArrowRight")j=Math.min(hits.length-1,i+1);if(e.key==="ArrowLeft")j=Math.max(0,i-1);if(e.key==="Home")j=0;if(e.key==="End")j=hits.length-1;if(j!==null){e.preventDefault();hits[j].focus();hits[j].click();}};
+  const on=el.querySelector(".rec-stop.is-view");if(on&&on.scrollIntoView)on.scrollIntoView({block:"nearest",inline:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+}
+function initStory(){
+  const w=document.getElementById("storyWrap");if(!w)return;w.hidden=false;
+  const bt=document.getElementById("backToday");if(bt)bt.addEventListener("click",()=>{stopReplay();setView(Date.now());});
+  const btn=document.getElementById("watch");
+  btn.addEventListener("click",function(){
+    if(replayTimer){stopReplay();return;}
+    const steps=moments().filter(e=>e.clickable).map(e=>e.ms).filter((v,i,a)=>a.indexOf(v)===i);if(!steps.length)return;
+    let i=0;setView(steps[0]);this.innerHTML="❚❚ Pause";this.setAttribute("aria-pressed","true");
+    replayTimer=setInterval(()=>{i++;if(i>=steps.length){stopReplay();setView(Date.now());const cap=document.getElementById("recCap");if(cap){cap.innerHTML=`That is the record up to today. ${cap.innerHTML}`;}return;}setView(steps[i]);},3500);
+  });
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")stopReplay();});
+  let y0=window.scrollY;window.addEventListener("scroll",()=>{if(replayTimer&&Math.abs(window.scrollY-y0)>window.innerHeight)stopReplay();y0=replayTimer?y0:window.scrollY;},{passive:true});
+}
+// Calls: auto rules read the daily data and the contract snapshots; manual ones carry a dated history of judgments.
+const fmtMetric=(m,v)=>m==="holder_share"?pct(v):m==="mint_rate"?v.toFixed(1)+" PAPER per $1":m==="supply"||m==="staked"?(v/1e9).toFixed(2)+"B PAPER":fmtU(v);
+function evalCall(c,ms){
+  const iso=new Date(ms).toISOString().slice(0,10);
+  const manual=(c.history||[]).filter(h=>h.date<=iso).slice(-1)[0]||null;
+  let st=manual?manual.status:"on track",evd=manual?manual.evidence:"",auto=false,when=null;
+  if(c.kind==="auto"&&c.rule&&LIVE){
+    const r=c.rule,series=[];
+    if(r.metric==="tvl")(LIVE.daily||[]).forEach(x=>{if(x.tvl!=null)series.push({date:x.date,v:x.tvl});});
+    else if(r.metric==="holder_share")(LIVE.daily||[]).forEach(x=>{if(x.revenue&&x.holders!=null)series.push({date:x.date,v:x.holders/x.revenue});});
+    else(LIVE.contract_history||[]).forEach(h=>{if(h[r.metric]!=null)series.push({date:h.date,v:h[r.metric]});});
+    const cmp=v=>r.op===">="?v>=r.value:r.op==="<"?v<r.value:r.op==="<="?v<=r.value:r.op==="=="?Math.abs(v-r.value)<1e-9:v>r.value;
+    const win=series.filter(x=>(!r.after||x.date>=r.after)&&x.date<=iso);
+    if(r.continuous){
+      const bad=win.find(x=>!cmp(x.v));
+      if(bad){st="missed";when=bad.date;evd=`Broke on ${dshort(pd(bad.date))}: ${fmtMetric(r.metric,bad.v)}. Checked from the daily data.`;auto=true;}
+      else if(win.length){st="hit";when=win[win.length-1].date;evd=`Held through ${dshort(pd(when))}: ${fmtMetric(r.metric,win[win.length-1].v)}. Checked from the daily data.`;auto=true;}
+    }else{
+      const first=win.find(x=>cmp(x.v));
+      if(first){st="hit";when=first.date;evd=`Met on ${dshort(pd(first.date))}: ${fmtMetric(r.metric,first.v)}. Checked from the daily data.`;auto=true;}
+      else if(r.by&&iso>r.by){st="missed";when=r.by;const last=win[win.length-1];evd=`Not met by ${dshort(pd(r.by))}${last?`; last reading ${fmtMetric(r.metric,last.v)} on ${dshort(pd(last.date))}`:""}. Checked from the daily data.`;auto=true;}
+      else if(win.length){const last=win[win.length-1];evd=(evd?evd+" ":"")+`Latest reading: ${fmtMetric(r.metric,last.v)} on ${dshort(pd(last.date))}.`;}
+    }
+  }
+  return {st,evd,auto,when};
+}
+// Calls so far: a scoreboard rail (one cell per call) over a list grouped Resolved (missed first) then Open (off track first).
+// Each row: status chip with glyph + word, the call, one sentence of evidence (rest behind "more"), how it is checked, and what it was in the previous version.
+const CALL_ST={missed:{g:"✕",w:"Missed",k:"missed"},hit:{g:"✓",w:"Hit",k:"hit"},"off track":{g:"↘",w:"Off track",k:"offtrack"},"on track":{g:"→",w:"On track",k:"ontrack"}};
+function renderCalls(){
+  const box=document.getElementById("callsBox");if(!box||!CALLS)return;
+  const ms=VIEW||utcMidnight(Date.now()),iso=new Date(ms).toISOString().slice(0,10);
+  const vs=VERSIONS?VERSIONS.versions.filter(v=>v.date<=iso):[],cur=vs[vs.length-1],prev=vs[vs.length-2];
+  const order=["missed","hit","off track","on track"];
+  const rows=CALLS.calls.filter(c=>c.made<=iso).map(c=>{const e=evalCall(c,ms),p=prev&&c.made<=prev.date?evalCall(c,pd(prev.date)):null;
+    const h=(c.history||[]).filter(x=>x.date<=iso).slice(-1)[0];return {c,...e,was:p&&p.st!==e.st?p.st:null,jd:h?h.date:c.made};})
+    .sort((a,b)=>order.indexOf(a.st)-order.indexOf(b.st)||((a.c.due||"9")<(b.c.due||"9")?-1:1));
+  const n=s=>rows.filter(r=>r.st===s).length,res=n("hit")+n("missed");
+  // Tally, also pushed to the verdict box and the top strip as before
+  const tHtml=order.map(s=>`<span class="st st-${CALL_ST[s].k}">${CALL_ST[s].g} ${n(s)} ${s}</span>`).join(" ");
+  const t1=document.getElementById("tally"),t2=document.getElementById("tallyTop");if(t1)t1.innerHTML=tHtml;
+  if(t2)t2.innerHTML=`<b>${n("hit")}</b> hit · <b>${n("missed")}</b> missed · <b>${n("on track")}</b> on track · <b>${n("off track")}</b> off track`;
+  const tp=document.getElementById("tallyPips");if(tp){const inOrder=CALLS.calls.filter(c=>c.made<=iso).map(c=>rows.find(r=>r.c===c));tp.innerHTML=inOrder.map(r=>`<span class="cs-pip ${CALL_ST[r.st].k}" title="${String(r.c.text).replace(/"/g,"&quot;")}: ${r.st}"></span>`).join("");tp.setAttribute("aria-label",`${rows.length} calls: ${n("hit")} hit, ${n("missed")} missed, ${n("on track")} on track, ${n("off track")} off track`);}
+  const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  const split=t=>{const m=String(t||"").match(/^(.+?[.!?])(\s+[A-Z(~$0-9].*)?$/s);return m?[m[1],(m[2]||"").trim()]:[t||"–",""];};
+  const how=r=>r.c.kind==="auto"?(r.auto?`<span class="cl-how auto">Self-checked</span> from the ${r.c.rule.metric==="tvl"||r.c.rule.metric==="holder_share"?"daily data":"contract read"}${r.when?`, ${dshort(pd(r.when))}`:""}`
+    :`<span class="cl-how auto">Self-checking</span> marks itself from the data`):`<span class="cl-how">Judgment</span> dated ${dshort(pd(r.jd))}`;
+  const item=r=>{const s=CALL_ST[r.st],[ev,more]=split(r.evd),cont=r.st==="hit"&&r.c.rule&&r.c.rule.continuous;
+    return `<li class="cl cl-${s.k}"><div class="cl-top"><span class="st st-${s.k}">${s.g} ${s.w}${cont?" so far":""}</span>
+      <span class="cl-due">${r.c.due?`due ${dshort(pd(r.c.due))}${r.c.due.slice(0,4)!==iso.slice(0,4)?" "+r.c.due.slice(0,4):""}`:"ongoing"}</span></div>
+      <div class="cl-body"><p class="cl-txt">${esc(r.c.text)}</p>
+      ${more?`<details class="cl-ev"><summary>${esc(ev)}</summary><p>${esc(more)}</p></details>`:`<p class="cl-ev">${esc(ev)}</p>`}
+      <p class="cl-meta">${how(r)}${r.was?` · <b>was ${r.was}</b> in Version ${prev.v}`:""}</p></div></li>`;};
+  const grp=(title,list,note)=>list.length?`<div class="cl-grp"><h4>${title} <span class="num">${list.length}</span><span class="cap"> · ${note}</span></h4><ol class="cl-list">${list.map(item).join("")}</ol></div>`:"";
+  const rail=rows.map(r=>`<span class="cl-cell cl-${CALL_ST[r.st].k}" title="${esc(CALL_ST[r.st].w+": "+r.c.text)}">${CALL_ST[r.st].g}</span>`).join("");
+  box.innerHTML=`<div class="cl-head"><div class="cl-rail" role="img" aria-label="${rows.length} calls: ${n("hit")} hit, ${n("missed")} missed, ${n("off track")} off track, ${n("on track")} on track">${rail}</div>
+    <p class="cl-sum"><b>${res} of ${rows.length} resolved</b>: ${n("hit")} hit, ${n("missed")} missed. <b>${rows.length-res} open</b>: ${n("on track")} on track, ${n("off track")} off track. <span class="cap">Scored as of ${dshort(ms)}${cur?`, Version ${cur.v}`:""}.</span></p></div>
+    ${grp("Resolved",rows.filter(r=>r.st==="hit"||r.st==="missed"),"misses first; they stay here in every later version")}
+    ${grp("Open",rows.filter(r=>r.st!=="hit"&&r.st!=="missed"),"off track first")}
+    <p class="cap">${CALLS.calls.filter(c=>c.kind==="auto").length} of ${CALLS.calls.length} calls check themselves from the daily data and the contract read; the rest carry a dated judgment. Tap a line of evidence for the rest of it.</p>`;
+}
+// Drift: what we said, over time. Step lines per case across versions; the market's bet as dots; the day in view as a marker.
+const verValue=(ver,sc)=>{const [ret,mult]=ver.cases[sc],inp=ver.inputs;const daily=inp.R0*1e6*ret/100,total=daily*365*inp.hold/100*mult,d=12*30.42-4,H=inp.hr*(inp.cum0+daily*d/1e6)*1e6;return total/(0.2e9+12e9*H/(120e6+H));};
+const verPoly=ver=>{const H=ver.inputs.hr*ver.inputs.cum0*1e6;return ver.inputs.poly*1e6/(0.2e9+12e9*H/(120e6+H));};
+// Said / happened / scored: one shared time axis, three stacked bands.
+// Band 1 "What we said": value per PAPER by Oct 2027, a step line per case, stepping at each version; market's bet as dots.
+// Band 2 "What happened": daily revenue bars (weekly averages once the window passes 75 days) against the revenue each case needs, stepping with the version.
+// Band 3 "How we scored": a mark on the day each call resolved (rail for calls that must keep holding).
+// The day in view is an ink line; to its right a wash reads "not yet known". Axes are fixed to launch..today so scrubbing moves a curtain, not the chart.
+function renderDrift(){
+  const el=document.getElementById("drift");if(!el||!VERSIONS)return;
+  const today=utcMidnight(Date.now()),view=Math.min(VIEW||today,today),all=VERSIONS.versions;
+  const W=Math.max(320,Math.round(el.clientWidth||720)),sm=W<560,L=sm?40:52,R=sm?74:122,pw=W-L-R;
+  const full=(typeof FULL_LIVE!=="undefined"&&FULL_LIVE)||LIVE||{},fullD=(full.daily||[]).filter(x=>x.revenue>0);
+  const x0=Math.min(fullD.length?pd(fullD[0].date):Infinity,pd(all[0].date)),x1=Math.max(today,pd(all[all.length-1].date))+DAY;
+  const X=ms=>L+(Math.min(Math.max(ms,x0),x1)-x0)/(x1-x0)*pw,xv=X(view+DAY),span=(x1-x0)/DAY;
+  const vs=all.filter(v=>pd(v.date)<=view),iso=new Date(view).toISOString().slice(0,10);
+  const need=(v,sc)=>v.inputs.R0*1e6*v.cases[sc][0]/100;
+  const logY=(vals,top,h,head)=>{const lo=Math.min(...vals)/1.35,hi=Math.max(...vals)*(head||1.35),a=Math.log10(lo),b=Math.log10(hi);
+    const Y=v=>top+h-(Math.log10(Math.max(v,lo))-a)/(b-a)*h,ticks=[];
+    for(let e=Math.floor(a);e<=Math.ceil(b);e++)[1,3].forEach(m=>{const v=m*Math.pow(10,e);if(v>=lo&&v<=hi)ticks.push(v);});return {Y,ticks,base:top+h};};
+  const tP=v=>"$"+(v>=0.01?v.toFixed(2):v.toFixed(3)),tU=v=>v>=1e6?"$"+(v/1e6)+"M":"$"+(v/1e3)+"K";
+  const txt=(x,y,s,cls,anc)=>`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" class="${cls||""}"${anc?` text-anchor="${anc}"`:""}>${s}</text>`;
+  const bar=(x,y,w,b,cls)=>{const r=Math.min(4,w/2,b-y);return `<path class="${cls}" d="M${x.toFixed(1)},${b}V${(y+r).toFixed(1)}Q${x.toFixed(1)},${y.toFixed(1)} ${(x+r).toFixed(1)},${y.toFixed(1)}H${(x+w-r).toFixed(1)}Q${(x+w).toFixed(1)},${y.toFixed(1)} ${(x+w).toFixed(1)},${(y+r).toFixed(1)}V${b}Z"/>`;};
+  const stepX=v=>{const i=all.indexOf(v),n=all[i+1];return [X(pd(v.date)),n&&pd(n.date)<=view?X(pd(n.date)):xv];};
+  // Layout (px): header 22 · said · gap · happened · gap · scored · axis 24
+  const hS=sm?118:150,hH=sm?104:128,gap=26,tS=40,tH=tS+hS+gap,tR=tH+hH+gap;
+  // Calls resolved by the day in view
+  const res=(CALLS?CALLS.calls:[]).filter(c=>c.made<=iso).map(c=>{const e=evalCall(c,view);if(e.st!=="hit"&&e.st!=="missed")return null;
+    const h=(c.history||[]).find(x=>x.date<=iso&&x.status===e.st),d=e.auto&&!(c.rule&&c.rule.continuous)?e.when:(h?h.date:e.when)||iso;
+    return {c,st:e.st,d:pd(d),from:c.rule&&c.rule.continuous?pd(c.made):null,to:e.when?pd(e.when):view};}).filter(Boolean).sort((a,b)=>a.d-b.d);
+  const hR=(res.length>8?1:Math.max(1,res.length))*18+6,H=tR+hR+30;
+  // Bands' scales, from every version and the full feed, so the axes hold still while scrubbing
+  const S1=logY(all.flatMap(v=>SC.map(sc=>verValue(v,sc)).concat(verPoly(v))),tS,hS);
+  const weekly=span>75,rows=(LIVE&&LIVE.daily||[]).filter(x=>x.revenue>0&&pd(x.date)>=x0);
+  let pts=rows.map(x=>({a:pd(x.date),n:1,v:x.revenue,p:false}));
+  if(LIVE&&LIVE.today_so_far&&LIVE.today_so_far.revenue&&view>=today&&!weekly)pts.push({a:today,n:1,v:LIVE.today_so_far.revenue,p:true});
+  if(weekly){const B={};pts.forEach(p=>{const k=Math.floor((p.a-x0)/(7*DAY));(B[k]=B[k]||{a:x0+k*7*DAY,n:7,s:0,c:0,p:false}).s+=p.v;B[k].c++;});pts=Object.values(B).map(b=>({...b,v:b.s/b.c}));}
+  const S2=logY(fullD.map(x=>x.revenue).concat(all.flatMap(v=>SC.map(sc=>need(v,sc)))),tH,hH,2.2);
+  let g=`<svg class="dv" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-labelledby="dvT">`;
+  const last=vs[vs.length-1],prev=vs[vs.length-2],tl=rows[rows.length-1];
+  g+=`<title id="dvT">As of ${dshort(view)}: Version ${last.v} says base ${fmtP(verValue(last,"base"))}, bull ${fmtP(verValue(last,"bull"))}, bear ${fmtP(verValue(last,"bear"))} per PAPER by Oct 2027${prev?`, was ${fmtP(verValue(prev,"base"))} base in Version ${prev.v}`:""}. ${tl?`Latest daily revenue ${fmtU(tl.revenue)} on ${dshort(pd(tl.date))}; base case needs ${fmtU(need(last,"base"))} a day after the rush.`:""} ${(h=>`${h} call${h===1?"":"s"} hit`)(res.filter(r=>r.st==="hit").length)}, ${res.filter(r=>r.st==="missed").length} missed.</title>`;
+  // Band titles and gridlines
+  g+=txt(L,tS-8,sm?"WHAT WE SAID · $ per PAPER, Oct 2027":"WHAT WE SAID · value per PAPER by Oct 2027","dv-band")+txt(L,tH-8,sm?"WHAT HAPPENED · revenue a day":"WHAT HAPPENED · Papertrade's revenue a day","dv-band")+txt(L,tR-8,"HOW WE SCORED · calls resolved","dv-band");
+  [[S1,tP],[S2,tU]].forEach(([s,f])=>s.ticks.forEach(v=>{g+=`<line class="dv-grid" x1="${L}" x2="${L+pw}" y1="${s.Y(v).toFixed(1)}" y2="${s.Y(v).toFixed(1)}"/>`+txt(L-6,s.Y(v)+3.5,f(v),"dv-tick","end");}));
+  [S1.base,S2.base,tR+hR].forEach(y=>g+=`<line class="dv-axis" x1="${L}" x2="${L+pw}" y1="${y}" y2="${y}"/>`);
+  // Version rules and chips (every version on the record, later ones under the curtain)
+  const cw0=sm?24:74;let kept=Infinity;
+  all.slice().reverse().forEach(v=>{const x=X(pd(v.date));g+=`<line class="dv-ver" x1="${x}" x2="${x}" y1="18" y2="${tR+hR}"/>`;
+    if(kept-x>=cw0+4){kept=x;g+=`<rect class="dv-chip" x="${x-1}" y="4" width="${cw0}" height="16" rx="3"/>`+txt(x+5,15.5,sm?`v${v.v}`:`v${v.v} · ${dshort(pd(v.date))}`,"dv-chipt");}});
+  if(!sm&&kept-L>90)g+=txt(L+2,15.5,`Launch ${dshort(x0)}`,"dv-tick");
+  // Curtain over what was not yet known on the day in view (drawn under the data and labels)
+  if(view<today)g+=`<rect class="dv-curtain" x="${xv}" y="2" width="${L+pw-xv+2}" height="${tR+hR-2}"/>`+(L+pw-xv>90?txt((xv+L+pw)/2,tS-8,"not yet known","dv-tick","middle"):"");
+  // Band 2: bars, then the case requirement steps
+  const slot=d=>d*DAY/(x1-x0)*pw;
+  pts.forEach(p=>{const s=slot(p.n),w=Math.max(1,Math.min(24,s-2)),x=X(p.a)+(s-w)/2,y=S2.Y(p.v);g+=bar(x,y,w,S2.base,p.p?"dv-bar dv-part":"dv-bar");});
+  const big=pts.filter(p=>!p.p).reduce((m,p)=>p.v>(m?m.v:0)?p:m,null),lp=pts[pts.length-1];
+  [big,lp].filter((p,i,a)=>p&&a.indexOf(p)===i).forEach(p=>{const x=X(p.a)+slot(p.n)/2;g+=txt(Math.min(x,L+pw-16),S2.Y(p.v)-5,fmtU(p.v)+(p.p?" so far":""),"dv-val","middle");});
+  SC.forEach(sc=>{let d="";vs.forEach(v=>{const [a,b]=stepX(v),y=S2.Y(need(v,sc)).toFixed(1);d+=`M${a.toFixed(1)},${y}H${b.toFixed(1)}`;});
+    g+=`<path class="dv-need" d="${d}" stroke="var(--${sc})"/>`+txt(xv+6,S2.Y(need(last,sc))+3.5,(sm?"":"needs ")+fmtU(need(last,sc)),"dv-end");});
+  // Band 1: case steps, the market's bet, selective labels
+  SC.forEach(sc=>{let d="";vs.forEach((v,i)=>{const [a,b]=stepX(v),y=S1.Y(verValue(v,sc)).toFixed(1);d+=`${i?"L":"M"}${a.toFixed(1)},${y}H${b.toFixed(1)}`;});
+    g+=`<path class="dv-line" d="${d}" stroke="var(--${sc})"/>`+txt(xv+6,S1.Y(verValue(last,sc))+3.5,`<tspan class="dv-endk">${NAME[sc]}</tspan> ${fmtP(verValue(last,sc))}`,"dv-end");});
+  let kb=Infinity,km=Infinity;vs.slice().reverse().forEach((v,j)=>{const [a,b]=stepX(v),y=S1.Y(verPoly(v));g+=`<circle class="dv-mkt" cx="${a.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5"/>`;
+    if(!sm&&b-a>46&&kb-a>56){kb=a;g+=txt(a+5,S1.Y(verValue(v,"base"))-5,fmtP(verValue(v,"base")),"dv-val");}
+    if(j===0||(!sm&&km-a>110)){km=a;g+=txt(a+8,y-6,"market "+fmtP(verPoly(v)),"dv-tick");}});
+  // Band 3: resolved calls
+  const dense=res.length>8;res.forEach((r,i)=>{const y=tR+12+(dense?0:i*18),x=r.from!=null?X(r.to+DAY):X(r.d+DAY/2),x0r=r.from!=null?X(r.from):x,cls=r.st==="hit"?"has":"lacks";
+    if(r.from!=null)g+=`<line class="dv-rail" x1="${X(r.from)}" x2="${X(r.to+DAY)}" y1="${y}" y2="${y}" stroke="var(--${cls})"/>`;
+    g+=`<circle cx="${x}" cy="${y}" r="7" fill="var(--${cls})" class="dv-ring"/>`+txt(x,y+3.5,r.st==="hit"?"✓":"✕","dv-glyph","middle");
+    if(dense)return;const pre=r.st==="hit"?"Hit":"Missed",full=(r.c.short||r.c.text.replace(/^[^:]{0,12}:\s*/,"").split(/[:(]/)[0].trim())+(r.st==="hit"&&r.from!=null?" (holding)":""),cw=6.3;
+    const roomR=W-(x+12)-4,roomL=x0r-12-4,right=r.from!=null?roomL<Math.min(full.length+7,30)*cw&&roomR>roomL:roomR>=Math.min((full.length+7)*cw,roomL)||roomR>roomL;
+    let lab=full;const max=Math.floor((right?roomR:roomL)/cw)-pre.length-1;if(lab.length>max){lab=lab.slice(0,Math.max(0,max-1)).replace(/\s+\S*$/,"")+"…";}
+    g+=txt(right?x+12:x0r-12,y+3.5,`<tspan class="dv-endk">${pre}</tspan> ${lab}`,"dv-end",right?"":"end");});
+  if(!res.length)g+=txt(L+4,tR+16,"No call resolved yet","dv-tick");
+  // Curtain and the day-in-view marker
+  g+=`<line class="dv-view" x1="${xv}" x2="${xv}" y1="18" y2="${tR+hR}"/>`;
+  // X axis: tick step chosen by pixels per tick; the view pill wins collisions
+  const minPx=sm?46:56,step=[1,2,7,14,28,61,91].find(s=>slot(s)>=minPx)||182;
+  for(let d=x0;d<x1;d+=step*DAY){const x=step<7?X(d+DAY/2):X(d);if(Math.abs(x-xv)>52)g+=txt(x,H-10,dshort(d),"dv-tick","middle");}
+  g+=`<rect class="dv-pill" x="${xv-30}" y="${H-23}" width="60" height="17" rx="3"/>`+txt(xv,H-10.5,view>=today?"Today":dshort(view),"dv-pillt","middle");
+  // Native hover per day (or week): what we said and what happened that day
+  for(let d=x0;d<Math.min(x1,view+DAY);d+=(weekly?7:1)*DAY){const v=all.filter(z=>pd(z.date)<=d).slice(-1)[0],p=pts.find(q=>q.a===d);
+    g+=`<rect class="dv-hit" x="${X(d)}" y="18" width="${slot(weekly?7:1)}" height="${tR+hR-18}"><title>${dshort(d)}${weekly?" week":""}: ${p?`revenue ${fmtU(p.v)}${weekly?" a day":""}`:"no revenue reading"}${v?` · Version ${v.v} said base ${fmtP(verValue(v,"base"))} (bull ${fmtP(verValue(v,"bull"))}, bear ${fmtP(verValue(v,"bear"))}); base needs ${fmtU(need(v,"base"))} a day`:" · before Version 1"}</title></rect>`;}
+  g+="</svg>";
+  const key=(c,t,k)=>`<span class="dv-k ${k||""}"><i style="--c:${c}"></i>${t}</span>`;
+  el.innerHTML=`<div class="dv-keys">${key("var(--bull)","Bull")}${key("var(--base)","Base")}${key("var(--bear)","Bear")}${key("var(--ref)","Market's bet","k-dot")}${key("var(--ink2)",weekly?"Revenue, weekly average a day":"Revenue a day","k-bar")}${key("var(--ink2)","Revenue each case needs","k-need")}</div><div class="dv-wrap">${g}</div>
+  <p class="cap">Each gridline step is ×3 or ×10, so equal gaps mean equal percentage moves. Lines step on the day a version re-ran the model. ${view<today?`Shown as it stood on ${dshort(view)}; the wash hides what was not yet known.`:""}</p>
+  <details class="dv-tbl"><summary>The numbers behind the chart</summary><div class="tablewrap"><table class="sc-table"><thead><tr><th>Version</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th><th class="r">Market</th><th class="r">Base needs a day</th></tr></thead><tbody>${vs.map(v=>`<tr><td>v${v.v} · ${dshort(pd(v.date))}</td>${SC.map(sc=>`<td class="num r">${fmtP(verValue(v,sc))}</td>`).join("")}<td class="num r">${fmtP(verPoly(v))}</td><td class="num r">${fmtU(need(v,"base"))}</td></tr>`).join("")}</tbody></table></div></details>`;
+  if(!renderDrift.rs){renderDrift.rs=1;let t,w=W;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{if(Math.abs((el.clientWidth||0)-w)>8){w=el.clientWidth;renderDrift();}},150);});}
+}
+
+const Hof=cumM=>Math.max(0,I.hr*cumM*1e6);
+const supply=cumM=>{const H=Hof(cumM);return 0.2e9+12e9*H/(120e6+H);};
+const rateAt=cumM=>{const H=Hof(cumM);return 100*Math.pow(120e6/(120e6+H),2);};
+function calc(ret,mult){
+  const daily=I.R0*1e6*ret/100, cash=daily*365*I.hold/100, total=cash*mult;
+  const at=m=>{const d=Math.max(1,m*30.42-4);const s=supply(I.cum0+daily*d/1e6);return {d,s,p:total/s};};
+  const whenRate=r=>{if(r>=100)return 0;const H=120e6*(Math.sqrt(100/r)-1);const cum=H/I.hr/1e6;return (cum-I.cum0)/(daily/1e6);};
+  return {daily,cash,total,at,whenRate};
+}
+const fmtP=v=>{if(!isFinite(v)||v<=0)return"$0";if(v>=1)return"$"+v.toFixed(2);if(v>=0.1)return"$"+v.toFixed(2);if(v>=0.01)return"$"+v.toFixed(3);return"$"+v.toFixed(4);};
+const fmtU=v=>{if(!isFinite(v))return"–";if(v>=1e9)return"$"+(v/1e9).toFixed(1)+"B";if(v>=1e6)return"$"+(v/1e6).toFixed(v>=1e8?0:1)+"M";if(v>=1e3)return"$"+(v/1e3).toFixed(0)+"K";return"$"+v.toFixed(0);};
+const dstr=ms=>new Date(ms).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
+const dshort=ms=>new Date(ms).toLocaleDateString("en-GB",{day:"numeric",month:"short",timeZone:"UTC"});
+const until=ms=>{const n=Math.ceil((ms-Date.now())/DAY);return n<0?"passed":n===0?"today":n===1?"tomorrow":`in ${n} days`;};
+const r1=x=>x>=10?Math.round(x):Math.round(x*10)/10;
+
+const ROWS=[{r:100,c:"Hyperliquid (grew)",k:"share"},{r:34,c:"Lighter",k:"lighter"},{r:21,c:"Rollbit, Berachain",k:"rollbit"},{r:13,c:"Jupiter",k:"jup"},{r:10,c:"Middle of the 8",k:"jup"},{r:8,c:"edgeX",k:"edgex"},{r:5,c:"GMX",k:"gmx"},{r:2,c:"Aster, Gains",k:"aster"}];
+const COLS=[{m:3,c:"Gains"},{m:6,c:"Pump.fun, Rollbit"},{m:12,c:"Hyperliquid yr 1, GMX peak"},{m:15,c:"Hyperliquid yr 1 high"},{m:25,c:"Lighter now"}];
+const COMPS=[{n:"Lighter",v:34,pk:"bull",k:"lighter"},{n:"Rollbit",v:21,k:"rollbit"},{n:"Berachain",v:21,k:"bera",note:"trading volume"},{n:"Jupiter perps",v:13,k:"jup"},{n:"Middle of the 8",v:10,pk:"base",k:"jup",note:"base case"},{n:"edgeX",v:8,k:"edgex"},{n:"GMX",v:5,k:"gmx"},{n:"Gains",v:1.8,pk:"bear",k:"aster"},{n:"Aster",v:1.7,pk:"bear",k:"aster"}];
+const likeRow=r=>(ROWS.find(x=>x.r===r)||{}).c, likeCol=m=>(COLS.find(x=>x.m===m)||{}).c;
+const scAt=(r,m)=>SC.find(s=>S[s].ret===r&&S[s].mult===m);
+const oct17=Date.UTC(2026,9,17);
+
+function render(){
+  const M={};SC.forEach(s=>M[s]=calc(S[s].ret,S[s].mult));
+  const v=(s,m)=>M[s].at(m).p;
+  const polyP=I.poly*1e6/supply(I.cum0);
+  const rateNow=rateAt(I.cum0);
+  const ceil=calc(100,15).at(12).p;
+  const stopO=s=>1/v(s,12), stopH=s=>I.hedge/v(s,12);
+  const stopDate=s=>{const d=M[s].whenRate(stopO(s));return d<=0?null:ASOF+d*DAY;};
+  const restart=s=>oct17+5e6/Math.max(M[s].daily,1)*DAY;
+  const fmtStop=s=>{const t=stopDate(s);return t===null?"already past":(t-ASOF>730*DAY?"not for 2+ years":dstr(t));};
+
+  // timeline events
+  const EV=[
+    {t:Date.UTC(2026,9,10),when:"10 Oct",title:"Launch",txt:`${ev("$138M","m","mkt")} deposited by 11,465 wallets before trading opened.`},
+    {t:oct17,when:"17 Oct",title:"Pool's payout bar doubles to $10M",txt:`The next ~$5M of losses refills the pool first. Until then stakers only get their fee cut. ${ev("Source","m","x17")}`},
+    {t:restart("bull"),when:`${dshort(restart("bull"))} – ${dshort(restart("base"))}`,title:"Stakers' extra payouts restart",txt:`Later than ${dshort(restart("base"))} means it's sliding toward the bear case.`,cases:SC.map(s=>[s,dshort(restart(s))])},
+    {t:Date.UTC(2026,10,30),when:"30 Nov",title:"Is money coming back?",txt:`The bull case needs money on the platform back above $138M. It's ${ev("$68.6M","m","tvl")} now. Hyperliquid went ${ev("$191M → $3B in 18 days","c","hl18")}.`},
+    {t:stopDate("base")||ASOF,when:"Base: "+(stopDate("base")?dshort(stopDate("base")):"now"),title:"Farming stops paying",txt:`Losing on purpose to get PAPER costs more than PAPER is worth. After this, revenue comes from real traders only, so it's the true run-rate.`,cases:SC.map(s=>[s,fmtStop(s)])},
+    {t:Date.UTC(2027,2,31),when:"Nov – Mar",title:"Real value shows",txt:`Similar tokens' revenue kept falling for 1–9 months. ${ev("Lighter's kept sliding for 7–9 months","c","lighterLong")}.`},
+    {t:Date.UTC(2027,11,31),when:"No date",title:"PAPER can be bought and sold",txt:`Transfers are ${ev("the final launch phase","m","phase")}. Expect a hot start: ${ev("4 similar tokens peaked within 2 weeks","c","early")}, then fell.`}
+  ].sort((a,b)=>a.t-b.t);
+  const nextIdx=EV.findIndex(e=>e.t>Date.now()&&e.when!=="No date");
+  document.getElementById("tl").innerHTML=EV.map((e,i)=>{const past=e.t<Date.now();const nd=e.when==="No date";
+    return `<div class="tl-row${past?" past":""}${i===nextIdx?" nx":""}"><div class="tl-when"><b>${e.when}</b><span><span class="chip">${nd?"not announced":(i===nextIdx?"next · ":"")+until(e.t)}</span></span></div>
+    <div class="tl-what"><h3>${e.title}</h3><p>${e.txt}</p>${e.cases?`<div class="cases">${e.cases.map(([s,x])=>`<span class="case"><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${x}</b></span>`).join("")}</div>`:""}</div></div>`;}).join("");
+  const nx=EV[nextIdx];
+
+  // dashboard tiles
+  const path=[[1,"Nov 2026"],[3,"Jan 2027"],[6,"Apr 2027"],[12,"Oct 2027"]].map(([m,l],i)=>`<div class="${i===3?"end":""}"><span>${l}</span><b>${fmtP(v("base",m))}</b></div>`).join("");
+  document.getElementById("dash").innerHTML=`
+   <a class="tile hero" href="#worth"><span class="q"><span class="fc">Forecast</span> What will 1 PAPER be worth?</span>
+     <span class="a blue">${ev(fmtP(v("base",12)),"e","jup")} <span style="font-size:15px;font-family:var(--body);font-weight:500;color:var(--ink2);letter-spacing:0">by Oct 2027, base case</span></span>${(()=>{if(!VERSIONS||!CURV)return"";const i=VERSIONS.versions.findIndex(x=>x.v===CURV.v);if(i<1)return"";const p=VERSIONS.versions[i-1];return `<span class="was">was <b>${fmtP(verValue(p,"base"))}</b> in Version ${p.v} (${dshort(pd(p.date))}); same method, inputs re-read</span>`;})()}
+     <span class="s">Not today's price. Fair value from the cash it pays stakers. <b>${fmtU(M.base.total)}</b> for all PAPER.<div class="path">${path}</div></span>
+     <span class="stopln"><span class="sl">Stop farming PAPER</span><span>${stopDate("base")?`around <b>${dstr(stopDate("base"))}</b>, when $1 lost earns under <b>${r1(stopO("base"))}</b> PAPER. Today: ${ev("~"+Math.round(rateNow),"m","rate")}.`:`<b>already not worth it</b> in this case.`}</span></span>
+     ${trackStrip()}
+     <span class="cmp">${["bull","bear"].map(s=>`<span><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${ev(fmtP(v(s,12)),"e",s==="bull"?"lighter":"aster")}</b> · stop farming ${stopDate(s)?"~"+dstr(stopDate(s)):"<strong>already not worth it</strong>"}</span>`).join("")}</span>
+     <span class="go">Try your own assumptions</span></a>
+   <a class="tile" href="#dates"><span class="q">Can I buy or sell PAPER today?</span><span class="a">Not yet</span>
+     <span class="s">Holders can only stake it. Trading starts when transfers switch on, ${ev("the final launch phase","m","phase")}. <b>No date set.</b></span><span class="go">Key dates</span></a>
+   <a class="tile" href="#worth"><span class="q">What does the market say right now?</span><span class="a">${ev(fmtP(polyP),"m","poly")}</span>
+     <span class="s">A thin Polymarket bet, not a trade. It sits near the <b>bear case</b>.</span><span class="go">Compare with the cases</span></a>
+   <a class="tile" href="#farm"><span class="q">Is getting PAPER still worth it?</span><span class="a">Base: yes, until ~${dshort(stopDate("base")||ASOF)}</span>
+     <span class="s">Stop line: <b>${r1(stopO("base"))} PAPER per $1 lost</b>. Today: ${ev("~"+Math.round(rateNow),"m","rate")}. In the bear case it's already not worth it.</span><span class="go">Stop lines by case</span></a>
+   <a class="tile" href="#dates"><span class="q">Next date to watch</span><span class="a" style="font-size:22px">${nx?nx.when+" · "+nx.title:"–"}</span>
+     <span class="s">${nx?`<span class="chip">${until(nx.t)}</span> `:""}An early sign of whether the base case is holding.</span><span class="go">All key dates</span></a>
+   <a class="tile wide" href="#bull"><span class="q">What has to go right?</span><span class="a">2.5 of 9</span>
+     <span class="s">winning traits Hyperliquid had. PAPER lacks the 4 that keep revenue.</span><span class="go">The checklist</span></a>
+   <a class="tile wide" href="#comps"><span class="q">How did similar tokens do?</span><span class="a">${ev("9 of 10","c","peak")} fell</span>
+     <span class="s">77–97% from their peak; most lost 80%+ of their launch revenue. That is already built into the value.</span><span class="go">The evidence</span></a>`;
+
+  // presets
+  document.getElementById("presets").innerHTML=SC.map(s=>{const on=pick.r===S[s].ret&&pick.m===S[s].mult;return `<button type="button" class="preset" style="--c:var(--${s})" data-s="${s}" aria-pressed="${on}">${NAME[s]} ${fmtP(v(s,12))}</button>`;}).join(" ");
+  document.querySelectorAll(".preset").forEach(b=>b.addEventListener("click",()=>{const s=b.dataset.s;pick={r:S[s].ret,m:S[s].mult};render();}));
+
+  // grid
+  const lmin=-2.1,lmax=0.45;
+  const hIdx=p=>Math.max(0,Math.min(8,Math.round((Math.log10(p)-lmin)/(lmax-lmin)*8)));
+  let h=`<thead><tr><th class="corner">Revenue kept ↓<br>Multiple →</th>${COLS.map(c=>`<th><b>${c.m}×</b><span>${c.c}</span></th>`).join("")}</tr></thead><tbody>`;
+  ROWS.forEach(r=>{h+=`<tr><th><b>${r.r}%</b><span>${r.c}</span></th>`+COLS.map(c=>{const p=calc(r.r,c.m).at(12).p,ix=hIdx(p),s=scAt(r.r,c.m),sel=pick.r===r.r&&pick.m===c.m;
+    return `<td><button type="button" class="cell${ix>=4?" dk":""}${sel?" sel":""}" data-r="${r.r}" data-m="${c.m}" style="--hc:var(--h${ix})" aria-pressed="${sel}" aria-label="${r.r}% kept, ${c.m} times: ${fmtP(p)}">${fmtP(p)}${s?`<i style="--c:var(--${s})">${NAME[s]}</i>`:""}</button></td>`;}).join("")+`</tr>`;});
+  const heat=document.getElementById("heat");heat.innerHTML=h+"</tbody>";
+  heat.querySelectorAll(".cell").forEach(b=>b.addEventListener("click",()=>{pick={r:+b.dataset.r,m:+b.dataset.m};render();}));
+
+  // readout
+  const ps=scAt(pick.r,pick.m), MP=calc(pick.r,pick.m);
+  const ro=document.getElementById("readout");
+  ro.style.setProperty("--sc",ps?`var(--${ps})`:"var(--mine)");
+  const ppath=[[1,"Nov 2026"],[3,"Jan 2027"],[6,"Apr 2027"],[12,"Oct 2027"]].map(([m,l],i)=>`<div class="${i===3?"end":""}"><span>${l}</span><b>${fmtP(MP.at(m).p)}</b></div>`).join("");
+  ro.innerHTML=`<div class="rt"><span class="rn">${ps?NAME[ps]+" case":"Your pick"}</span><span class="rw">keeps ${pick.r}% of revenue${likeRow(pick.r)?` (like ${likeRow(pick.r)})`:""} × ${pick.m}×${likeCol(pick.m)?` (like ${likeCol(pick.m)})`:""}</span></div>
+    <div><span class="fc">Forecast</span> <span class="rs">value per PAPER by Oct 2027</span></div>
+    <div class="rv">${fmtP(MP.at(12).p)}</div>
+    <div class="path">${ppath}</div>
+    <div class="rs"><b>${fmtU(MP.total)}</b> for all PAPER · <b>${fmtU(MP.cash)}</b> a year to stakers · <b>${(MP.at(12).s/1e9).toFixed(1)}B</b> PAPER by Oct 2027 · farming stop line <b>${r1(1/MP.at(12).p)}</b> PAPER per $1</div>`;
+
+  // football field
+  const rows=SC.map(s=>({k:s,lo:v(s,12),hi:v(s,1),like:LIKE[s],on:ps===s}));
+  if(!ps) rows.push({k:"mine",lo:MP.at(12).p,hi:MP.at(1).p,like:`${pick.r}% kept × ${pick.m}×`,on:true});
+  const refs=[{v:I.hedge/rateNow,l:"Cost to farm 1 PAPER today",t:"m",k:"farm"},{v:polyP,l:"Market bet",t:"m",k:"poly"},{v:ceil,l:"Perfect case",t:"e",k:"ceil"}].sort((a,b)=>a.v-b.v);
+  const vals=rows.flatMap(r=>[r.lo,r.hi]).concat(refs.map(r=>r.v)).filter(x=>x>0);
+  const lo=Math.pow(10,Math.floor(Math.log10(Math.min(...vals)/1.2))), hi=Math.max(...vals)*2;
+  const X=x=>(Math.log10(Math.max(x,lo))-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo))*100;
+  let ticks="";for(let e=Math.ceil(Math.log10(lo));Math.pow(10,e)<=hi;e++){const t=Math.pow(10,e),x=X(t);ticks+=`<span style="left:${x}%;${x<4?"transform:none":x>96?"transform:translateX(-100%)":""}">${t>=1?"$"+t.toFixed(0):"$"+t}</span>`;}
+  document.getElementById("ff").innerHTML=`<div class="ff-plot">
+    ${refs.map(r=>`<div class="ff-vline" style="left:${X(r.v)}%"></div>`).join("")}
+    <div class="ff-refs">${refs.map(r=>{const x=X(r.v);return `<div class="ff-ref${x>55?" r":""}"><span style="${x>55?`right:${100-x}%`:`left:${x}%`}">${r.l} ${ev("<b class='num'>"+fmtP(r.v)+"</b>",r.t,r.k)}</span></div>`;}).join("")}</div>
+    ${rows.map(r=>{const a=X(r.lo),b=X(r.hi);return `<div class="ff-row${r.on?" on":""}" style="--c:var(--${r.k})"><div class="ff-name"><b>${NAME[r.k]}</b>${r.on?"<em>Selected</em>":""}<strong>${fmtP(r.lo)}</strong><span>Oct 2027 · ${fmtP(r.hi)} Nov 2026</span></div>
+      <div class="ff-track"><div class="ff-bar" style="left:${a}%;width:${Math.max(b-a,0.6)}%"></div><div class="ff-dot" style="left:${a}%"></div></div></div>`;}).join("")}
+    <div class="ff-axis">${ticks}</div></div>`;
+
+  // farm
+  document.getElementById("farmNow").innerHTML=`Today each $1 lost earns about ${ev(Math.round(rateNow)+" PAPER","m","rate")}.`;
+  document.getElementById("farmgrid").innerHTML=SC.map(s=>{const sd=stopDate(s);const worth=sd!==null;
+    return `<div class="fcard" style="--c:var(--${s})"><h3>${NAME[s]} case</h3>
+      <dl><dt>Value per PAPER (Oct 2027)</dt><dd>${fmtP(v(s,12))}</dd>
+      <dt>Stop line, losing for real</dt><dd>${r1(stopO(s))} per $1</dd>
+      <dt>Stop line, betting both ways</dt><dd>${r1(stopH(s))} per $1</dd>
+      <dt>Losing for real stops paying</dt><dd>${fmtStop(s)}</dd></dl>
+      <span class="verdict ${worth?"has":"lacks"}" style="${worth?"--pb:var(--has-bg);--pc:var(--has)":"--pb:var(--lacks-bg);--pc:var(--lacks)"}">${worth?"Worth it for now":"Already not worth it"}</span></div>`;}).join("");
+  document.getElementById("farmCap").innerHTML=`Stop line = cost of $1 of counted loss ÷ value per PAPER. Losing for real costs $1. Betting both ways costs about ${ev("$"+I.hedge.toFixed(2),"m","hedge")}, so hedged farmers keep going much longer. That keeps adding supply, which is why value per PAPER slides.`;
+
+  // traits
+  document.getElementById("traits").innerHTML=`
+   <div class="tcol has"><h3>✓ Has (3)</h3><ul>
+     <li>Low starting value<span>No price yet. The market bet is near ${ev("$100M","m","poly")} for all PAPER</span></li>
+     <li>No team or investor tokens to dump<span>Big farmers hold bags instead (one holds 252M)</span></li>
+     <li>Real cash to holders<span>About ${ev("91%","m","hold")} of revenue goes to stakers in USDC</span></li></ul></div>
+   <div class="tcol part"><h3>~ Partly (2)</h3><ul>
+     <li>Holds up under attack<span>Every winner paid, but ${ev("$1.28M was drained","m","drain")}. ${ev("The team can change fees","m","admin")}</span></li>
+     <li>A friendly market<span>${ev("On-chain perp trading is about half its Oct 2025 peak","m","perpvol")}</span></li></ul></div>
+   <div class="tcol lacks"><h3>✕ Lacks (4)</h3><ul>
+     <li>People used it before the token<span>${ev("Hyperliquid went from 10% to 70% share","m","share")} first</span></li>
+     <li>Revenue that holds<span>${ev("Down 82%","m","drop82")} on days 2–4, back to $6.3M a day on days 5–7. Unproven until farming stops paying</span></li>
+     <li>A big listing or legitimacy event<span>Hyperliquid had US ETFs, Coinbase and Robinhood</span></li>
+     <li>Anything that shrinks supply<span>New PAPER keeps being created toward ~12B</span></li></ul></div>`;
+
+  // comps
+  document.getElementById("bars").innerHTML=COMPS.map(c=>`<div class="brow" style="--c:var(--${c.pk||"muted"})"><div class="nm">${c.n}${c.pk?`<small>${NAME[c.pk]} pick</small>`:""}${c.note&&!c.pk?`<small class="note">${c.note}</small>`:""}</div><div class="btrack"><div class="bfill${c.pk?" pk":""}" style="width:${c.v/40*100}%"></div></div><div class="v">${ev(c.v+"%","c",c.k)}</div></div>`).join("");
+  document.getElementById("baked").innerHTML=`
+    <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">✓</span><span><b>Yes: the revenue collapse.</b> The cases use what similar tokens actually kept (34%, 10%, 2%). That's why ${ev("9 of 10 falling 77–97%","c","peak")} is already in the value.</span></li>
+    <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">✓</span><span><b>Yes: what buyers pay.</b> The multiples (12×, 6×, 3×) come from those same tokens.</span></li>
+    <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">→</span><span><b>Not in the value: trading-day hype.</b> ${ev("85–93% of big launches trade below their launch price","c","base")} within a year. That describes the price when PAPER starts trading, not its fair value. Expect it to open high and fall toward the value.</span></li>`;
+  document.getElementById("mkt").innerHTML=`
+    <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">✓</span><span><b>It built a big starting point.</b> ${ev("$138M from 11,465 wallets","m","mkt")} before trading, more than ${ev("Pump.fun's $4B sale","c","pumpbuy")} had buyers. #3 in crypto revenue on day 3. Every winner paid. That's why every case starts from $4.45M a day.</span></li>
+    <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">✕</span><span><b>It doesn't keep revenue by itself.</b> In similar tokens, ${ev("hype lifted price for 1–2 weeks","c","hype2")}, then faded with the farming.</span></li>`;
+
+  // sticky
+  document.getElementById("stickyIn").innerHTML=`<span class="nm">PAPER forecast · Oct 2027</span>`+SC.map(s=>`<span><span class="dot" style="--c:var(--${s})"></span>${NAME[s]} <b>${fmtP(v(s,12))}</b></span>`).join("")+`<span><span class="dot" style="--c:var(--ref)"></span>Market bet <b>${fmtP(polyP)}</b></span>`;
+  document.getElementById("tape").innerHTML=document.getElementById("stickyIn").innerHTML;
+  if(LIVE)renderTrack();
+
+  // estimates
+  document.getElementById("ests").innerHTML=`
+    <li><b>How fast new PAPER is created.</b> The docs give the rule; the exact constants come from TechFlow's reading of the docs (the docs page loads by script and can't be read as plain text). The supply tuning is read from the live contract's high-water mark (${ev("$222M on 17 Oct","m","hr")}), which puts the rule's supply within 5% of the 8.45B actually minted.</li>
+    <li><b>When transfers switch on.</b> ${ev("Not announced","m","phase")}. The value forecast doesn't depend on it; only the first trading price does.</li>
+    <li><b>Reference revenue.</b> Version 1 used 11–13 Oct as the feed stood on 14 Oct; DefiLlama later revised 12 and 13 Oct down 15% and 26%. Version 2 uses the three newest complete days (14–16 Oct); the tracker flags any later revision to them. DefiLlama's newest row is a rolling 24 hours and is never counted as a day.</li>
+    <li><b>Cost of hedged farming.</b> Taken from on-chain wallets (${ev("Odaily","m","farm")}). It moves with market swings.</li>
+    <li><b>Middle case revenue kept (10%).</b> Halfway between edgeX (8%) and Jupiter (13%), the middle two of 8 similar tokens. Pump.fun is left out because its platform ran for 18 months before its token, so it had no launch rush to fade.</li>`;
+}
+
+function liveStats(){
+  if(!LIVE||!Array.isArray(LIVE.daily)||!LIVE.daily.length) return null;
+  const ser=LIVE.daily.filter(x=>x.revenue!=null&&x.date>="2026-10-10"); // trading opened 10 Oct; the feed also carries a 9 Oct row with deposits only
+  if(!ser.length) return null;
+  const last=ser[ser.length-1];
+  const w=ser.filter(x=>x.date>"2026-10-10").slice(-7);
+  const a7=w.reduce((s,x)=>s+x.revenue,0)/Math.max(w.length,1);
+  const cum=ser.reduce((s,x)=>s+x.revenue,0);
+  const ref=I.R0*1e6, share=a7/ref;
+  const daily={};SC.forEach(s=>daily[s]=calc(S[s].ret,S[s].mult).daily);
+  let near="bull",best=Infinity;SC.forEach(s=>{const d=Math.abs(Math.log(a7/daily[s]));if(d<best){best=d;near=s;}});
+  const above=a7>=daily.bull;
+  const cumStar=120e6*(Math.sqrt(100/10)-1)/I.hr;
+  const starDate=a7>0?pd(last.date)+(cumStar-cum)/a7*DAY:null;
+  const caseStar={};SC.forEach(s=>{const d=calc(S[s].ret,S[s].mult).whenRate(10);caseStar[s]=d<=0?ASOF:ASOF+d*DAY;});
+  let starNear="bull";best=Infinity;SC.forEach(s=>{const d=Math.abs((starDate||0)-caseStar[s]);if(d<best){best=d;starNear=s;}});
+  const restart={};SC.forEach(s=>restart[s]=oct17+5e6/Math.max(daily[s],1)*DAY);
+  const hs=last.holders!=null&&last.revenue?last.holders/last.revenue:null;
+  const revs=Object.entries(FROZEN).map(([d,v])=>{const x=ser.find(y=>y.date===d);return x&&Math.abs(x.revenue-v)/v>0.02?{d,was:v,now:x.revenue}:null;}).filter(Boolean);
+  const tvl=(LIVE.totals&&LIVE.totals.tvl_now)||last.tvl||null;
+  return {ser,last,w,a7,cum,ref,share,daily,near,above,cumStar,starDate,caseStar,starNear,restart,hs,revs,tvl,today:LIVE.today_so_far||null};
+}
+function trackStrip(){
+  const t=liveStats();
+  if(!t) return LIVEERR?`<span class="trk"><span class="sl">Tracking</span><span>Today's numbers could not be loaded. Forecast shown as made on 17 Oct 2026 (Version 2).</span></span>`:"";
+  return `<span class="trk"><span class="sl">Tracking · data through ${dshort(pd(t.last.date))}</span><span>Last ${t.w.length} days averaged <b>${fmtU(t.a7)}/day</b>, ${pct(t.share)} of the reference. ${t.above?"Above all three cases so far, as expected this early.":`Nearest the <b>${NAME[t.near].toLowerCase()} case</b>.`}</span></span>`;
+}
+function trackChart(t){
+  const W=720,H=236,L=56,R=124,T=16,B=32,pw=W-L-R,ph=H-T-B;
+  const pts=t.ser.map(x=>({d:x.date,v:x.revenue,p:false}));
+  if(t.today&&t.today.revenue)pts.push({d:t.today.date,v:t.today.revenue,p:true});
+  const lv=[{v:t.ref,c:"var(--ink)",l:"Reference",d:""},{v:t.daily.bull,c:"var(--bull)",l:"Bull",d:"5 4"},{v:t.daily.base,c:"var(--base)",l:"Base",d:"5 4"},{v:t.daily.bear,c:"var(--bear)",l:"Bear",d:"5 4"}];
+  const vals=pts.map(p=>p.v).concat(lv.map(l=>l.v)).filter(v=>v>0);
+  const lo=Math.pow(10,Math.floor(Math.log10(Math.min(...vals)))),hi=Math.pow(10,Math.ceil(Math.log10(Math.max(...vals))));
+  const Y=v=>T+ph-(Math.log10(Math.max(v,lo))-Math.log10(lo))/(Math.log10(hi)-Math.log10(lo))*ph;
+  const n=pts.length,slot=pw/Math.max(n,12),bw=Math.min(26,slot*.68),X=i=>L+slot*i+slot/2;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Daily revenue against the reference and the three cases">`;
+  for(let e=Math.log10(lo);e<=Math.log10(hi);e++){const v=Math.pow(10,e);s+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${Y(v)+4}" text-anchor="end" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${fmtU(v)}</text>`;}
+  lv.forEach(l=>{s+=`<line x1="${L}" x2="${W-R}" y1="${Y(l.v)}" y2="${Y(l.v)}" stroke="${l.c}" stroke-width="1.5"${l.d?` stroke-dasharray="${l.d}"`:""}/><text x="${W-R+6}" y="${Y(l.v)+4}" font-size="10.5" font-weight="600" fill="${l.c}" font-family="JetBrains Mono,monospace">${l.l} ${fmtU(l.v)}</text>`;});
+  pts.forEach((p,i)=>{const y=Y(p.v);
+    s+=`<rect x="${(X(i)-bw/2).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${(T+ph-y).toFixed(1)}" rx="2" fill="${p.p?"none":"var(--ink2)"}" stroke="var(--ink2)" stroke-width="${p.p?1.5:0}"${p.p?' stroke-dasharray="3 3"':""}/>`;
+    if(n<=20||i%Math.ceil(n/14)===0)s+=`<text x="${X(i)}" y="${H-B+15}" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="JetBrains Mono,monospace">${dshort(pd(p.d)).replace(" ","\u00a0")}</text>`;
+    if(n<=14)s+=`<text x="${X(i)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-size="10" fill="var(--ink)" font-family="JetBrains Mono,monospace">${fmtU(p.v)}</text>`;});
+  s+=`<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--line)"/></svg>`;
+  return s;
+}
+function renderTrack(){
+  const upd=document.getElementById("upd"),box=document.getElementById("trackIn");
+  const t=liveStats();
+  if(!t){const m=LIVEERR?"Today's numbers could not be loaded. The forecast is shown as made on 17 Oct 2026 (Version 2).":"Loading today's numbers…";upd.textContent=m;box.innerHTML=`<p class="cap">${m}</p>`;return;}
+  const fd=LIVE.fetched_at?new Date(LIVE.fetched_at).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}):null;
+  const cl=document.getElementById("closest"),cl2=document.getElementById("closest2"),cb=document.getElementById("closestBig");const nearKey=t.above?"bull":t.near,nearName=NAME[nearKey];
+  if(cb){cb.textContent=t.above?"Revenue is running ahead of even the bull case":`Revenue is running nearest the ${nearName.toLowerCase()} case`;cb.className="cs-big "+nearKey;}
+  const clTxt=`<b>${fmtU(t.a7)}</b> a day over the last ${t.w.length} days. The ${nearName.toLowerCase()} case needs <b>${fmtU(t.daily[nearKey])}</b> once the rush fades. Too early to count while the launch rush lasts.`;
+  if(cl)cl.innerHTML=clTxt;if(cl2)cl2.innerHTML=`<b>${nearName}</b> · ${clTxt}`;
+  upd.innerHTML=fd?`<b>Updated ${fd} Dubai</b> · data through ${dstr(pd(t.last.date))}${t.today&&t.today.revenue!=null?` · today so far ${fmtU(t.today.revenue)}`:""} · refreshes daily around 10:15 Dubai`:`<b>As of ${dstr(VIEW)}</b> · data through ${dstr(pd(t.last.date))} · the page as it stood that day`;
+  const card=(c,h,big,p,chip)=>`<div class="tcard" style="--c:var(--${c})"><h3>${h}</h3><div class="big">${big}</div><p>${p}</p>${chip?`<span class="tchip">${chip}</span>`:""}</div>`;
+  const before17=t.last.date<"2026-10-17";
+  const starTxt=t.starDate?(t.starDate-ASOF>730*DAY?"not for 2+ years":dstr(t.starDate)):"–";
+  const cs=s=>t.caseStar[s]-ASOF>730*DAY?"2028 or later":dstr(t.caseStar[s]);
+  box.innerHTML=`
+   <div class="tcards">
+    ${card(t.above?"bull":t.near,"Revenue level",`${fmtU(t.a7)}/day`,`Average of the last ${t.w.length} complete days (launch day left out), <b>${pct(t.share)}</b> of the $${I.R0.toFixed(2)}M reference. After the rush fades the cases need <b>${S.bull.ret}%</b> (bull), <b>${S.base.ret}%</b> (base), <b>${S.bear.ret}%</b> (bear).`,t.above?"Above all three cases so far":`Nearest the ${NAME[t.near].toLowerCase()} case`)}
+    ${card(t.starNear,"Cumulative revenue and the mint-rate test",fmtU(t.cum),`Through ${dshort(pd(t.last.date))}. The mint rate drops under 10 PAPER per $1 once this passes <b>${fmtU(t.cumStar)}</b>. At the last ${t.w.length}-day pace that lands around <b>${starTxt}</b>. Model dates: bull ${cs("bull")}, base ${cs("base")}, bear ${cs("bear")}.`,`On the ${NAME[t.starNear].toLowerCase()} path`)}
+    ${card(before17?"ref":(t.hs!=null&&t.hs>=0.8?"bull":"part"),"Stakers' share and the 17 Oct test",t.hs!=null?pct(t.hs):"–",`Share of the last day's revenue paid to stakers. From 17 Oct the pool refills to $10M first, so this should drop, then recover when the pool is full. Recovery by ~${dshort(t.restart.bull)} = bull, ~${dshort(t.restart.base)} = base, ~${dshort(t.restart.bear)} = bear.`,before17?"Test starts 17 Oct":(t.hs!=null&&t.hs>=0.8?"Pool refilled":"Pool refilling"))}
+    ${card(t.tvl>=138e6?"bull":"ref","Money on platform",t.tvl?fmtU(t.tvl):"–",`The bull case needs it back above <b>$138M</b> (the pre-launch deposits) by 30 Nov. It was $64M on 13 Oct and $68.6M on 17 Oct.`,t.tvl?(t.tvl>=138e6?"Bull tell met":`${pct(t.tvl/138e6)} of the bull target`):"")}
+   </div>
+   ${t.revs.length?`<div class="trev">DefiLlama has revised ${t.revs.map(r=>`${dshort(pd(r.d))} from ${fmtU(r.was)} to ${fmtU(r.now)}`).join(", ")} since the forecast was made. Version 2 keeps its 17 Oct inputs; the tracker uses today's figures.</div>`:""}
+   <p class="cap">Raw data: <a href="/data/papertrade.json">papertrade.json</a> · <a href="/data/snapshots.csv">daily snapshots</a>. Source: DefiLlama's feed of Papertrade's on-chain revenue, staker payouts and money on platform, fetched daily by this site.</p>`;
+}
+function buildInputs(){
+  const shared=[["R0","Daily revenue today","$M/day","m","defi"],["hold","Share paid to stakers","%","m","hold"],["cum0","Revenue so far","$M","m","cum"],["hr","Supply tuning","×","e","hr"],["poly","Market bet, all PAPER","$M","m","poly"],["hedge","Hedged farming cost per $1","$","m","hedge"]];
+  let h=`<thead><tr><th>Assumption</th><th class="r">Bull</th><th class="r">Base</th><th class="r">Bear</th><th>Where it comes from</th></tr></thead><tbody>`;
+  [["ret","Revenue kept after the launch rush","%"],["mult","Value ÷ yearly cash","×"]].forEach(([k,l,u])=>{
+    h+=`<tr><td>${l} <span class="cap">${u}</span></td>${SC.map(s=>`<td class="r"><input type="number" step="any" id="s_${k}_${s}" data-s="${s}" data-k="${k}" value="${S[s][k]}" aria-label="${l}, ${NAME[s]}"></td>`).join("")}<td class="why">${SC.map(s=>`<b>${NAME[s]}:</b> ${SRC[SRCOF[s][k]]}`).join("<br>")}</td></tr>`;});
+  shared.forEach(([k,l,u,t,src])=>{h+=`<tr><td>${l} <span class="cap">${u}</span></td><td class="r" colspan="3"><input type="number" step="any" id="i_${k}" data-i="${k}" value="${I[k]}" aria-label="${l}"></td><td class="why">${T[t]}. ${SRC[src]}</td></tr>`;});
+  const tb=document.getElementById("inputs");tb.innerHTML=h+"</tbody>";
+  tb.querySelectorAll("input").forEach(inp=>inp.addEventListener("input",()=>{const x=parseFloat(inp.value);if(!isFinite(x)||x<=0)return;
+    if(inp.dataset.i){I[inp.dataset.i]=x;}else{const s=inp.dataset.s,k=inp.dataset.k;const was=pick.r===S[s].ret&&pick.m===S[s].mult;S[s][k]=x;if(was)pick={r:S[s].ret,m:S[s].mult};}
+    render();}));
+}
+const SOURCES=[
+ ["https://api.llama.fi/summary/fees/papertrade?dataType=dailyRevenue","DefiLlama: Papertrade daily revenue"],
+ ["https://api.llama.fi/summary/fees/papertrade?dataType=dailyHoldersRevenue","DefiLlama: Papertrade staker payouts"],
+ ["https://defillama.com/protocol/papertrade","DefiLlama: Papertrade money on platform and incident log"],
+ ["https://docs.papertrade.xyz/","Papertrade docs: supply rule"],
+ ["https://www.techflowpost.com/en-US/article/34481","TechFlow: supply constants, founders, launch details"],
+ ["https://www.chaincatcher.com/en/article/2295671","ChainCatcher: 30.8 PAPER per $1 on 12 Oct"],
+ ["https://www.kucoin.com/news/insight/USDC/6ace7740f25df5000749cb5b","KuCoin: 25.9 PAPER per $1, first 3 days totals"],
+ ["https://www.kucoin.com/news/flash/papertrade-early-stakers-and-arbitrage-strategies-revealed","Odaily: farming costs, staked supply, $10M payout bar on 17 Oct"],
+ ["https://www.kucoin.com/news/flash/papertrade-launches-on-hyperevm-11-465-addresses-deposit-138m","MarsBit: $138M from 11,465 wallets, no team or VC tokens"],
+ ["https://www.kucoin.com/news/flash/papertrade-24-hour-revenue-surpasses-4-02m-outpaces-pump-and-hyperliquid","ChainThink: #3 in 24-hour revenue"],
+ ["https://thedefiant.io/news/defi/papertrade-trader-losses-reach-32-4-million-two-days-after-launch","The Defiant: payout queue empty"],
+ ["https://www.theblock.co/news/defi/2026-10-11-trader-nets-1-28-million-on-new-1000x-exchange-papertrade-by-moving-hyperliquids-eth-prices-418239","The Block: $1.28M drained by moving Hyperliquid's price"],
+ ["https://crypto.news/papertrade-plans-1000x-leverage-launch-85-3m-deposits/","crypto.news: team can pause trading and change fees"],
+ ["https://www.bitrue.com/blog/papertrade-launch-guide","Bitrue: launch phases, transfers last"],
+ ["https://www.bankless.com/read/what-to-know-about-papertrade-s-launch","Bankless: transfers come later, no date"],
+ ["https://polymarket.com/event/papertrade-fdv-above-one-day-after-launch","Polymarket: Papertrade value bet"],
+ ["https://api.llama.fi/summary/fees/hyperliquid?dataType=dailyHoldersRevenue","DefiLlama: Hyperliquid holder revenue"],
+ ["https://coinshares.com/insights/research-data/hyperliquid-primer-and-5-year-valuation-framework/","CoinShares: Hyperliquid multiple range"],
+ ["https://cointelegraph.com/news/how-hyperliquid-airdrop-changed-game","Cointelegraph: Hyperliquid 10% → 70% share"],
+ ["https://forklog.com/en/hyperliquid-sees-1-billion-usdc-inflow-following-airdrop/","ForkLog: Hyperliquid's first 18 days"],
+ ["https://www.tokenomist.ai/research/lighter-lit-tokenomics-robinhood-hype-a-real-burn-and-the-december-2026-cliff-2","Tokenomist: Lighter revenue path"],
+ ["https://defillama.com/protocol/lighter","DefiLlama: Lighter revenue and value"],
+ ["https://blockeden.xyz/blog/2026/04/28/perp-dex-cohort-2026-lighter-airdrop-hyperliquid-long-tail/","BlockEden: Lighter volume −70% in 3 weeks"],
+ ["https://defillama.com/protocol/edgex","DefiLlama: edgeX revenue by quarter"],
+ ["https://thedefiant.io/news/defi/amber-group-backed-perp-dex-edgex-to-launch-token-on-march-31","The Defiant: edgeX token launch"],
+ ["https://crypto.news/edgex-set-to-launch-edge-token-amid-transparency-concerns/","crypto.news: edgeX EDGE token, 31 Mar 2026"],
+ ["https://api.llama.fi/summary/fees/jupiter-perpetual-exchange?dataType=dailyFees","DefiLlama: Jupiter perps fees"],
+ ["https://defillama.com/protocol/aster","DefiLlama: Aster fees and value"],
+ ["https://www.theblock.co/post/372676/aster-top-protocol-fees","The Block: Aster fee peak, launch value"],
+ ["https://decrypt.co/341157/crypto-traders-aster-price-how-high-can-it-go","Decrypt: Aster $18B in a week"],
+ ["https://api.llama.fi/summary/fees/gains-network?dataType=dailyHoldersRevenue","DefiLlama: Gains holder revenue"],
+ ["https://docs.gains.trade/liquidity-farming-pools/gns-staking","Gains docs: payouts paused"],
+ ["https://api.llama.fi/summary/fees/gmx?dataType=dailyHoldersRevenue","DefiLlama: GMX holder revenue"],
+ ["https://samuelandrew.substack.com/p/gmx-an-example-of-fundamental-value","Sam Andrew: GMX at 12.4×"],
+ ["https://www.fairgambling.com/news/rollbit-token-burn-reveals-daily-casino-revenue","FairGambling: Rollbit revenue"],
+ ["https://blockcrunch.substack.com/p/rollbit-rlb-a-house-of-cards-or-hitting","Blockcrunch: Rollbit 6.2× (Oct 2023)"],
+ ["https://arrakis.finance/blog/lessons-from-h1-2025-top-token-launches","Arrakis: Berachain volume kept"],
+ ["https://defillama.com/protocol/pump","DefiLlama: Pump.fun holder cash and value"],
+ ["https://blockworks.com/news/pump-fun-500m-ico-twitch","Blockworks: Pump.fun $4B sale, 10,145 buyers"],
+ ["https://www.ccn.com/news/crypto/peter-thiel-backed-avantis-avnt-soars-77-on-binance-and-coinbase-listings-10m-airdrop/","CCN: Avantis +400% on listings"],
+ ["https://www.coingecko.com/en/coins/avantis","CoinGecko: Avantis −97%"],
+ ["https://forklog.com/en/85-of-tokens-launched-in-2025-fell-below-initial-prices/","ForkLog: Memento Research, 84.7% of 118 launches below opening"],
+ ["https://ambcrypto.com/92-9-of-crypto-tokens-launched-since-2024-trade-below-tge-price-cryptorank/","AMBCrypto: CryptoRank, 92.9% of 113 launches below launch price"],
+ ["https://www.thetie.io/insights/what-does-an-exchange-listing-actually-deliver-in-2026","The Tie: listing gains reverse within two weeks"],
+ ["https://forklog.com/en/perp-dex-trading-volumes-plummet-over-50-since-october/","ForkLog: perp volume $1.36T → $699B"]
+];
+
+document.getElementById("srcs").innerHTML=SOURCES.map(([u,l])=>`<a href="${u}" target="_blank" rel="noopener">${l}</a>`).join("");
+document.getElementById("reset").addEventListener("click",()=>{reset();buildInputs();render();});
+
+const pop=document.getElementById("pop");let pinned=null;
+function show(el){pop.innerHTML=`<b>${T[el.dataset.t]}</b><span>${el.dataset.src}</span>`;pop.hidden=false;const r=el.getBoundingClientRect();const w=Math.min(300,window.innerWidth-24);pop.style.maxWidth=w+"px";pop.style.left=Math.max(12,Math.min(r.left,window.innerWidth-w-12))+"px";const below=r.bottom+8;pop.style.top=(below+pop.offsetHeight>window.innerHeight-8?r.top-pop.offsetHeight-8:below)+"px";}
+function hide(){if(!pinned)pop.hidden=true;}
+document.addEventListener("mouseover",e=>{const el=e.target.closest(".ev");if(el&&!pinned)show(el);});
+document.addEventListener("mouseout",e=>{if(e.target.closest(".ev"))hide();});
+document.addEventListener("focusin",e=>{const el=e.target.closest(".ev");if(el)show(el);});
+document.addEventListener("focusout",e=>{if(e.target.closest(".ev"))hide();});
+document.addEventListener("click",e=>{const el=e.target.closest(".ev");if(el){e.preventDefault();e.stopPropagation();pinned=pinned===el?null:el;if(pinned)show(el);else pop.hidden=true;}else if(pinned){pinned=null;pop.hidden=true;}},true);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){pinned=null;pop.hidden=true;}});
+window.addEventListener("scroll",()=>{if(pinned){pinned=null;pop.hidden=true;}document.getElementById("sticky").hidden=document.getElementById("summary").getBoundingClientRect().bottom>0;},{passive:true});
+
+buildInputs();render();renderTrack();
+const J=u=>fetch(u,{cache:"no-store"}).then(r=>r.ok?r.json():Promise.reject(new Error(u+" HTTP "+r.status)));
+Promise.all([J("/data/papertrade.json"),J("versions.json").catch(()=>null),J("calls.json").catch(()=>null)]).then(([d,vs,cs])=>{
+  FULL_LIVE=d;LIVE=d;VERSIONS=vs;CALLS=cs;
+  if(vs&&vs.versions&&vs.versions.length){initStory();const q=new URLSearchParams(location.search).get("asof");setView(q&&/^\d{4}-\d{2}-\d{2}$/.test(q)?pd(q):Date.now());}
+  else{render();renderTrack();renderCalls();}
+}).catch(e=>{LIVEERR=e;render();renderTrack();});
+})();
+</script>
+
+</body>
+</html>
