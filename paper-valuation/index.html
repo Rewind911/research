@@ -1334,8 +1334,8 @@ function render(){
      <span class="s">Holders can only stake it. Trading starts when transfers switch on, ${ev("the final launch phase","m","phase")}. <b>No date set.</b></span><span class="go">Key dates</span></a>
    <a class="tile" href="#worth"><span class="q">What does the market say right now?</span><span class="a">${ev(fmtP(polyP),"m","poly")}</span>
      <span class="s">A thin Polymarket bet, not a trade. It sits near the <b>bear case</b>.</span><span class="go">Compare with the cases</span></a>
-   <a class="tile" href="#farm"><span class="q">Is getting PAPER still worth it?</span><span class="a">Base: yes, until ~${dshort(stopDate("base")||ASOF)}</span>
-     <span class="s">Stop line: <b>${r1(stopO("base"))} PAPER per $1 lost</b>. Today: ${ev("~"+Math.round(rateNow),"m","rate")}. In the bear case it's already not worth it.</span><span class="go">Stop lines by case</span></a>
+   <a class="tile" href="#farm"><span class="q">Is getting PAPER still worth it?</span><span class="a">${stopDate("base")?`Base: yes, until ~${dshort(stopDate("base"))}`:"Base: not any more"}</span>
+     <span class="s">Stop line: <b>${r1(stopO("base"))} PAPER per $1 lost</b>. Today: ${ev("~"+Math.round(rateNow),"m","rate")}. ${stopDate("base")?"In the bear case it's already not worth it.":`Only the bull case still pays: its stop line is ${r1(stopO("bull"))} per $1, around ${stopDate("bull")?dshort(stopDate("bull")):"–"}.`}</span><span class="go">Stop lines by case</span></a>
    <a class="tile" href="#dates"><span class="q">Next date to watch</span><span class="a" style="font-size:22px">${nx?nx.when+" · "+nx.title:"–"}</span>
      <span class="s">${nx?`<span class="chip">${until(nx.t)}</span> `:""}An early sign of whether the base case is holding.</span><span class="go">All key dates</span></a>
    <a class="tile wide" href="#bull"><span class="q">What has to go right?</span><span class="a">2.5 of 9</span>
@@ -1459,7 +1459,7 @@ function liveStats(){
 function trackStrip(){
   const t=liveStats();
   if(!t) return LIVEERR?`<span class="trk"><span class="sl">Tracking</span><span>Today's numbers could not be loaded. Forecast shown as made on 20 Oct 2026 (Version 3).</span></span>`:"";
-  return `<span class="trk"><span class="sl">Tracking · data through ${dshort(pd(t.last.date))}</span><span>Last ${t.w.length} days averaged <b>${fmtU(t.a7)}/day</b>, ${pct(t.share)} of the reference. ${t.above?"Above all three cases so far, as expected this early.":`Nearest the <b>${NAME[t.near].toLowerCase()} case</b>.`}</span></span>`;
+  return `<span class="trk"><span class="sl">Tracking · data through ${dshort(pd(t.last.date))}</span><span>Last ${t.w.length} days averaged <b>${fmtU(t.a7)}/day</b>, ${pct(t.share)} of the reference. ${t.above?(t.vsPrev&&t.vsPrev.move<=-0.25?"Above all three cases' bars, which fell with the reference.":"Above all three cases so far, as expected this early."):`Nearest the <b>${NAME[t.near].toLowerCase()} case</b>.`}</span></span>`;
 }
 function trackChart(t){
   const W=720,H=236,L=56,R=124,T=16,B=32,pw=W-L-R,ph=H-T-B;
