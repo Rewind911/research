@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Executive dashboard and valuation model for Papertrade's PAPER token, built from comparable launches and re-run as reality comes in. Version 3, 20 Oct 2026. Every number is sourced; every call is tracked.">
+<meta name="description" content="Executive dashboard and valuation model for Papertrade's PAPER token, built from comparable launches and re-run as reality comes in. Version 4, 27 Oct 2026. Every number is sourced; every call is tracked.">
 <style>[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}</style>
 </head>
 <body>
@@ -564,27 +564,28 @@ details.cl-ev p{margin-top:2px}
       <div class="cs-ban" id="viewBan" role="status" hidden>
         <span class="sp">Reading this page as it stood on <b>15 Oct 2026</b>. Numbers, cards and calls are as they were that day; the written analysis is today's.</span>
         <a id="recLink" href="?asof=2026-10-15">Link to this day</a>
-        <button type="button" class="rec-btn" id="backToday">Back to today, 20 Oct</button>
+        <button type="button" class="rec-btn" id="backToday">Back to today, 27 Oct</button>
       </div>
   
       <div class="cs-body">
         <div class="cs-call">
-          <div class="cs-when" id="sayWhen">Our call today · 20 Oct</div>
+          <div class="cs-when" id="sayWhen">Our call today · 27 Oct</div>
           <div class="cs-val">
-            <span class="n" id="sayVal">$0.034</span>
+            <span class="n" id="sayVal">$0.014</span>
             <span class="u" id="sayUnit">per PAPER by <b>Oct 2027</b>, base case</span>
           </div>
-          <p class="cs-was" id="sayWas">First said <b>$0.081</b> on 14 Oct. Re-run on 20 Oct with 6 more days of data, same method. <span class="cs-delta dn">-58%</span></p>
+          <p class="cs-was" id="sayWas">First said <b>$0.081</b> on 14 Oct. Re-run on 27 Oct with 13 more days of data, new mint rule. <span class="cs-delta dn">-82%</span></p>
           <div class="tape" id="tape" aria-label="All three cases and the market's bet">
-            <span><span class="dot" style="--c:var(--bull)"></span>Bull <b>$0.21</b></span>
-            <span><span class="dot" style="--c:var(--base)"></span>Base <b>$0.034</b></span>
-            <span><span class="dot" style="--c:var(--bear)"></span>Bear <b>$0.0038</b></span>
-            <span><span class="dot" style="--c:var(--ref)"></span>Market bet <b>$0.0030</b></span>
+            <span><span class="dot" style="--c:var(--bull)"></span>Bull <b>$0.079</b></span>
+            <span><span class="dot" style="--c:var(--base)"></span>Base <b>$0.014</b></span>
+            <span><span class="dot" style="--c:var(--bear)"></span>Bear <b>$0.0015</b></span>
+            <span><span class="dot" style="--c:var(--ref)"></span>Market bet <b>$0.0028</b></span>
           </div>
           <div class="cs-next" id="sayNext" hidden>
             <span class="cs-k">What happened next</span>
             <span><b>17 Oct:</b> re-run on new data, base case $0.081 → <b>$0.11</b>.</span>
             <span><b>20 Oct:</b> re-run on new data, base case $0.11 → <b>$0.034</b>.</span>
+            <span><b>27 Oct:</b> re-run on new data, base case $0.034 → <b>$0.014</b>.</span>
             <span><b>1 call since marked missed:</b> the farming stop line came 2½ months early.</span>
           </div>
         </div>
@@ -593,24 +594,24 @@ details.cl-ev p{margin-top:2px}
           <div class="cs-read">
             <span class="cs-k">Reality so far</span>
             <div class="cs-big bull" id="closestBig">Revenue is falling, but still ahead of every case's bar</div>
-            <p class="cs-sub" id="closest"><b>$4.1M</b> a day over the last 7 days, <b>$1.7M</b> over the last three. The bull case needs <b>$584K</b> once the rush fades. The reference fell 73% between Version 2 and Version 3, so every case's bar fell with it. Too early to count while the launch rush fades.</p>
+            <p class="cs-sub" id="closest"><b>$770K</b> a day over the last 7 days, <b>$681K</b> over the last three. The bull case needs <b>$232K</b> once the rush fades. The reference fell 60% between Version 3 and Version 4, so every case's bar fell with it. Too early to count while the launch rush fades.</p>
           </div>
           <div class="cs-read">
             <span class="cs-k" id="tallyWhen">Calls scored so far</span>
-            <div class="cs-pips" id="tallyPips" role="img" aria-label="11 calls: 4 hit, 2 missed, 2 on track, 3 off track">
+            <div class="cs-pips" id="tallyPips" role="img" aria-label="11 calls: 4 hit, 3 missed, 1 on track, 3 off track">
               <span class="cs-pip offtrack" title="Base case $0.081: off track"></span>
               <span class="cs-pip offtrack" title="Bull case $0.49: off track"></span>
               <span class="cs-pip ontrack" title="Bear case $0.011: on track"></span>
               <span class="cs-pip missed" title="Payout bar doubles on 17 Oct: missed"></span>
               <span class="cs-pip hit" title="Surplus payouts restart: hit (rule doubted)"></span>
-              <span class="cs-pip ontrack" title="Mint rate under 10 per $1: on track"></span>
+              <span class="cs-pip hit" title="Mint rate under 10 per $1: hit"></span>
               <span class="cs-pip missed" title="Farming stop line, base case: missed"></span>
               <span class="cs-pip offtrack" title="Money on platform above $138M by 30 Nov: off track"></span>
               <span class="cs-pip hit" title="Payout queue stays at zero: hit so far"></span>
               <span class="cs-pip hit" title="Stakers' share above 80% by 28 Oct: hit (rule doubted)"></span>
-              <span class="cs-pip hit" title="Bets lean under 15× the house money: hit so far"></span>
+              <span class="cs-pip missed" title="Bets lean under 15× the house money: missed"></span>
             </div>
-            <p class="cs-tally" id="tallyTop"><b>4</b> hit · <b>2</b> missed · <b>2</b> on track · <b>3</b> off track</p>
+            <p class="cs-tally" id="tallyTop"><b>4</b> hit · <b>3</b> missed · <b>1</b> on track · <b>3</b> off track</p>
             <a class="cs-link" href="#scorecard">Every call, and what we got wrong ↓</a>
           </div>
         </div>
@@ -635,17 +636,20 @@ details.cl-ev p{margin-top:2px}
             <li class="rec-stop version past"><button type="button" class="rec-hit" aria-label="17 Oct: re-run, base case $0.11; payout bar doubles; pool slips under the bar. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">17 Oct</span><span class="rec-what">Re-run<span class="rec-val">$0.11</span><small>Payout bar doubles</small><small>Pool slips under the bar</small></span></button></li>
             <li class="rec-stop key past"><button type="button" class="rec-hit" aria-label="18 Oct: bar did not double. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">18 Oct</span><span class="rec-what">Bar did not double</span></button></li>
             <li class="rec-stop event past"><button type="button" class="rec-hit" aria-label="19 Oct: the rush has broken. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">19 Oct</span><span class="rec-what">The rush has broken</span></button></li>
-            <li class="rec-stop version past is-today is-view"><button type="button" class="rec-hit" aria-current="date" aria-label="20 Oct, today: re-run, base case $0.034. Showing today."><span class="rec-pin">You are here</span><span class="rec-dot"></span><span class="rec-date">20 Oct · today</span><span class="rec-what">Re-run<span class="rec-val">$0.034</span></span></button></li>
-            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">27 Oct</span><span class="rec-what">Version 4<small>in 7 days</small></span></span></li>
+            <li class="rec-stop version past"><button type="button" class="rec-hit" aria-label="20 Oct: re-run, base case $0.034. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">20 Oct</span><span class="rec-what">Re-run<span class="rec-val">$0.034</span></span></button></li>
+            <li class="rec-stop key past"><button type="button" class="rec-hit" aria-label="21 Oct: upgrade live; the house gives back $2.7M. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">21 Oct</span><span class="rec-what">Upgrade live; the house gives back $2.7M</span></button></li>
+            <li class="rec-stop event past"><button type="button" class="rec-hit" aria-label="25 Oct: quietest day yet. Show the page as it stood that day."><span class="rec-dot"></span><span class="rec-date">25 Oct</span><span class="rec-what">Quietest day yet</span></button></li>
+            <li class="rec-stop version past is-today is-view"><button type="button" class="rec-hit" aria-current="date" aria-label="27 Oct, today: re-run, base case $0.014. Showing today."><span class="rec-pin">You are here</span><span class="rec-dot"></span><span class="rec-date">27 Oct · today</span><span class="rec-what">Re-run<span class="rec-val">$0.014</span></span></button></li>
+            <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">3 Nov</span><span class="rec-what">Version 5<small>in 7 days</small></span></span></li>
             <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">11 Nov</span><span class="rec-what">Base-case stop line</span></span></li>
             <li class="rec-stop upcoming ahead"><span class="rec-hit"><span class="rec-dot"></span><span class="rec-date">30 Nov</span><span class="rec-what">$138M money check</span></span></li>
           </ol>
         </div>
-        <p class="rec-cap" id="recCap" aria-live="polite"><b>Next:</b> 27 Oct, weekly re-run. Does the three-day reference hold near $1.7M a day, or keep sliding? The model is re-run on that day's data.</p>
+        <p class="rec-cap" id="recCap" aria-live="polite"><b>Next:</b> 3 Nov, weekly re-run. Does revenue hold near $0.7M a day, has the payout bar moved, and how fast does supply grow under the new mint rule? The model is re-run on that day's data.</p>
       </div>
       <div class="cs-foot">
         <span class="upd" id="upd">Loading today's numbers…</span>
-        <span><span id="verLbl">Version 3 · published 20 Oct 2026</span> · <a href="/paper-valuation/v2/">Version 2 as published</a> · <a href="/paper-valuation/v1/">Version 1 as published</a></span>
+        <span><span id="verLbl">Version 4 · published 27 Oct 2026</span> · <a href="/paper-valuation/v3/">Version 3 as published</a> · <a href="/paper-valuation/v2/">Version 2 as published</a> · <a href="/paper-valuation/v1/">Version 1 as published</a></span>
       </div>
     </section>
   </header>
@@ -662,38 +666,45 @@ details.cl-ev p{margin-top:2px}
 
 <!-- scorecard:start -->
   <section class="panel" id="scorecard" aria-label="Scorecard: calls, what changed, what moved">
-    <div class="tag">Scorecard · Version 3 · 20 Oct 2026</div>
+    <div class="tag">Scorecard · Version 4 · 27 Oct 2026</div>
     <h2>Is the forecast holding?</h2>
     <div class="sc-verdict">
-      <span class="sc-k">Tracking closest to</span><span class="sc-v" id="closest2"><b>Bull</b> · <b>$4.1M</b> a day over the last 7 days, <b>$1.7M</b> over the last three. The bull case needs <b>$584K</b> once the rush fades. The reference fell 73% between Version 2 and Version 3, so every case's bar fell with it. Too early to count while the launch rush fades.</span>
-      <span class="sc-k">Calls so far</span><span class="sc-v" id="tally"><span class="st st-hit">4 hit</span> <span class="st st-missed">2 missed</span> <span class="st st-ontrack">2 on track</span> <span class="st st-offtrack">3 off track</span></span>
-      <span class="sc-k">This version</span><span class="sc-v">Same method, inputs re-read on 20 Oct. Bull <b>$0.21</b>, base <b>$0.034</b>, bear <b>$0.0038</b> per PAPER by Oct 2027. Version 2 said $0.72 / $0.11 / $0.013; Version 1 said $0.49 / $0.081 / $0.011.</span>
-      <span class="sc-k">Next version</span><span class="sc-v"><b>27 Oct</b>: weekly re-run. Then weekly through November, plus 11 Nov and 30 Nov.</span>
+      <span class="sc-k">Tracking closest to</span><span class="sc-v" id="closest2"><b>Bull</b> · <b>$770K</b> a day over the last 7 days, <b>$681K</b> over the last three. The bull case needs <b>$232K</b> once the rush fades. The reference fell 60% between Version 3 and Version 4, so every case's bar fell with it. Too early to count while the launch rush fades.</span>
+      <span class="sc-k">Calls so far</span><span class="sc-v" id="tally"><span class="st st-hit">4 hit</span> <span class="st st-missed">3 missed</span> <span class="st st-ontrack">1 on track</span> <span class="st st-offtrack">3 off track</span></span>
+      <span class="sc-k">This version</span><span class="sc-v">Inputs re-read on 27 Oct; <b>method change</b>: supply now follows the contract's new mint rule, live since 21 Oct. Bull <b>$0.079</b>, base <b>$0.014</b>, bear <b>$0.0015</b> per PAPER by Oct 2027. Version 3 said $0.21 / $0.034 / $0.0038; Version 2 $0.72 / $0.11 / $0.013; Version 1 $0.49 / $0.081 / $0.011.</span>
+      <span class="sc-k">Next version</span><span class="sc-v"><b>3 Nov</b>: weekly re-run. Then 10 Nov, 11 Nov, 17 Nov, 24 Nov and 30 Nov.</span>
     </div>
-    <p class="lede">Three days after Version 2 the launch rush broke. Revenue fell to <b>$0.90M</b> on 17 Oct, a Saturday inside Hyperliquid's maintenance window, and closed at $2.34M and $1.91M on 18 and 19 Oct: <b>$1.7M a day</b> against the $6.3M a day Version 2 started from. The payout bar never doubled: the contract still reads <b>$5M</b> and the team has said nothing about it. At 22:30 UTC on 19 Oct the team said it has no plans "at this juncture" to make PAPER transferable, and announced a new mint rule and fee band for a timelocked upgrade. Within the hour both pre-market perps were settled and delisted, and Polymarket's median bet on all PAPER fell from about $200M to about <b>$25M</b>. Re-run on today's inputs, the same model lands 70% lower. The cases are unchanged; the reference they start from is what moved.</p>
+    <p class="lede">A week after Version 3 two things moved. Revenue kept sliding: 24–26 Oct averaged <b>$0.68M a day</b>, 60% under the $1.7M Version 3 started from, and 25 Oct ($72.8K) was the quietest day since launch. And the contract changed under us: at 22:00 UTC on 21 Oct the timelocked upgrade went live, unannounced as such. Each $1M lost now mints <b>0.110% of PAPER's supply, with no ceiling</b>, so supply no longer heads for a 12B limit. Our daily check watched the old curve's fields and missed it for six days. Re-run on today's inputs with the new rule (a method change, named below), the base case is <b>$0.014</b>, 57% under Version 3; the new rule alone takes 7% off the base and 17% off the bull. The payout bar is still $5M. The house held, but the bets halved and money on platform fell to $31.5M.</p>
 
     <h3>1. Said, happened, scored</h3>
     <div class="drift" id="drift"></div>
 
     <h3>2. Calls so far</h3>
-    <p class="cap">Every dated call, marked against the evidence as of the day in view. Misses stay here in every later version. Full version note with every source: <a href="/paper-valuation/updates/2026-10-20-version-03.md">version 3</a>; the pages as they stood: <a href="/paper-valuation/v2/">Version 2</a>, <a href="/paper-valuation/v1/">Version 1</a>. Two of the hits (surplus payouts restart; stakers' share back above 80%) rest on a rule the desk now doubts: see "What we got wrong", point 3.</p>
+    <p class="cap">Every dated call, marked against the evidence as of the day in view. Misses stay here in every later version. Full version note with every source: <a href="/paper-valuation/updates/2026-10-27-version-04.md">version 4</a>; the pages as they stood: <a href="/paper-valuation/v3/">Version 3</a>, <a href="/paper-valuation/v2/">Version 2</a>, <a href="/paper-valuation/v1/">Version 1</a>. Two of the hits (surplus payouts restart; stakers' share back above 80%) rest on a rule the desk doubts: see Version 3's "What we got wrong", point 3, below the Version 4 list.</p>
     <div id="callsBox"><p class="cap">Loading the calls…</p></div>
 
     <div class="two">
       <div>
-        <h3>3. What we got wrong in Version 2</h3>
+        <h3>3. What we got wrong in Version 3</h3>
         <ol class="sc-wrong">
-          <li><span><b>The reference caught the peak.</b> Version 2's three-day reference ($6.29M, 14–16 Oct) was the three best days after launch day; three days later the same method reads $1.72M. Because the method re-bases on the newest three days, the forecast swung +40% and then −70%. A seven-day reference (13–19 Oct, $4.08M) would give a base of $0.074: a shadow run, not the forecast. Whether the reference should widen is lined up for Insaaf; the method stands until he decides.</span></li>
-          <li><span><b>The 17 Oct tell was a dip between sweeps, not a pause.</b> We wrote that stakers "have had only the 1% win fee since about midnight". The pool reads under the bar whenever traders are ahead on open bets; it crossed back over the bar in three hours that day (sweeps of $22K, $324K and $251K) and stakers received $783K, 87% of the day's revenue.</span></li>
-          <li><span><b>Two hits rest on a rule that measures the wrong thing.</b> The restart calls marked themselves hit on 18 Oct from holders ÷ revenue (90%). That ratio is the split of distributed revenue between stakers and the treasury; it read 85–95% on every day since launch, and the bar never doubled, so there was nothing to restart. The hits stand as the rule scored them (nothing is hand-edited); the replacement rule (the pool reading at the bar on the daily contract read) is lined up for Insaaf.</span></li>
-          <li><span><b>The test was written as if the doubling were certain.</b> The tracking card said "from 17 Oct the pool refills to $10M first" and the key dates carried refill dates from 17 Oct. It did not happen. Both now follow the contract read, and the refill dates apply from the day the bar moves.</span></li>
-          <li><span><b>Two small errors in the record.</b> The call sheet's static text said "+36%" where the computed figure was +40% (the page corrected itself on load). A forwarded note put 16 Oct revenue at $6.37M against the API's $5.45M. Neither reached the model.</span></li>
-          <li><span><b>A doubt resolved.</b> The docs can be read now: the curve's high-water mark is cumulative pool gain past $2M (<code>tailProgress</code>), which confirms Version 2's inference that the curve runs on gross flow. The supply tuning reads 4.2 today.</span></li>
+          <li><span><b>The reference slid again.</b> Version 3 asked whether revenue would "hold near $1.7M a day". It did not: 24–26 Oct averaged $0.68M, 60% lower, so the forecast fell again: base −54% on the old curve, −57% with the new mint rule. The three days include 25 Oct, the quietest day since launch ($72.8K). A seven-day reference (20–26 Oct, $0.77M) would give a base of $0.016, close to the $0.014 the method gives: the question of the window (still with Insaaf) matters less now than it did a week ago, when the gap was $0.074 against $0.034.</span></li>
+          <li><span><b>"Tracking closest to: bull" is built to say bull.</b> The bars each case needs are cut from the same reference that just fell, so recent revenue almost always clears them. Against Version 1's fixed bars, the last seven days ($0.77M a day) sit nearest the <b>base</b> case ($0.44M; the bull needed $1.51M). The page keeps its rule; the fixed-frame reading is stated here and lined up for Insaaf with the reference question.</span></li>
+          <li><span><b>The throttle tell broke within a day of being made.</b> We set the tell at 15× when the daily reads had run 7.7× to 12.3×. The lean moves a lot within a day: the job replaced the 20 Oct morning read (10.2×) with an afternoon read (17.9×), and 21 Oct read 18.4×. The call is missed and stays missed; the lean has since fallen to 4.95× because the bets shrank, not because the house grew.</span></li>
+          <li><span><b>We missed the upgrade for six days.</b> The daily checks of 22–27 Oct said "no sign of the upgrade" because they watched the old curve's fields: the cap, the old formula's mint rate and its high-water mark. The mark froze at $263.3M on 21 Oct precisely because the curve it drives was retired; we read the freeze as "no change". The checks now read the new constant and the timelock's on-chain events (24 hours' notice of any owner change, including the payout bar).</span></li>
+          <li><span><b>Version 3's supply curve had a ceiling the contract no longer has.</b> On the old curve the rule sat 7% under live supply (8.44B against 9.03B). The new rule has no ceiling and mints a share of whatever exists, so the bull case, whose revenue mints the most, ends Oct 2027 at 12.2B PAPER instead of 10.2B. Re-run on the old curve, today's inputs give $0.095 / $0.015 / $0.0016: the method change moves the cases 17%, 7% and 6% down.</span></li>
+          <li><span><b>The mint-rate call hit on a curve that was retired hours later.</b> It marked itself hit on the 21 Oct read (9.93 per $1). Under the new rule the rate rises with supply: 9.94 today, back above 10 once supply passes 9.08B. The hit stands; its premise, a rate that keeps falling, does not. Every case's farming stop line (bull 12.7 per $1) is now above the rate, so losing on purpose no longer pays even in the bull case; Version 3 had the bull paying until about 28 Dec.</span></li>
+          <li><span><b>The market's bet is an upper bound now.</b> The rule takes the strike nearest 50%. Every strike now sits under 50% ($25M and $50M both 45.5%), so the median the ladder implies is below $25M; $25M is kept by the same rule and should be read as "at most".</span></li>
         </ol>
       </div>
       <div>
         <h3>4. What changed</h3>
         <div class="sc-dev">
+          <div class="sc-row"><div class="sc-when">27 Oct · v4</div><div><b>New data:</b> seven more complete days (20–26 Oct: $1.45M, $0.18M, $1.14M, $0.57M, $1.34M, $0.07M, $0.63M); the contract read daily (bar $5M every day, queue $0, house money $10.0M on 20 Oct down to $7.3M on 21 Oct and $8.0M today, high-water mark stuck at $263.3M since 22 Oct, supply 9.03B, 99.4% staked); open bets $102M long against $62M short; money on platform $31.5M on 26 Oct (was $63.8M on 19 Oct); Polymarket $25M strike 45.5% (was 52.5%), $392K traded. The 21 Oct upgrade (contract set 2): a new mint rule, a fee band, builder codes, a 24-hour timelock.</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $1.72M → $0.68M a day (same method: the last three complete days, 24–26 Oct); share to stakers 89% → 95%; revenue so far $60.3M → $65.7M; supply tuning 4.2 (the old curve's high-water mark ÷ revenue) → 3.3 (loss basis per $1 of revenue under the new rule); market bet $25M → $25M (every strike now under 50%).</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Outputs moved:</b> bull $0.21 → $0.079; base $0.034 → $0.014; bear $0.0038 → $0.0015. <b>Method change:</b> supply follows the contract's new rule, S0 × e^(c × basis) with c = 1.101e-9 read from the contract and the basis per $1 of revenue (3.3) read from supply growth since the upgrade; on the old curve the same inputs give $0.095 / $0.015 / $0.0016. Every case's farming stop line is past (bull 12.7, base 69.6 PAPER per $1, against 9.94 minted per $1 lost).</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Calls:</b> two resolved by themselves on the 21 Oct read: the mint rate fell under 10 PAPER per $1 (hit, three weeks before the bull date) and the throttle tell broke at 17.9× and 18.4× the house money (missed). The tally went from 4 · 2 · 2 · 3 to 4 · 3 · 1 · 3. No new call: the checks the data can run today would show "hit so far" before they resolve (as the payout-queue call does), which flatters the tally; a revenue rule is lined up as a design follow-up.</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Recorded:</b> the data job keeps one contract row a day, so a later run replaces the morning read (20, 23, 24, 25 and 26 Oct; no call changed by it, the throttle miss stands on either reading). How rows should be kept is with Insaaf. Version 3 is kept exactly as published at <a href="/paper-valuation/v3/">/paper-valuation/v3/</a>.</div></div>
+          <div class="sc-row"><div class="sc-when"></div><div><b>Fixed:</b> the farming tile said "only the bull case still pays" whatever the bull stop line said; it now says when no case pays. The revisions note names the version in view instead of "Version 3".</div></div>
           <div class="sc-row"><div class="sc-when">20 Oct · v3</div><div><b>New data:</b> three more complete days ($0.90M, $2.34M, $1.91M); the contract read daily (bar $5M on 17–20 Oct, pool $4.90M, queue $0, supply 8.81B, 99.4% staked, high-water mark $254M); open bets $208M long against $107M short on $9.8M of house money; Polymarket re-priced ($25M strike 52.5%, was 95%; $285K traded); the team's 19 Oct note (no transfers for now; a new mint rule and fee band queued for a timelocked upgrade); both pre-market perps settled ($0.026) and delisted; money on platform $55.7M.</div></div>
           <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $6.29M → $1.72M a day (same method: the last three complete days); share to stakers 91% → 89%; revenue so far $55.2M → $60.3M; supply tuning 4.0 → 4.2; market bet $200M → $25M.</div></div>
           <div class="sc-row"><div class="sc-when"></div><div><b>Outputs moved:</b> bull $0.72 → $0.21; base $0.11 → $0.034; bear $0.013 → $0.0038. Method unchanged. The base-case stop line is already past (29.6 PAPER per $1 against 10.3 today); the bull stop line is 4.9 per $1, around 28 Dec.</div></div>
@@ -707,57 +718,75 @@ details.cl-ev p{margin-top:2px}
         </div>
       </div>
     </div>
+    <details class="sc-more">
+      <summary>What we got wrong in Version 2 (written with Version 3)</summary>
+      <div class="sc-more-in">
+        <ol class="sc-wrong">
+          <li><span><b>The reference caught the peak.</b> Version 2's three-day reference ($6.29M, 14–16 Oct) was the three best days after launch day; three days later the same method reads $1.72M. Because the method re-bases on the newest three days, the forecast swung +40% and then −70%. A seven-day reference (13–19 Oct, $4.08M) would give a base of $0.074: a shadow run, not the forecast. Whether the reference should widen is lined up for Insaaf; the method stands until he decides.</span></li>
+          <li><span><b>The 17 Oct tell was a dip between sweeps, not a pause.</b> We wrote that stakers "have had only the 1% win fee since about midnight". The pool reads under the bar whenever traders are ahead on open bets; it crossed back over the bar in three hours that day (sweeps of $22K, $324K and $251K) and stakers received $783K, 87% of the day's revenue.</span></li>
+          <li><span><b>Two hits rest on a rule that measures the wrong thing.</b> The restart calls marked themselves hit on 18 Oct from holders ÷ revenue (90%). That ratio is the split of distributed revenue between stakers and the treasury; it read 85–95% on every day since launch, and the bar never doubled, so there was nothing to restart. The hits stand as the rule scored them (nothing is hand-edited); the replacement rule (the pool reading at the bar on the daily contract read) is lined up for Insaaf.</span></li>
+          <li><span><b>The test was written as if the doubling were certain.</b> The tracking card said "from 17 Oct the pool refills to $10M first" and the key dates carried refill dates from 17 Oct. It did not happen. Both now follow the contract read, and the refill dates apply from the day the bar moves.</span></li>
+          <li><span><b>Two small errors in the record.</b> The call sheet's static text said "+36%" where the computed figure was +40% (the page corrected itself on load). A forwarded note put 16 Oct revenue at $6.37M against the API's $5.45M. Neither reached the model.</span></li>
+          <li><span><b>A doubt resolved.</b> The docs can be read now: the curve's high-water mark is cumulative pool gain past $2M (<code>tailProgress</code>), which confirms Version 2's inference that the curve runs on gross flow. The supply tuning read 4.2 on 20 Oct.</span></li>
+        </ol>
+      </div>
+    </details>
 
     <h3>5. The throttle: the house against the bets</h3>
     <div class="box"><ul>
-      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">1</span><span><b>Fees are relabelled, not gone.</b> A trade costs nothing to open, but the house keeps a cut of every winner's profit: a haircut of 10–50%, largest on small moves, plus a 2% win fee split between stakers and the team. The 19 Oct note adds a fee band on trades closed within 6–10 basis points of entry, aimed at bots.</span></li>
-      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">2</span><span><b>The bar is the dial.</b> The house is the pool: its money ($9.8M on 20 Oct, pool $4.90M plus reserve $4.92M) is all a trader can win, and it sits against $315M of open bets. Everything the pool holds above the $5M bar is swept to stakers, so every raise of the bar is "house first", bought with stakers' income. The raise to $10M announced for 17 Oct has not happened, and the team has not said why.</span></li>
-      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">3</span><span><b>House first, or rewards first.</b> Insaaf, 17 Oct 2026: traders must be able to get in and out at size; fees are a negligible part of a trader's decision; a platform should put trading and the house before LP rewards, and "if the house and trading experience are in order, rewards will follow". House first is bearish for PAPER for a few months and bullish for next year. The base case is the house-first world.</span></li>
-      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">4</span><span><b>The desk's tempering.</b> Seamless entry at size against a zero-impact house is the known exploit path (the $1.28M ETH incident of 11 Oct; GMX on Avalanche in 2022), which is exactly why the team refused transferability on 19 Oct: a PAPER short would let an attacker bet against the bankroll. Today's traders are mostly loss-miners, so execution decides the organic cohort that must replace them, and that cohort is the retention input every case rests on. The tell we check daily: how far the bets lean against the house money.</span></li>
-      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">5</span><span><b>Where the data agrees and disagrees.</b> Agrees: the house held through the quietest days since launch (queue $0, every winner paid, lean 7.7× to 11.9×), and open bets halved as loss-miners left with the rush. Disagrees with "rewards will follow", so far: the team chose house first on 19 Oct, and the market priced the token, not the exchange: Polymarket's median bet fell eightfold within the hour, PSTR fell 36%, money on platform fell 15% overnight. Bearish now, as the thesis says; the "bullish next year" half is untested.</span></li>
+      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">1</span><span><b>Fees are relabelled, not gone.</b> A trade costs nothing to open, but the house keeps a cut of every winner's profit: a haircut of 10–50%, largest on small moves, plus a 2% win fee split between stakers and the team. The 19 Oct note adds a fee band on trades closed within 6–10 basis points of entry, aimed at bots. Since 21 Oct it is live, with builder codes taking 0.5% of profit; volume fell from $19B a day to $5.5–7.8B, which fits bots being priced out, though farmers leaving pushes the same way.</span></li>
+      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">2</span><span><b>The bar is the dial.</b> The house is the pool plus its reserve: $8.0M on 27 Oct (pool $4.91M, reserve $3.13M), all a trader can win, against $164M of open bets. Everything the pool holds above the $5M bar is swept to stakers, so every raise of the bar is "house first", bought with stakers' income. The raise to $10M announced for 17 Oct has still not happened, ten days on, and the team has not said why.</span></li>
+      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">3</span><span><b>House first, or rewards first.</b> Insaaf, 17 Oct 2026: traders must be able to get in and out at size; fees are a negligible part of a trader's decision; a platform should put trading and the house before LP rewards, and "if the house and trading experience are in order, rewards will follow". House first is bearish for PAPER for a few months and bullish for next year. The base case is the house-first world. No new thoughts from him reached this version.</span></li>
+      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">4</span><span><b>The desk's tempering.</b> Seamless entry at size against a zero-impact house is the known exploit path (the $1.28M ETH incident of 11 Oct; GMX on Avalanche in 2022), which is why the team refused transferability on 19 Oct: a PAPER short would let an attacker bet against the bankroll. Today's traders are mostly loss-miners, so execution decides the organic cohort that must replace them, and that cohort is the retention input every case rests on. The tell we check daily: how far the bets lean against the house money.</span></li>
+      <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">5</span><span><b>Where the data agrees and disagrees, a week on.</b> Agrees: the house held. The queue stayed at $0 and every winner was paid, even on 21 Oct, when the bets leaned 18.4× the house money and the house gave back about $2.7M; the reserve took the hit. Disagrees, so far: the dial still reads rewards first. The pool kept sweeping to stakers above $5M while the reserve stayed about $2M below its 20 Oct level ($3.13M against $5.00M), and the bar did not move. Nor has trading grown into the space: open bets fell from $315M to $164M, open positions from 3,003 to 1,549, money on platform from $63.8M to $31.5M. The lean eased to 4.95× because the bets shrank, not because the house grew. Bearish now, as the thesis says; "rewards will follow" and "bullish next year" are untested, because house first has not been tried.</span></li>
     </ul></div>
     <div class="drift" id="throttle"><p class="cap">Loading the contract readings…</p></div>
 
     <details class="sc-more">
       <summary>The full record: inputs, days, triggers, schedule</summary>
       <div class="sc-more-in">
-    <h3>What moved: Version 2 against Version 3</h3>
+    <h3>What moved: Version 3 against Version 4</h3>
     <div class="tablewrap"><table class="sc-table wide">
-      <thead><tr><th>Input</th><th>Version 2 (17 Oct)</th><th>Version 3 (20 Oct)</th><th>Source</th><th></th></tr></thead>
+      <thead><tr><th>Input</th><th>Version 3 (20 Oct)</th><th>Version 4 (27 Oct)</th><th>Source</th><th></th></tr></thead>
       <tbody>
-        <tr><td>Daily revenue, reference</td><td class="num">$6.29M</td><td class="num">$1.72M</td><td>DefiLlama, last three complete days</td><td><span class="st st-minus">−</span></td></tr>
-        <tr><td>Share paid to stakers</td><td class="num">91%</td><td class="num">89%</td><td>DefiLlama; PaperDash agrees to the dollar</td><td><span class="st st-minus">−</span></td></tr>
-        <tr><td>Revenue so far</td><td class="num">$55.2M</td><td class="num">$60.3M</td><td>DefiLlama, closed days</td><td><span class="st st-zero">0</span></td></tr>
-        <tr><td>PAPER supply</td><td class="num">8.45B live</td><td class="num">8.81B live</td><td>PaperDash contract read</td><td><span class="st st-minus">−</span></td></tr>
-        <tr><td>Supply tuning (H ÷ revenue)</td><td class="num">4.0 observed</td><td class="num">4.2 observed</td><td>PaperDash <code>tailProgress</code></td><td><span class="st st-minus">−</span></td></tr>
-        <tr><td>Mint rate, PAPER per $1</td><td class="num">~12 by the formula</td><td class="num">10.3 by the formula</td><td>PaperDash; crosses 10 at a $259.5M mark</td><td><span class="st st-zero">0</span></td></tr>
-        <tr><td>Market bet, all PAPER</td><td class="num">~$200M · $0.025</td><td class="num">~$25M · $0.0030</td><td>Polymarket (the whole ladder now sits under 50% above $25M)</td><td><span class="st st-minus">−</span></td></tr>
-        <tr><td>Money on platform</td><td class="num">$68.6M</td><td class="num">$63.8M (19 Oct); $55.7M on 20 Oct so far</td><td>DefiLlama; PaperDash</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Daily revenue, reference</td><td class="num">$1.72M</td><td class="num">$0.68M</td><td>DefiLlama, last three complete days (24–26 Oct)</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Share paid to stakers</td><td class="num">89%</td><td class="num">95%</td><td>DefiLlama; PaperDash agrees to the dollar on 24 and 26 Oct</td><td><span class="st st-plus">+</span></td></tr>
+        <tr><td>Revenue so far</td><td class="num">$60.3M</td><td class="num">$65.7M</td><td>DefiLlama, closed days</td><td><span class="st st-zero">0</span></td></tr>
+        <tr><td>PAPER supply</td><td class="num">8.81B live</td><td class="num">9.03B live</td><td>PaperDash contract read</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Supply rule</td><td class="num">old curve, toward ~12B</td><td class="num">0.110% of supply per $1M lost, no ceiling</td><td>Contract <code>rebateC36</code>; docs, 21 Oct</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Supply tuning</td><td class="num">4.2 (mark ÷ revenue)</td><td class="num">3.3 (loss basis ÷ revenue)</td><td>PaperDash hourly supply, 22–27 Oct; DefiLlama</td><td><span class="st st-zero">0</span></td></tr>
+        <tr><td>Mint rate, PAPER per $1</td><td class="num">10.3, falling</td><td class="num">9.94, rising with supply</td><td>PaperDash; our arithmetic</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Market bet, all PAPER</td><td class="num">~$25M · $0.0030</td><td class="num">~$25M · $0.0030</td><td>Polymarket (every strike now under 50%: $25M 45.5%, was 52.5%)</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>Money on platform</td><td class="num">$63.8M (19 Oct)</td><td class="num">$31.5M (26 Oct)</td><td>DefiLlama</td><td><span class="st st-minus">−</span></td></tr>
+        <tr><td>House money (pool + reserve)</td><td class="num">$9.8M</td><td class="num">$8.0M</td><td>PaperDash, daily read</td><td><span class="st st-minus">−</span></td></tr>
         <tr><td>Payout bar · queue</td><td class="num">$5M · $0</td><td class="num">$5M · $0</td><td>PaperDash</td><td><span class="st st-zero">0</span></td></tr>
-        <tr><td>Open bets, long · short</td><td class="num">$322M · $248M</td><td class="num">$208M · $107M</td><td>PaperDash, daily read (17 Oct, 20 Oct)</td><td><span class="st st-zero">0</span></td></tr>
+        <tr><td>Open bets, long · short</td><td class="num">$208M · $107M</td><td class="num">$102M · $62M</td><td>PaperDash, daily read (20 Oct morning, 27 Oct)</td><td><span class="st st-zero">0</span></td></tr>
       </tbody>
     </table></div>
-    <p class="cap">+ better for PAPER's value · − worse · 0 neutral. Retention (34% / 10% / 2%) and multiples (12× / 6× / 3×) are unchanged: they come from the comparables, not from Papertrade's week.</p>
+    <p class="cap">+ better for PAPER's value · − worse · 0 neutral. Retention (34% / 10% / 2%) and multiples (12× / 6× / 3×) are unchanged: they come from the comparables, not from Papertrade's weeks.</p>
 
     <h3>What happened, day by day</h3>
     <div class="sc-dev">
-      <div class="sc-row"><div class="sc-when">17 Oct</div><div><span class="st st-minus">−</span> Revenue $0.90M, the lowest closed day since launch; a Saturday inside Hyperliquid's maintenance window, which the team's 16 Oct post said cuts leverage and open-interest caps. Volume $54B (16 Oct: $97B); deposits $5.4M (16 Oct: $14.3M); 72M PAPER minted (313M). The pool sat under the $5M bar most of the day and crossed back over it in three hours (sweeps of $22K, $324K, $251K); stakers got $783K. Open bets $569M at 10:50 UTC, leaning long by $94M, 7.7× the house money at the 12:07 read. <span class="cap">DefiLlama · PaperDash</span></div></div>
-      <div class="sc-row"><div class="sc-when">17 Oct 18:45 UTC</div><div><span class="st st-minus">−</span> The payout bar was due to double to $10M. It did not. The 10 Oct post is unedited; no later post mentions it; a user asked on 18 Oct and got no reply. TechFlow (17 Oct, nine hours before the change was due) wrote that it had been raised; the chain says $5M. <span class="cap">@papertrade_xyz via mirror · PaperDash · TechFlow</span></div></div>
-      <div class="sc-row"><div class="sc-when">18 Oct</div><div><span class="st st-zero">0</span> Cap read $5M at 10:59 UTC: the page marked the payout-bar call missed by itself. Revenue $2.34M. Paragon, a HIP-3 deployer, bought the PAPER ticker on Hyperliquid for about $45K and opened a 3× perp at 11:00 UTC: open $0.012, high $0.035, the first price PAPER ever had. Open bets $398M, 11.9× the house money. <span class="cap">PaperDash · Hyperliquid API · ChainCatcher</span></div></div>
-      <div class="sc-row"><div class="sc-when">19 Oct</div><div><span class="st st-zero">0</span> Revenue $1.91M; money on platform $63.8M. Aster listed a PAPER pre-launch perp at 16:10 UTC. IOSG's deep dive: $63.2M of net trader losses, 86% to stakers, mint rate 10.9 per $1, a 2-of-3 multisig and (it says) a 7-day timelock. Odaily, citing Ignas: mining rewards down 89% since launch. <span class="cap">DefiLlama · Aster API · ChainCatcher (IOSG) · Odaily</span></div></div>
-      <div class="sc-row"><div class="sc-when">19 Oct 22:30 UTC</div><div><span class="st st-minus">−</span> The team's note, signed blurr and jez: no plans "at this juncture" for off-contract transferability, because a PAPER perp lets an attacker short the bankroll's solvency; a new fee band for trades closed within 6–10 bps of entry; a new mint rule (every $1 lost mints a fixed share of supply, about 0.1% per $1M lost, no ceiling); whitelisted builder codes; go-live 24 hours after the upgrade enters the timelock. The payout bar is not mentioned. Jez: "owning paper is owning a share in the house"; "the market forced our hand". <span class="cap">@papertrade_xyz and @izebel_eth via mirror</span></div></div>
-      <div class="sc-row"><div class="sc-when">19 Oct 22:31 UTC</div><div><span class="st st-minus">−</span> Paragon halted its perp 74 seconds later and settled every position at $0.026296 (about $232M for all PAPER on today's supply, our arithmetic; nothing can trade there now). Polymarket's $25M strike fell from 96% to 35% within the hour and settled near 52%. Aster delisted its perp at 01:45 UTC on 20 Oct (last $0.0248). <span class="cap">Hyperliquid API · Polymarket CLOB · Aster API · Odaily via KuCoin</span></div></div>
-      <div class="sc-row"><div class="sc-when">20 Oct 07:04 UTC</div><div><span class="st st-minus">−</span> Live contract: bar $5M, pool $4.90M, queue $0, supply 8.81B, 99.4% staked, high-water mark $254M, open bets $212M long against $92M short (12.3× the house money), 3,107 open positions, 411× average leverage, 23.4 minutes average hold. Money on platform $55.7M, down 15% overnight. Polymarket: $25M 52.5%, $100M 45.5%, $200M 37%; a token by end-2026 priced at 15.5%. PSTR $4.77M (−36% in 24h). Stakers' USDC all time $56.3M. <span class="cap">PaperDash · DefiLlama · Polymarket · CoinGecko</span></div></div>
-      <div class="sc-row"><div class="sc-when">17–20 Oct</div><div><span class="st st-zero">0</span> No exploit, pause, freeze, refund or queue event on Papertrade itself. Sweep of 72 sources fetched and 16 seen by snippet; x.com read through two mirrors (notes/developments_2026-10-20.md). <span class="cap">Research desk</span></div></div>
+      <div class="sc-row"><div class="sc-when">20 Oct</div><div><span class="st st-zero">0</span> Revenue $1.45M; stakers $1.30M. Bankless: "Why Papertrade won't let PAPER trade". The job's afternoon read replaced the morning one: bets 17.9× the house money (the morning read was 10.2×), which broke the throttle tell. <span class="cap">DefiLlama · PaperDash · Bankless</span></div></div>
+      <div class="sc-row"><div class="sc-when">20 Oct 21:35 UTC</div><div><span class="st st-zero">0</span> The upgrade was scheduled in the 24-hour timelock. The team had said it would announce the queueing; no post did. <span class="cap">HyperEVM chain (timelock event)</span></div></div>
+      <div class="sc-row"><div class="sc-when">21 Oct</div><div><span class="st st-minus">−</span> Revenue $177K, stakers $88K (a 93% fall, Crypto Briefing); volume $19.0B; money on platform $45.8M from $61.9M. House money fell from $10.0M to $7.3M (reserve $5.00M → $3.21M) while the bets leaned 18.4× the house money; queue still $0. The mint rate read 9.93 on the old curve, so that call marked itself hit. <span class="cap">DefiLlama · PaperDash · Crypto Briefing</span></div></div>
+      <div class="sc-row"><div class="sc-when">21 Oct 22:00 UTC</div><div><span class="st st-minus">−</span> <b>The upgrade went live</b> during a posted "five-minute maintenance" that did not say upgrade. Each $1M of loss now mints 0.110% of supply, no ceiling; dollars that refill a pool below zero count up to 5×; a fee band on trades closed within a few basis points of entry; builder codes at 0.5% of profit; a 24-hour timelock on every owner action (IOSG's "7 days" was wrong). The payout bar is not among the changes; the rewritten docs still say $5M. <span class="cap">@papertrade_xyz via mirror · docs.papertrade.xyz (21 Oct) · HyperEVM chain</span></div></div>
+      <div class="sc-row"><div class="sc-when">22 Oct</div><div><span class="st st-minus">−</span> Revenue $1.14M; volume $10.3B. A Delphi Digital analyst: "many papertrade farmers are leaving". The lean eased to 14.5×. <span class="cap">DefiLlama · PaperDash · Crypto Briefing</span></div></div>
+      <div class="sc-row"><div class="sc-when">23 Oct</div><div><span class="st st-zero">0</span> Revenue $572K; volume $5.5B, the lowest of the week. Builder codes announced live (first batch scheduled in the timelock on 24 Oct, live 25 Oct 18:33 UTC). A user reported BTC longs capped for five hours; no reply. <span class="cap">DefiLlama · PaperDash · @papertrade_xyz via mirror</span></div></div>
+      <div class="sc-row"><div class="sc-when">24 Oct</div><div><span class="st st-plus">+</span> Revenue $1.34M; deposits $7.68M with 1,941 first-time depositors, the most of the week. <span class="cap">DefiLlama · PaperDash</span></div></div>
+      <div class="sc-row"><div class="sc-when">25 Oct</div><div><span class="st st-minus">−</span> Revenue $72.8K, the quietest closed day since launch (a Sunday); stakers $47.7K on DefiLlama, $41.1K on PaperDash, the one day the two disagree. <span class="cap">DefiLlama · PaperDash</span></div></div>
+      <div class="sc-row"><div class="sc-when">26 Oct</div><div><span class="st st-minus">−</span> Revenue $631K on $7.6B of volume; money on platform $31.5M. Polymarket's $25M strike slipped under 50% for the first time since 19 Oct. <span class="cap">DefiLlama · PaperDash · Polymarket</span></div></div>
+      <div class="sc-row"><div class="sc-when">27 Oct 07:03 UTC</div><div><span class="st st-zero">0</span> Bar $5M, pool $4.93M, reserve $3.13M, queue $0, supply 9.03B (99.4% staked), 9.94 PAPER per $1 lost, bets $93M long against $50M short. Polymarket: $25M 45.5%, $100M 35.5%, $400M 18.5%; a token by end-2026 11.5%, by 30 Sep 2027 44%. PSTR $2.76M (−39% in a week). No PAPER price anywhere. <span class="cap">PaperDash · Polymarket · CoinGecko · Hyperliquid API</span></div></div>
+      <div class="sc-row"><div class="sc-when">20–27 Oct</div><div><span class="st st-zero">0</span> No exploit, freeze, refund or queue event. Sweep of 38 sources (3 by snippet or block page); x.com read through two mirrors; the timelock read on-chain (notes/developments_2026-10-27.md). <span class="cap">Research desk</span></div></div>
     </div>
 
     <div class="two">
       <div>
         <h3>What would change the call</h3>
         <div class="box"><ul>
-          <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue holding above $1.7M a day (today's reference) through November, so the weekly re-runs stop re-basing down, then above $0.58M a day for 30 days after the mint rate is under 10 per $1; money on platform back above $138M by 30 Nov; a dated transfer plan, listing or distribution deal.</span></li>
-          <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear:</b> revenue below $0.63M a day (Version 2's base bar) for 30 days; the bets leaning more than 15× the house money on a closed day; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027.</span></li>
-          <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">→</span><span><b>Triggers for a version, either way:</b> the payout bar raised to $10M or above (the refill pause and the restart test start from that day); the timelocked upgrade going live (the mint rule changes, so the supply curve in the model is re-read from the contract and the change is named in the log); any official date for transferability.</span></li>
+          <li><span class="ic has" style="--pb:var(--has-bg);--pc:var(--has)">↑</span><span><b>Toward bull:</b> revenue back above $1.5M a day (Version 1's bull bar) for a week, so the weekly re-runs stop re-basing down; money on platform back above $138M by 30 Nov; a dated transfer plan, listing or distribution deal.</span></li>
+          <li><span class="ic lacks" style="--pb:var(--lacks-bg);--pc:var(--lacks)">↓</span><span><b>Toward bear:</b> revenue below $0.44M a day (Version 1's base bar) for 30 days; money on platform under $20M; an admin cut or pause of staker payouts (the GMX and Gains pattern); live supply above 10B before January 2027.</span></li>
+          <li><span class="ic part" style="--pb:var(--part-bg);--pc:var(--part)">→</span><span><b>Triggers for a version, either way:</b> the payout bar raised to $10M or above (it would show in the timelock 24 hours ahead; the refill pause and the restart test start from that day); any further change to the mint constant; any official date for transferability.</span></li>
         </ul></div>
       </div>
       <div>
@@ -766,11 +795,12 @@ details.cl-ev p{margin-top:2px}
           <thead><tr><th>Date</th><th>What</th></tr></thead>
           <tbody>
             <tr><td class="num">daily</td><td>The job reads the feed and the contract; calls with a rule mark themselves</td></tr>
-            <tr><td class="num">27 Oct</td><td><b>Version 4</b>: weekly re-run; does the three-day reference hold near $1.7M a day?</td></tr>
-            <tr><td class="num">weekly</td><td>A version every week through November, data re-read each time (3, 10, 17, 24 Nov)</td></tr>
+            <tr><td class="num">3 Nov</td><td><b>Version 5</b>: weekly re-run; does revenue hold near $0.7M a day?</td></tr>
+            <tr><td class="num">10 Nov</td><td>Weekly re-run</td></tr>
             <tr><td class="num">11 Nov</td><td>Version 2's base-case stop line date (8.8 per $1); the mint-rate reading stands as the check</td></tr>
+            <tr><td class="num">17, 24 Nov</td><td>Weekly re-runs</td></tr>
             <tr><td class="num">30 Nov</td><td>The $138M money check; the open-contract and builder-code phases</td></tr>
-            <tr><td class="num">on the day</td><td>A version within a week of the upgrade going live, or of the bar moving</td></tr>
+            <tr><td class="num">on the day</td><td>A version within a week of the bar moving or the mint rule changing again</td></tr>
             <tr><td class="num">Dec on</td><td>A version on each resolved call, at least monthly</td></tr>
           </tbody>
         </table></div>
@@ -779,7 +809,8 @@ details.cl-ev p{margin-top:2px}
           <tbody>
             <tr><td><a href="/paper-valuation/v1/">Version 1</a></td><td class="num">14 Oct 2026</td><td class="num">$0.49 · $0.081 · $0.011</td></tr>
             <tr><td><a href="/paper-valuation/v2/">Version 2</a></td><td class="num">17 Oct 2026</td><td class="num">$0.72 · $0.11 · $0.013</td></tr>
-            <tr><td><b>Version 3</b> (this page)</td><td class="num">20 Oct 2026</td><td class="num">$0.21 · $0.034 · $0.0038</td></tr>
+            <tr><td><a href="/paper-valuation/v3/">Version 3</a></td><td class="num">20 Oct 2026</td><td class="num">$0.21 · $0.034 · $0.0038</td></tr>
+            <tr><td><b>Version 4</b> (this page)</td><td class="num">27 Oct 2026</td><td class="num">$0.079 · $0.014 · $0.0015</td></tr>
           </tbody>
         </table></div>
       </div>
@@ -888,7 +919,7 @@ details.cl-ev p{margin-top:2px}
         <li>× 365 × share paid to stakers = yearly cash to stakers.</li>
         <li>× the multiple buyers paid for that similar token = value of all PAPER.</li>
         <li>÷ PAPER that will exist by then = value per PAPER.</li>
-        <li>Supply rule: 100 new PAPER per $1 lost until the pool reaches $2M, then fewer as more is created, heading toward about 12B.</li>
+        <li>Supply rule, from Version 4: since the contract upgrade of 21 Oct 2026, each $1 lost mints a fixed share of the PAPER that exists (about 0.110% per $1M), with no ceiling. Versions 1–3 used the first rule: 100 new PAPER per $1 lost until the pool reached $2M, then fewer as more was created, heading toward about 12B.</li>
         <li>Farming stop line = cost to get $1 of loss ÷ value per PAPER. Below that many PAPER per $1, it costs more than it's worth.</li>
       </ul></div>
     </details>
@@ -902,25 +933,25 @@ details.cl-ev p{margin-top:2px}
     </details>
   </section>
 
-  <footer>Version 1 built 14 Oct 2026 (64 links opened and checked). Version 2 on 17 Oct 2026 (28 more sources; same method, inputs re-read). Version 3 on 20 Oct 2026 (88 more sources, 72 opened and 16 by snippet; same method, inputs re-read; the payout bar never doubled). Figures that are our own arithmetic are labelled as such. Numbers move daily. Personal research, done for my own interest and shared as-is. Not financial advice. Do your own research.</footer>
+  <footer>Version 1 built 14 Oct 2026 (64 links opened and checked). Version 2 on 17 Oct 2026 (28 more sources; same method, inputs re-read). Version 3 on 20 Oct 2026 (88 more sources, 72 opened and 16 by snippet; same method, inputs re-read; the payout bar never doubled). Version 4 on 27 Oct 2026 (38 more sources, 35 opened and 3 by snippet or block page, plus the timelock read on-chain; inputs re-read; method change: the contract's new mint rule, live since 21 Oct; the reference fell another 60%). Figures that are our own arithmetic are labelled as such. Numbers move daily. Personal research, done for my own interest and shared as-is. Not financial advice. Do your own research.</footer>
 </main>
 
 <div id="pop" role="tooltip" hidden></div>
 
 <script>
 (function(){
-let ASOF=Date.UTC(2026,9,20); const DAY=864e5; // set per version by applyVersion()
+let ASOF=Date.UTC(2026,9,27); const DAY=864e5; // set per version by applyVersion()
 const SC=["bull","base","bear"];
 const NAME={bull:"Bull",base:"Base",bear:"Bear",mine:"Your pick"};
 const T={m:"Measured",c:"From similar launches",e:"Model result"};
 const SRC={
-  defi:"DefiLlama daily revenue: 17 Oct $0.90M, 18 Oct $2.34M, 19 Oct $1.91M. Average $1.72M a day over the last three complete days, the same method Versions 1 and 2 used ($4.45M on 11–13 Oct; $6.29M on 14–16 Oct). Launch day ($25.24M) left out as a one-off.",
-  hold:"DefiLlama: $4.58M of $5.15M paid to stakers on 17–19 Oct (89%); $55.7M of $60.3M since launch (92%). PaperDash's on-chain allocation agrees to the dollar. Version 2 used 91%, Version 1 85%.",
-  cum:"DefiLlama: total revenue 10–19 Oct, complete days only, $60.33M.",
-  supply:"Papertrade docs: 100 PAPER per $1 lost while the pool is under $2M, then it shrinks. TechFlow's reading of the docs gives the constants: 100 × (120M ÷ (120M + H))², heading to about 12B.",
-  hr:"Read from the live contract (PaperDash, 20 Oct 07:04 UTC): the curve's high-water mark is $254M against $60M of revenue, a ratio of 4.2 (4.0 on 17 Oct; Version 1 estimated 3.0 from two press figures). The contract shows the curve counts gross flow into the pool, not net losses; at this ratio the rule's supply sits within 6% of the 8.81B actually minted.",
-  rate:"Live contract high-water mark $254M (PaperDash, 20 Oct): 100 × (120 ÷ 374)² ≈ 10.3 PAPER per $1 (12.2 on 17 Oct). It crosses under 10 once the mark passes $259.5M. ChainCatcher reported 16.6 on 16 Oct and 30.8 on 12 Oct.",
-  poly:"Polymarket, 'Papertrade FDV above ___ one day after launch', 20 Oct: $25M 52.5%, $50M 46%, $100M 45.5%, $200M 37%, $400M 23.5%. $285K traded. The strike nearest 50% is $25M for all PAPER (about $200M on 17 Oct, $100M on 14 Oct). Still thin, and every strike above $25M now sits under 50%: since the team's 19 Oct note that PAPER stays non-transferable for now, the ladder mostly prices whether a tradable token exists at all (a token by end-2026: 15.5%).",
+  defi:"DefiLlama daily revenue: 24 Oct $1.34M, 25 Oct $0.073M, 26 Oct $0.63M. Average $0.68M a day over the last three complete days, the same method Versions 1–3 used ($4.45M on 11–13 Oct; $6.29M on 14–16 Oct; $1.72M on 17–19 Oct). Launch day ($25.24M) left out as a one-off.",
+  hold:"DefiLlama: $1.94M of $2.04M paid to stakers on 24–26 Oct (95%); $60.6M of $65.7M since launch (92%). PaperDash's on-chain allocation agrees to the dollar on 24 and 26 Oct ($41K against $48K on 25 Oct). Version 3 used 89%, Version 2 91%, Version 1 85%.",
+  cum:"DefiLlama: total revenue 10–26 Oct, complete days only, $65.72M.",
+  supply:"Papertrade docs (mint curve, contract set 2, live since 21 Oct 2026 22:00 UTC): mint = supply × (e^(c × basis) − 1), c ≈ 1.101e-9 per $1 (the contract's rebateC36), about 0.110% of supply per $1M of loss, no cap. Before that: 100 × (120M ÷ (120M + H))², heading to about 12B (TechFlow's reading of the old docs).",
+  hr:"Mint basis per $1 of revenue since the 21 Oct upgrade: supply grew from 8.903B (22 Oct 00:00 UTC) to 9.026B (27 Oct 00:00), which at c = 1.101e-9 is $12.4M of loss basis, against $3.76M of revenue on 22–26 Oct: 3.3 (PaperDash hourly supply; DefiLlama; our arithmetic). Losers' gross losses count, not the house's net gain, hence above 1. Versions 2 and 3 read the old curve's high-water mark instead (4.0, 4.2).",
+  rate:"New rule since 21 Oct 22:00 UTC: PAPER per $1 ≈ supply × c = 9.03B × 1.101e-9 ≈ 9.9, and it rises as supply grows (PaperDash, 27 Oct; docs). At the switch the contract set c so the first dollar minted what the old curve gave on its frozen high-water mark ($263.3M): 9.80 per $1. ChainCatcher reported 16.6 on 16 Oct and 30.8 on 12 Oct.",
+  poly:"Polymarket, 'Papertrade FDV above ___ one day after launch', 27 Oct: $25M 45.5%, $50M 45.5%, $75M 38.5%, $100M 35.5%, $150M 35.5%, $200M 33.5%, $250M 20%, $400M 18.5%. $392K traded. The strike nearest 50% is $25M (tied with $50M; the rule takes the lower), but every strike now sits under 50%, so the market's median is below $25M: read it as 'at most'. The ladder also prices whether a tradable token exists at all: a token by end-2026 is 11.5%, by 30 Sep 2027 44% (Polymarket, 27 Oct).",
   farm:"Odaily (Lookonchain wallet data): about $4.50 per 1,000 PAPER by betting both ways; about $33 per 1,000 by losing outright.",
   hedge:"Odaily: $4.50 per 1,000 PAPER at ~31 PAPER per $1 = about $0.14 per $1 of loss counted.",
   ceil:"Keeps 100% of today's revenue and gets 15×, Hyperliquid's first-year high. No farmed launch has kept 100%.",
@@ -935,8 +966,8 @@ const SRC={
   bera:"Berachain: trading volume kept 20.8% (Arrakis). Volume, not revenue.",
   gmx:"GMX: holder cash, best 30 days $5.99M → latest $0.31M = 5% (DefiLlama).",
   hype26:"Lighter today: ~26× (DefiLlama). Hyperliquid at its 2026 high: ~27× (our arithmetic). CoinShares puts Hyperliquid's range at 7–25× over the year to Jun 2026.",
-  x17:"Team post on X (10 Oct) and Odaily: after 18:45 UTC on 17 Oct the pool's payout bar was to rise from $5M to $10M. The on-chain cap still read $5M on every daily read from 17 to 20 Oct (PaperDash); no delay or new date was found.",
-  tvl:"DefiLlama: money on platform $63.8M on 19 Oct ($68.7M on 17 Oct, $64M on 13 Oct), vs $138M deposited before launch (MarsBit).",
+  x17:"Team post on X (10 Oct) and Odaily: after 18:45 UTC on 17 Oct the pool's payout bar was to rise from $5M to $10M. The on-chain cap still read $5M on every daily read from 17 to 27 Oct (PaperDash); no delay or new date was found.",
+  tvl:"DefiLlama: money on platform $31.5M on 26 Oct ($63.8M on 19 Oct, $68.7M on 17 Oct, $64M on 13 Oct), vs $138M deposited before launch (MarsBit).",
   hl18:"ForkLog: Hyperliquid's money on platform went from ~$191M (29 Nov 2024) to over $3B (17 Dec 2024).",
   phase:"Bitrue launch guide: phase 0 pre-deposit, 1 trading, 2 open contract, 3 builder codes, 4 PAPER transfers, the final step. Bankless: transfers come later; no date set.",
   base:"Memento Research (118 launches in 2025): 84.7% below their opening value (ForkLog). CryptoRank (113 launches 2024–26): 92.9% below launch price (AMBCrypto).",
@@ -945,7 +976,7 @@ const SRC={
   mkt:"MarsBit: $138M from 11,465 wallets before trading. ChainThink: #3 in crypto for 24-hour revenue on 13 Oct, behind only Tether and Circle. The Defiant: payout queue stayed empty.",
   pumpbuy:"Pump.fun's $4B token sale had 10,145 buyers (Blockworks).",
   hype2:"Aster rose about 30× in a week, then fell 77% (The Block, Decrypt). Avantis rose ~400% on big listings, then fell 97% (CCN, CoinGecko). The Tie, 1,844 listings: gains mostly reverse within two weeks.",
-  drop82:"DefiLlama: launch day $25.24M vs $4.45M average for days 2–4 = down 82%. Days 5–7 (14–16 Oct) came back to $6.29M a day; days 8–10 (17–19 Oct) fell to $1.72M.",
+  drop82:"DefiLlama: launch day $25.24M vs $4.45M average for days 2–4 = down 82%. Days 5–7 (14–16 Oct) came back to $6.29M a day; days 8–10 (17–19 Oct) fell to $1.72M; days 15–17 (24–26 Oct) to $0.68M.",
   admin:"crypto.news / The Defiant: the team can pause new trades, freeze markets and change fees.",
   drain:"The Block: about $1.28M taken by moving Hyperliquid's ETH price. DefiLlama logs the incident.",
   share:"Cointelegraph (VanEck): Hyperliquid went from 10% to 70% share within a year.",
@@ -954,14 +985,14 @@ const SRC={
 };
 const ev=(txt,t,k)=>`<span class="ev ${t}" tabindex="0" data-t="${t}" data-src="${SRC[k].replace(/"/g,"&quot;")}">${txt}</span>`;
 
-let DEF={R0:1.7172,hold:89,cum0:60.33,hr:4.2,poly:25,hedge:0.14}; // Version 3 defaults; versions.json overrides
+let DEF={R0:0.6811,hold:95,cum0:65.72,hr:3.3,poly:25,hedge:0.14,S0:9.0255,c:1.101002e-9}; // Version 4 defaults; versions.json overrides
 let DEFS={bull:{ret:34,mult:12},base:{ret:10,mult:6},bear:{ret:2,mult:3}};
 const SRCOF={bull:{ret:"lighter",mult:"hype"},base:{ret:"jup",mult:"pump"},bear:{ret:"aster",mult:"gains"}};
 const LIKE={bull:"Keeps revenue like Lighter, valued like Hyperliquid in year 1",base:"Keeps revenue like the middle of 8 similar tokens, valued like Pump.fun",bear:"Keeps revenue like Aster and Gains, valued like Gains"};
 let I,S,pick;
 let LIVE=null,LIVEERR=null;
-let FROZEN={"2026-10-17":898397,"2026-10-18":2338673,"2026-10-19":1914597}; // what the feed said on the version date, for the days its reference is built from
-let FORECAST_DAY="2026-10-19"; // last complete day the version used
+let FROZEN={"2026-10-24":1339627,"2026-10-25":72753,"2026-10-26":630970}; // what the feed said on the version date, for the days its reference is built from
+let FORECAST_DAY="2026-10-26"; // last complete day the version used
 const pd=str=>{const [y,m,d]=str.split("-").map(Number);return Date.UTC(y,m-1,d);};
 const pct=x=>(x*100).toFixed(x*100>=10?0:1)+"%";
 function reset(){I={...DEF};S={bull:{...DEFS.bull},base:{...DEFS.base},bear:{...DEFS.bear}};pick={r:S.base.ret,m:S.base.mult};}
@@ -991,7 +1022,7 @@ function setView(ms){
   if($("sayVal")){const el=$("sayVal");const txt=fmtP(baseNow);if(el.textContent!==txt){el.textContent=txt;el.classList.remove("swap");void el.offsetWidth;el.classList.add("swap");}}
   if($("sayUnit"))$("sayUnit").innerHTML=`per PAPER by <b>${VERSIONS.horizon||"Oct 2027"}</b>, base case`;
   if($("sayWas")){if(ver.v===v1.v)$("sayWas").innerHTML=`First published on ${dshort(pd(ver.date))}, with data through ${dshort(pd(ver.data_through))}.`;
-    else{const more=Math.round((pd(ver.data_through)-pd(v1.data_through))/DAY),delta=Math.round((baseNow/base1-1)*100);$("sayWas").innerHTML=`First said <b>${fmtP(base1)}</b> on ${dshort(pd(v1.date))}. Re-run on ${dshort(pd(ver.date))} with ${more} more day${more===1?"":"s"} of data, same method. <span class="cs-delta${delta<0?" dn":""}">${delta>=0?"+":""}${delta}%</span>`;}}
+    else{const more=Math.round((pd(ver.data_through)-pd(v1.data_through))/DAY),delta=Math.round((baseNow/base1-1)*100);$("sayWas").innerHTML=`First said <b>${fmtP(base1)}</b> on ${dshort(pd(v1.date))}. Re-run on ${dshort(pd(ver.date))} with ${more} more day${more===1?"":"s"} of data, ${ver.method||"same method"}. <span class="cs-delta${delta<0?" dn":""}">${delta>=0?"+":""}${delta}%</span>`;}}
   if($("sayNext")){const nx=$("sayNext");if(isToday)nx.hidden=true;else{const later=VERSIONS.versions.filter(v=>pd(v.date)>ms);let lines=later.map((v,i)=>{const prev=i?later[i-1]:ver;return `<span><b>${dshort(pd(v.date))}:</b> re-run on new data, base case ${fmtP(verValue(prev,"base"))} → <b>${fmtP(verValue(v,"base"))}</b>.</span>`;});
       if(CALLS){const keep=LIVE;LIVE=FULL_LIVE;const nowS=CALLS.calls.map(c=>evalCall(c,today));LIVE=keep;const thenS=CALLS.calls.map(c=>evalCall(c,ms));
         const ch=st=>CALLS.calls.map((c,i)=>({c,n:nowS[i],t:thenS[i]})).filter(x=>x.n.st===st&&x.t.st!==st);
@@ -1115,8 +1146,10 @@ function renderCalls(){
     <p class="cap">${CALLS.calls.filter(c=>c.kind==="auto").length} of ${CALLS.calls.length} calls check themselves from the daily data and the contract read; the rest carry a dated judgment. Tap a line of evidence for the rest of it.</p>`;
 }
 // Drift: what we said, over time. Step lines per case across versions; the market's bet as dots; the day in view as a marker.
-const verValue=(ver,sc)=>{const [ret,mult]=ver.cases[sc],inp=ver.inputs;const daily=inp.R0*1e6*ret/100,total=daily*365*inp.hold/100*mult,d=12*30.42-4,H=inp.hr*(inp.cum0+daily*d/1e6)*1e6;return total/(0.2e9+12e9*H/(120e6+H));};
-const verPoly=ver=>{const H=ver.inputs.hr*ver.inputs.cum0*1e6;return ver.inputs.poly*1e6/(0.2e9+12e9*H/(120e6+H));};
+// Supply: Versions 1-3 use the published curve on the high-water mark; from Version 4 (inputs S0, c) the contract-set-2 rule, live since 21 Oct 2026: S0 · e^(c · basis), basis = hr × revenue.
+const verSupply=(inp,revAfter)=>{if(inp.c)return inp.S0*1e9*Math.exp(inp.c*inp.hr*revAfter);const H=inp.hr*(inp.cum0*1e6+revAfter);return 0.2e9+12e9*H/(120e6+H);};
+const verValue=(ver,sc)=>{const [ret,mult]=ver.cases[sc],inp=ver.inputs;const daily=inp.R0*1e6*ret/100,total=daily*365*inp.hold/100*mult,d=12*30.42-4;return total/verSupply(inp,daily*d);};
+const verPoly=ver=>ver.inputs.poly*1e6/verSupply(ver.inputs,0);
 // Said / happened / scored: one shared time axis, three stacked bands.
 // Band 1 "What we said": value per PAPER by Oct 2027, a step line per case, stepping at each version; market's bet as dots.
 // Band 2 "What happened": daily revenue bars (weekly averages once the window passes 75 days) against the revenue each case needs, stepping with the version.
@@ -1261,7 +1294,7 @@ function renderThrottle(){
     ${last.avg_leverage!=null?row("Average leverage",Math.round(last.avg_leverage)+"×","closed positions, all time"):""}
     ${last.avg_hold_min!=null?row("Average hold",last.avg_hold_min.toFixed(1)+" min","closed positions, all time"):""}
     ${last.queue!=null?row("Payout queue",fmtU(last.queue),""):""}
-    ${last.mint_rate!=null?row("Mint rate",last.mint_rate.toFixed(1)+" PAPER per $1","by the published curve on the contract's high-water mark"):""}
+    ${last.date>="2026-10-22"&&last.supply?row("Mint rate",(last.supply*1.101002e-9).toFixed(2)+" PAPER per $1","supply × c, the rule live since 21 Oct; it rises as supply grows"):last.mint_rate!=null?row("Mint rate",last.mint_rate.toFixed(1)+" PAPER per $1","by the published curve on the contract's high-water mark"):""}
   </tbody></table></div>`;
   el.innerHTML=`<div class="dv-keys">${key("var(--lacks)","Payout bar","k-need")}${key("var(--ink)","House money")}${key("var(--base)","Bets long")}${key("var(--ref)","Bets short","k-need")}${key("var(--part)","Lean ÷ house money")}</div><div class="dv-wrap">${g}</div>
   <p class="cap">Series since 17 Oct 2026, one reading a day. Source: PaperDash API, read daily by the job. Top band is a log scale (equal gaps, equal percentage moves). ${view<today?`Shown as it stood on ${dshort(view)}; the wash hides what was not yet known.`:""}</p>${tbl}`;
@@ -1269,12 +1302,13 @@ function renderThrottle(){
 }
 
 const Hof=cumM=>Math.max(0,I.hr*cumM*1e6);
-const supply=cumM=>{const H=Hof(cumM);return 0.2e9+12e9*H/(120e6+H);};
-const rateAt=cumM=>{const H=Hof(cumM);return 100*Math.pow(120e6/(120e6+H),2);};
+const supply=cumM=>I.c?verSupply(I,Math.max(0,cumM-I.cum0)*1e6):verSupply({...I,cum0:0},Math.max(0,cumM)*1e6);
+const rateAt=cumM=>{if(I.c)return supply(cumM)*I.c;const H=Hof(cumM);return 100*Math.pow(120e6/(120e6+H),2);};
 function calc(ret,mult){
   const daily=I.R0*1e6*ret/100, cash=daily*365*I.hold/100, total=cash*mult;
   const at=m=>{const d=Math.max(1,m*30.42-4);const s=supply(I.cum0+daily*d/1e6);return {d,s,p:total/s};};
-  const whenRate=r=>{if(r>=100)return 0;const H=120e6*(Math.sqrt(100/r)-1);const cum=H/I.hr/1e6;return (cum-I.cum0)/(daily/1e6);};
+  const whenRate=r=>{if(I.c)return rateAt(I.cum0)<=r?0:3650; // the new rule's rate only rises: once it pays, it keeps paying
+    if(r>=100)return 0;const H=120e6*(Math.sqrt(100/r)-1);const cum=H/I.hr/1e6;return (cum-I.cum0)/(daily/1e6);};
   return {daily,cash,total,at,whenRate};
 }
 const fmtP=v=>{if(!isFinite(v)||v<=0)return"$0";if(v>=1)return"$"+v.toFixed(2);if(v>=0.1)return"$"+v.toFixed(2);if(v>=0.01)return"$"+v.toFixed(3);return"$"+v.toFixed(4);};
@@ -1309,7 +1343,7 @@ function render(){
     {t:oct17,when:"17 Oct",title:barDay?"Pool's payout bar doubles to $10M":"Payout bar was due to double to $10M",txt:barDay?`Doubled on ${dshort(barDay)}. The next ~$5M of losses refills the pool first; until then stakers only get their fee cut. ${ev("Source","m","x17")}`:`Announced for after 18:45 UTC on 17 Oct; the contract still read ${capNow?fmtU(capNow):"$5M"} on every daily read${LIVE&&LIVE.contract?` to ${dshort(pd(LIVE.contract.date))}`:""}. Until it doubles there is no refill pause. ${ev("Source","m","x17")}`},
     barDay?{t:restart("bull"),when:`${dshort(restart("bull"))} – ${dshort(restart("base"))}`,title:"Stakers' extra payouts restart",txt:`Later than ${dshort(restart("base"))} means it's sliding toward the bear case.`,cases:SC.map(s=>[s,dshort(restart(s))])}
     :{t:Date.UTC(2027,11,30),when:"No date",title:"When the bar doubles: payouts pause, then restart",txt:`The next $5M of losses refills the pool first. At each case's revenue after the rush the refill takes about ${refill("bull")} days (bull), ${refill("base")} (base) or ${refill("bear")} (bear); the restart date tells the case. Nothing to measure until the bar moves.`,cases:SC.map(s=>[s,refill(s)+" days"])},
-    {t:Date.UTC(2026,10,30),when:"30 Nov",title:"Is money coming back?",txt:`The bull case needs money on the platform back above $138M. It's ${ev("$63.8M","m","tvl")} now. Hyperliquid went ${ev("$191M → $3B in 18 days","c","hl18")}.`},
+    {t:Date.UTC(2026,10,30),when:"30 Nov",title:"Is money coming back?",txt:`The bull case needs money on the platform back above $138M. It's ${ev("$31.5M","m","tvl")} now. Hyperliquid went ${ev("$191M → $3B in 18 days","c","hl18")}.`},
     {t:stopDate("base")||ASOF,when:"Base: "+(stopDate("base")?dshort(stopDate("base")):"now"),title:"Farming stops paying",txt:`Losing on purpose to get PAPER costs more than PAPER is worth. After this, revenue comes from real traders only, so it's the true run-rate.`,cases:SC.map(s=>[s,fmtStop(s)])},
     {t:Date.UTC(2027,2,31),when:"Nov – Mar",title:"Real value shows",txt:`Similar tokens' revenue kept falling for 1–9 months. ${ev("Lighter's kept sliding for 7–9 months","c","lighterLong")}.`},
     {t:Date.UTC(2027,11,31),when:"No date",title:"PAPER can be bought and sold",txt:`Transfers are ${ev("the final launch phase","m","phase")}. Expect a hot start: ${ev("4 similar tokens peaked within 2 weeks","c","early")}, then fell.`}
@@ -1324,7 +1358,7 @@ function render(){
   const path=[[1,"Nov 2026"],[3,"Jan 2027"],[6,"Apr 2027"],[12,"Oct 2027"]].map(([m,l],i)=>`<div class="${i===3?"end":""}"><span>${l}</span><b>${fmtP(v("base",m))}</b></div>`).join("");
   document.getElementById("dash").innerHTML=`
    <a class="tile hero" href="#worth"><span class="q"><span class="fc">Forecast</span> What will 1 PAPER be worth?</span>
-     <span class="a blue">${ev(fmtP(v("base",12)),"e","jup")} <span style="font-size:15px;font-family:var(--body);font-weight:500;color:var(--ink2);letter-spacing:0">by Oct 2027, base case</span></span>${(()=>{if(!VERSIONS||!CURV)return"";const i=VERSIONS.versions.findIndex(x=>x.v===CURV.v);if(i<1)return"";const p=VERSIONS.versions[i-1];return `<span class="was">was <b>${fmtP(verValue(p,"base"))}</b> in Version ${p.v} (${dshort(pd(p.date))}); same method, inputs re-read</span>`;})()}
+     <span class="a blue">${ev(fmtP(v("base",12)),"e","jup")} <span style="font-size:15px;font-family:var(--body);font-weight:500;color:var(--ink2);letter-spacing:0">by Oct 2027, base case</span></span>${(()=>{if(!VERSIONS||!CURV)return"";const i=VERSIONS.versions.findIndex(x=>x.v===CURV.v);if(i<1)return"";const p=VERSIONS.versions[i-1];return `<span class="was">was <b>${fmtP(verValue(p,"base"))}</b> in Version ${p.v} (${dshort(pd(p.date))}); ${CURV.method||"same method"}, inputs re-read</span>`;})()}
      <span class="s">Not today's price. Fair value from the cash it pays stakers. <b>${fmtU(M.base.total)}</b> for all PAPER.<div class="path">${path}</div></span>
      <span class="stopln"><span class="sl">Stop farming PAPER</span><span>${stopDate("base")?`around <b>${dstr(stopDate("base"))}</b>, when $1 lost earns under <b>${r1(stopO("base"))}</b> PAPER. Today: ${ev("~"+Math.round(rateNow),"m","rate")}.`:`<b>already not worth it</b> in this case.`}</span></span>
      ${trackStrip()}
@@ -1335,7 +1369,7 @@ function render(){
    <a class="tile" href="#worth"><span class="q">What does the market say right now?</span><span class="a">${ev(fmtP(polyP),"m","poly")}</span>
      <span class="s">A thin Polymarket bet, not a trade. It sits near the <b>bear case</b>.</span><span class="go">Compare with the cases</span></a>
    <a class="tile" href="#farm"><span class="q">Is getting PAPER still worth it?</span><span class="a">${stopDate("base")?`Base: yes, until ~${dshort(stopDate("base"))}`:"Base: not any more"}</span>
-     <span class="s">Stop line: <b>${r1(stopO("base"))} PAPER per $1 lost</b>. Today: ${ev("~"+Math.round(rateNow),"m","rate")}. ${stopDate("base")?"In the bear case it's already not worth it.":`Only the bull case still pays: its stop line is ${r1(stopO("bull"))} per $1, around ${stopDate("bull")?dshort(stopDate("bull")):"–"}.`}</span><span class="go">Stop lines by case</span></a>
+     <span class="s">Stop line: <b>${r1(stopO("base"))} PAPER per $1 lost</b>. Today: ${ev("~"+Math.round(rateNow),"m","rate")}. ${stopDate("base")?"In the bear case it's already not worth it.":`${stopDate("bull")?`Only the bull case still pays: its stop line is ${r1(stopO("bull"))} per $1, around ${dshort(stopDate("bull"))}.`:`No case pays any more: even the bull case's stop line, ${r1(stopO("bull"))} per $1, is above today's rate.`}`}</span><span class="go">Stop lines by case</span></a>
    <a class="tile" href="#dates"><span class="q">Next date to watch</span><span class="a" style="font-size:22px">${nx?nx.when+" · "+nx.title:"–"}</span>
      <span class="s">${nx?`<span class="chip">${until(nx.t)}</span> `:""}An early sign of whether the base case is holding.</span><span class="go">All key dates</span></a>
    <a class="tile wide" href="#bull"><span class="q">What has to go right?</span><span class="a">2.5 of 9</span>
@@ -1404,7 +1438,7 @@ function render(){
      <li>A friendly market<span>${ev("On-chain perp trading is about half its Oct 2025 peak","m","perpvol")}</span></li></ul></div>
    <div class="tcol lacks"><h3>✕ Lacks (4)</h3><ul>
      <li>People used it before the token<span>${ev("Hyperliquid went from 10% to 70% share","m","share")} first</span></li>
-     <li>Revenue that holds<span>${ev("Down 82%","m","drop82")} on days 2–4, back to $6.3M a day on days 5–7, then $1.7M on days 8–10. Unproven until farming stops paying</span></li>
+     <li>Revenue that holds<span>${ev("Down 82%","m","drop82")} on days 2–4, back to $6.3M a day on days 5–7, then $1.7M on days 8–10 and $0.68M on days 15–17. Unproven until farming stops paying</span></li>
      <li>A big listing or legitimacy event<span>Hyperliquid had US ETFs, Coinbase and Robinhood</span></li>
      <li>Anything that shrinks supply<span>New PAPER keeps being created toward ~12B</span></li></ul></div>`;
 
@@ -1425,9 +1459,9 @@ function render(){
 
   // estimates
   document.getElementById("ests").innerHTML=`
-    <li><b>How fast new PAPER is created.</b> The docs give the rule; the exact constants come from TechFlow's reading of the docs (the docs page loads by script and can't be read as plain text). The supply tuning is read from the live contract's high-water mark (${ev("$254M on 20 Oct","m","hr")}), which puts the rule's supply within 6% of the 8.81B actually minted.</li>
+    <li><b>How fast new PAPER is created.</b> The rule and its constant come from the docs and the contract (${ev("0.110% of supply per $1M lost","m","supply")}, since 21 Oct). How many dollars of loss count for each $1 of revenue is read from supply growth since the upgrade (${ev("3.3","m","hr")}); it will be re-read every version.</li>
     <li><b>When transfers switch on.</b> ${ev("Not announced","m","phase")}. The value forecast doesn't depend on it; only the first trading price does.</li>
-    <li><b>Reference revenue.</b> Version 1 used 11–13 Oct as the feed stood on 14 Oct; DefiLlama later revised 12 and 13 Oct down 15% and 26%. Versions 2 and 3 use the three newest complete days (14–16 Oct, then 17–19 Oct); the tracker flags any later revision to them. DefiLlama's newest row is a rolling 24 hours and is never counted as a day.</li>
+    <li><b>Reference revenue.</b> Version 1 used 11–13 Oct as the feed stood on 14 Oct; DefiLlama later revised 12 and 13 Oct down 15% and 26%. Versions 2 to 4 use the three newest complete days (14–16 Oct, 17–19 Oct, then 24–26 Oct); the tracker flags any later revision to them. DefiLlama's newest row is a rolling 24 hours and is never counted as a day.</li>
     <li><b>Cost of hedged farming.</b> Taken from on-chain wallets (${ev("Odaily","m","farm")}). It moves with market swings.</li>
     <li><b>Middle case revenue kept (10%).</b> Halfway between edgeX (8%) and Jupiter (13%), the middle two of 8 similar tokens. Pump.fun is left out because its platform ran for 18 months before its token, so it had no launch rush to fade.</li>`;
 }
@@ -1458,7 +1492,7 @@ function liveStats(){
 }
 function trackStrip(){
   const t=liveStats();
-  if(!t) return LIVEERR?`<span class="trk"><span class="sl">Tracking</span><span>Today's numbers could not be loaded. Forecast shown as made on 20 Oct 2026 (Version 3).</span></span>`:"";
+  if(!t) return LIVEERR?`<span class="trk"><span class="sl">Tracking</span><span>Today's numbers could not be loaded. Forecast shown as made on 27 Oct 2026 (Version 4).</span></span>`:"";
   return `<span class="trk"><span class="sl">Tracking · data through ${dshort(pd(t.last.date))}</span><span>Last ${t.w.length} days averaged <b>${fmtU(t.a7)}/day</b>, ${pct(t.share)} of the reference. ${t.above?(t.vsPrev&&t.vsPrev.move<=-0.25?"Above all three cases' bars, which fell with the reference.":"Above all three cases so far, as expected this early."):`Nearest the <b>${NAME[t.near].toLowerCase()} case</b>.`}</span></span>`;
 }
 function trackChart(t){
@@ -1483,7 +1517,7 @@ function trackChart(t){
 function renderTrack(){
   const upd=document.getElementById("upd"),box=document.getElementById("trackIn");
   const t=liveStats();
-  if(!t){const m=LIVEERR?"Today's numbers could not be loaded. The forecast is shown as made on 20 Oct 2026 (Version 3).":"Loading today's numbers…";upd.textContent=m;box.innerHTML=`<p class="cap">${m}</p>`;return;}
+  if(!t){const m=LIVEERR?"Today's numbers could not be loaded. The forecast is shown as made on 27 Oct 2026 (Version 4).":"Loading today's numbers…";upd.textContent=m;box.innerHTML=`<p class="cap">${m}</p>`;return;}
   const fd=LIVE.fetched_at?new Date(LIVE.fetched_at).toLocaleString("en-GB",{day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Dubai"}):null;
   const cl=document.getElementById("closest"),cl2=document.getElementById("closest2"),cb=document.getElementById("closestBig");const nearKey=t.above?"bull":t.near,nearName=NAME[nearKey];
   const fell=t.vsPrev&&t.vsPrev.move<=-0.25,rose=t.vsPrev&&t.vsPrev.move>=0.25;
@@ -1498,11 +1532,12 @@ function renderTrack(){
   box.innerHTML=`
    <div class="tcards">
     ${card(t.above?"bull":t.near,"Revenue level",`${fmtU(t.a7)}/day`,`Average of the last ${t.w.length} complete days (launch day left out), <b>${pct(t.share)}</b> of the $${I.R0.toFixed(2)}M reference. After the rush fades the cases need <b>${S.bull.ret}%</b> (bull), <b>${S.base.ret}%</b> (base), <b>${S.bear.ret}%</b> (bear).`,t.above?"Above all three cases so far":`Nearest the ${NAME[t.near].toLowerCase()} case`)}
-    ${card(t.starNear,"Cumulative revenue and the mint-rate test",fmtU(t.cum),`Through ${dshort(pd(t.last.date))}. The mint rate drops under 10 PAPER per $1 once this passes <b>${fmtU(t.cumStar)}</b>. At the last ${t.w.length}-day pace that lands around <b>${starTxt}</b>. Model dates: bull ${cs("bull")}, base ${cs("base")}, bear ${cs("bear")}.`,`On the ${NAME[t.starNear].toLowerCase()} path`)}
+    ${I.c?card("ref","Cumulative revenue and the mint rule",fmtU(t.cum),`Through ${dshort(pd(t.last.date))}. Since the 21 Oct upgrade each $1 lost mints a fixed share of supply: about <b>${(rateAt(I.cum0)).toFixed(1)} PAPER per $1</b> now, rising as supply grows, with no ceiling. The old test (under 10 per $1) resolved on 21 Oct, hours before that curve was retired.`,"New rule since 21 Oct")
+      :card(t.starNear,"Cumulative revenue and the mint-rate test",fmtU(t.cum),`Through ${dshort(pd(t.last.date))}. The mint rate drops under 10 PAPER per $1 once this passes <b>${fmtU(t.cumStar)}</b>. At the last ${t.w.length}-day pace that lands around <b>${starTxt}</b>. Model dates: bull ${cs("bull")}, base ${cs("base")}, bear ${cs("bear")}.`,`On the ${NAME[t.starNear].toLowerCase()} path`)}
     ${card(t.barDay?(t.hs!=null&&t.hs>=0.8?"bull":"part"):"ref","Stakers' share and the payout-bar test",t.hs!=null?pct(t.hs):"–",`Share of the last day's revenue paid to stakers: the fee split, which has read 85–95% on every day since launch. ${t.barDay?`The bar doubled on ${dshort(t.barDay)}: the pool refills to $10M first, so this should drop, then recover when the pool is full. Recovery by ~${dshort(t.restart.bull)} = bull, ~${dshort(t.restart.base)} = base, ~${dshort(t.restart.bear)} = bear.`:`The bar was due to double on 17 Oct; the contract still reads <b>${capNow?fmtU(capNow):"$5M"}</b>, so there has been no refill pause. When it doubles, the refill takes about ${refill("bull")} days at the bull case's revenue, ${refill("base")} at the base's, ${refill("bear")} at the bear's.`}`,t.barDay?(t.hs!=null&&t.hs>=0.8?"Pool refilled":"Pool refilling"):`Bar still ${capNow?fmtU(capNow):"$5M"}`)}
     ${card(t.tvl>=138e6?"bull":"ref","Money on platform",t.tvl?fmtU(t.tvl):"–",`The bull case needs it back above <b>$138M</b> (the pre-launch deposits) by 30 Nov. It was $64M on 13 Oct, $68.7M on 17 Oct and $63.8M on 19 Oct.`,t.tvl?(t.tvl>=138e6?"Bull tell met":`${pct(t.tvl/138e6)} of the bull target`):"")}
    </div>
-   ${t.revs.length?`<div class="trev">DefiLlama has revised ${t.revs.map(r=>`${dshort(pd(r.d))} from ${fmtU(r.was)} to ${fmtU(r.now)}`).join(", ")} since the forecast was made. Version 3 keeps its 20 Oct inputs; the tracker uses today's figures.</div>`:""}
+   ${t.revs.length?`<div class="trev">DefiLlama has revised ${t.revs.map(r=>`${dshort(pd(r.d))} from ${fmtU(r.was)} to ${fmtU(r.now)}`).join(", ")} since the forecast was made. Version ${CURV?CURV.v:4} keeps its ${dshort(ASOF)} inputs; the tracker uses today's figures.</div>`:""}
    <p class="cap">Raw data: <a href="/data/papertrade.json">papertrade.json</a> · <a href="/data/snapshots.csv">daily snapshots</a>. Source: DefiLlama's feed of Papertrade's on-chain revenue, staker payouts and money on platform, fetched daily by this site.</p>`;
 }
 function buildInputs(){
