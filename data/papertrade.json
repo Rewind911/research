@@ -1,34 +1,34 @@
 {
  "contract": {
-  "asof": "2026-10-26T12:55:06Z",
-  "avg_hold_min": 28.560366643415815,
-  "avg_leverage": 403.42492342382366,
+  "asof": "2026-10-27T06:47:21Z",
+  "avg_hold_min": 28.664199667610465,
+  "avg_leverage": 402.5526348594533,
   "cap": 5000000.0,
-  "date": "2026-10-26",
-  "house": 8134146.87934239,
-  "lp": 4992957.416966109,
-  "margin": 5099240.49358311,
+  "date": "2026-10-27",
+  "house": 8037031.380500959,
+  "lp": 4909231.663222321,
+  "margin": 5524834.6710334625,
   "mint_rate": 9.799458904866933,
   "oi_by_asset": {
    "BTC": {
-    "long": 73057491.47695597,
-    "short": 25022936.927061286
+    "long": 68698371.5231002,
+    "short": 39590376.25801667
    },
    "ETH": {
-    "long": 27495305.56531258,
-    "short": 17713827.48731477
+    "long": 33449717.979605652,
+    "short": 22809508.78952992
    }
   },
-  "oi_long": 100552797.04226854,
-  "oi_short": 42736764.41437606,
-  "open_positions": 1416,
-  "positions_all_time": 1879501,
+  "oi_long": 102148089.50270584,
+  "oi_short": 62399885.04754659,
+  "open_positions": 1549,
+  "positions_all_time": 1901183,
   "queue": 0.0,
-  "reserve": 3141189.462376282,
-  "skew_x_house": 7.107817634166775,
-  "staked": 8956902983.3992,
+  "reserve": 3127799.717278638,
+  "skew_x_house": 4.945632606536083,
+  "staked": 8973285515.977665,
   "stale": false,
-  "supply": 9011709276.457241,
+  "supply": 9027922678.476576,
   "tail": 263336521.87698057
  },
  "contract_history": [
@@ -351,6 +351,38 @@
    "stale": false,
    "supply": 9011709276.457241,
    "tail": 263336521.87698057
+  },
+  {
+   "asof": "2026-10-27T06:47:21Z",
+   "avg_hold_min": 28.664199667610465,
+   "avg_leverage": 402.5526348594533,
+   "cap": 5000000.0,
+   "date": "2026-10-27",
+   "house": 8037031.380500959,
+   "lp": 4909231.663222321,
+   "margin": 5524834.6710334625,
+   "mint_rate": 9.799458904866933,
+   "oi_by_asset": {
+    "BTC": {
+     "long": 68698371.5231002,
+     "short": 39590376.25801667
+    },
+    "ETH": {
+     "long": 33449717.979605652,
+     "short": 22809508.78952992
+    }
+   },
+   "oi_long": 102148089.50270584,
+   "oi_short": 62399885.04754659,
+   "open_positions": 1549,
+   "positions_all_time": 1901183,
+   "queue": 0.0,
+   "reserve": 3127799.717278638,
+   "skew_x_house": 4.945632606536083,
+   "staked": 8973285515.977665,
+   "stale": false,
+   "supply": 9027922678.476576,
+   "tail": 263336521.87698057
   }
  ],
  "daily": [
@@ -455,10 +487,16 @@
    "holders": 47710,
    "revenue": 72753,
    "tvl": 32279481
+  },
+  {
+   "date": "2026-10-26",
+   "holders": 595834,
+   "revenue": 630970,
+   "tvl": 31517487
   }
  ],
- "data_through": "2026-10-25",
- "fetched_at": "2026-10-26T12:55:06Z",
+ "data_through": "2026-10-26",
+ "fetched_at": "2026-10-27T06:47:21Z",
  "sources": {
   "assets": "https://paperdash-api.onrender.com/api/assets",
   "contract": "https://paperdash-api.onrender.com/api/overview",
@@ -468,16 +506,16 @@
   "tvl": "https://api.llama.fi/protocol/papertrade"
  },
  "today_so_far": {
-  "date": "2026-10-26",
-  "holders": 243568,
-  "revenue": 269653,
-  "tvl": 30857118
+  "date": "2026-10-27",
+  "holders": 404557,
+  "revenue": 436712,
+  "tvl": 30807365
  },
  "totals": {
-  "holders_24h": 243568,
-  "holders_all_time": 60294353,
-  "revenue_24h": 269653,
-  "revenue_all_time": 65356808,
-  "tvl_now": 30857118.03069
+  "holders_24h": 404557,
+  "holders_all_time": 60646619,
+  "revenue_24h": 436712,
+  "revenue_all_time": 65718125,
+  "tvl_now": 30807365.13382
  }
 }
