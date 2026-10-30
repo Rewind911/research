@@ -649,7 +649,7 @@ details.cl-ev p{margin-top:2px}
       </div>
       <div class="cs-foot">
         <span class="upd" id="upd">Loading today's numbers…</span>
-        <span><span id="verLbl">Version 4 · published 27 Oct 2026</span> · <a href="/paper-valuation/v3/">Version 3 as published</a> · <a href="/paper-valuation/v2/">Version 2 as published</a> · <a href="/paper-valuation/v1/">Version 1 as published</a></span>
+        <span><span id="verLbl">Version 4 · published 27 Oct 2026</span> · <a href="#protocol-update-2026-10-30">Protocol evidence · 30 Oct</a> · <a href="/paper-valuation/v4/">Version 4 before addendum</a> · <a href="/paper-valuation/v3/">Version 3 as published</a> · <a href="/paper-valuation/v2/">Version 2 as published</a> · <a href="/paper-valuation/v1/">Version 1 as published</a></span>
       </div>
     </section>
   </header>
@@ -699,6 +699,7 @@ details.cl-ev p{margin-top:2px}
       <div>
         <h3>4. What changed</h3>
         <div class="sc-dev">
+          <div class="sc-row"><div class="sc-when">30 Oct · note</div><div><b>Evidence clarified:</b> the conditional insolvency bonus, two winning-close curves and staking documentation. The 21 Oct upgrade and uncapped issuance were already in Version 4; no model input, output or call changed. <a href="#protocol-update-2026-10-30">Read the dated protocol addendum and its evidence limits</a>; <a href="/paper-valuation/v4/">Version 4 before this note</a> is preserved.</div></div>
           <div class="sc-row"><div class="sc-when">27 Oct · v4</div><div><b>New data:</b> seven more complete days (20–26 Oct: $1.45M, $0.18M, $1.14M, $0.57M, $1.34M, $0.07M, $0.63M); the contract read daily (bar $5M every day, queue $0, house money $10.0M on 20 Oct down to $7.3M on 21 Oct and $8.0M today, high-water mark stuck at $263.3M since 22 Oct, supply 9.03B, 99.4% staked); open bets $102M long against $62M short; money on platform $31.5M on 26 Oct (was $63.8M on 19 Oct); Polymarket $25M strike 45.5% (was 52.5%), $392K traded. The 21 Oct upgrade (contract set 2): a new mint rule, a fee band, builder codes, a 24-hour timelock.</div></div>
           <div class="sc-row"><div class="sc-when"></div><div><b>Inputs moved:</b> reference revenue $1.72M → $0.68M a day (same method: the last three complete days, 24–26 Oct); share to stakers 89% → 95%; revenue so far $60.3M → $65.7M; supply tuning 4.2 (the old curve's high-water mark ÷ revenue) → 3.3 (loss basis per $1 of revenue under the new rule); market bet $25M → $25M (every strike now under 50%).</div></div>
           <div class="sc-row"><div class="sc-when"></div><div><b>Outputs moved:</b> bull $0.21 → $0.079; base $0.034 → $0.014; bear $0.0038 → $0.0015. <b>Method change:</b> supply follows the contract's new rule, S0 × e^(c × basis) with c = 1.101e-9 read from the contract and the basis per $1 of revenue (3.3) read from supply growth since the upgrade; on the old curve the same inputs give $0.095 / $0.015 / $0.0016. Every case's farming stop line is past (bull 12.7, base 69.6 PAPER per $1, against 9.94 minted per $1 lost).</div></div>
@@ -820,6 +821,20 @@ details.cl-ev p{margin-top:2px}
   </section>
 <!-- scorecard:end -->
 
+  <section class="panel" id="protocol-update-2026-10-30" aria-label="Protocol evidence addendum, 30 October 2026">
+    <div class="tag">Evidence addendum · 30 Oct 2026 · model remains Version 4</div>
+    <h2>Protocol update — 30 October 2026</h2>
+    <p><b>What is new here:</b> a more precise account of the bonus, winning-trade settlement and staking documentation. The uncapped mint rule and contract-set-2 upgrade were already incorporated in <b>Version 4 on 27 October</b>; this is not a new upgrade announcement or a model re-run. Its inputs, case values and dated calls are unchanged. <a href="/paper-valuation/v4/">Read Version 4 before this addendum</a>.</p>
+    <p>Official documentation identifies <b>contract set 2</b> as current, dated <b>21 October</b>. The linked <a href="https://hyperevmscan.io/tx/0x4410b81e3eb76f83f5ddc4e3faee794fb67208d2f129bc013094b9d06055acb6">upgrade transaction</a> reports success at <b>22 October 2026, 02:00:02 Asia/Dubai</b> (21 October, 22:00:02 UTC). Sources checked on <b>30 October 2026</b>.</p>
+    <ul>
+      <li><b>The minting thesis changed with that upgrade.</b> The earlier fixed tokens-per-dollar/high-water-mark curve was replaced by uncapped, supply-proportional PAPER issuance. Historical fixed-rate assumptions are no longer current: continuing supply growth can dilute existing holders. Version 4 already uses the new rule; earlier versions remain a record of the assumptions and calls made then. <a href="https://docs.papertrade.xyz/dev/protocol-changes/">Official change log</a> · <a href="https://docs.papertrade.xyz/how/mint-curve/">Current minting rules</a>.</li>
+      <li><b>The up-to-5× minting bonus is conditional, not blanket.</b> It applies only to the eligible loss portion that refills a negative tracked LP balance. The multiplier ramps from 1× to 5× over the first three days underwater and resets when tracked LP returns to nonnegative; the rest of a loss counts once. The liquidity pool (LP) is the trading counterparty. <a href="https://docs.papertrade.xyz/how/mint-curve/#insolvency-bonus">Bonus mechanics</a>.</li>
+      <li><b>Small winning trades face revised settlement curves.</b> After the deadband, a small-move holdback applies before asymmetric impact and the 2% win fee. A separate off-hours/weekend curve changes the holdback. Quick scalps and close timing can therefore have different economics; the reviewed documentation does not establish that positions opened before the upgrade are exempt. <a href="https://docs.papertrade.xyz/how/asymmetric-impact/">Winning-trade payout mechanics</a>.</li>
+      <li><b>No token or staking migration requirement was found in the reviewed official material.</b> Published PAPER and PaperStaking addresses match the previously recorded official frontend addresses. Current staking docs describe instant unstaking without cooldown and say accrued USDC remains claimable afterward. This is not independent verification of an individual account or a live withdrawal. <a href="https://docs.papertrade.xyz/dev/contract-addresses/">Contract addresses</a> · <a href="https://docs.papertrade.xyz/paper/staking/">Staking and claims</a>.</li>
+    </ul>
+    <p class="cap"><b>Evidence boundary.</b> The receipt confirms a successful transaction, not a full audit of deployed behavior. Current LP-surplus-threshold and timelock documentation still require reconciliation with earlier announcements and deployed storage; no confirmed parameter reversal is inferred. No token-listing, transfer-enablement or current route-health claim follows from this note. The earlier launch analysis is retained as historical research wherever these rules supersede it.</p>
+  </section>
+
   <section class="panel" id="track" aria-label="Forecast against actual">
     <div class="tag">Tracking · is the forecast holding?</div>
     <h2>What has actually happened since the forecast</h2>
@@ -859,6 +874,7 @@ details.cl-ev p{margin-top:2px}
     <div class="tag">Details · farming</div>
     <h2>When does getting PAPER stop being worth it?</h2>
     <p class="lede">PAPER is only created when someone loses a trade. Each $1 lost earns fewer new PAPER as more exist. Once 1 PAPER costs more to get than it's worth, chasing it stops paying. <span id="farmNow"></span></p>
+    <p class="cap"><b>30 Oct clarification:</b> the preceding “fewer new PAPER” sentence describes the retired launch curve. Under contract set 2, a dollar of eligible loss basis mints a share of current supply, so the token count per dollar rises as supply grows. Version 4’s model already uses that rule. <a href="#protocol-update-2026-10-30">Protocol evidence and limits</a>.</p>
     <div class="farmgrid" id="farmgrid"></div>
     <p class="cap" id="farmCap"></p>
   </section>

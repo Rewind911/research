@@ -1,0 +1,373 @@
+{
+ "study": "paper-valuation",
+ "words": {
+  "hit": "resolved as said",
+  "missed": "resolved otherwise, or so early or late the call was wrong",
+  "on track": "unresolved, evidence points its way",
+  "off track": "unresolved, evidence points against"
+ },
+ "calls": [
+  {
+   "id": "base-value",
+   "made": "2026-10-14",
+   "text": "Base case: $0.081 per PAPER by Oct 2027 (Version 2: $0.11; Version 3: $0.034; Version 4: $0.014)",
+   "due": "2027-10-14",
+   "kind": "manual",
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "on track",
+     "evidence": "The call as made."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "on track",
+     "evidence": "Revenue and the stakers' share are both above the base inputs; re-run on 17 Oct the same method gives $0.11. Nothing resolves before mid-November."
+    },
+    {
+     "date": "2026-10-17",
+     "time": "10:47Z",
+     "status": "on track",
+     "evidence": "First tell, logged at 10:47 UTC: the house pool slipped under the $5M bar ($4.83M), so stakers have had only the 1% win fee since about midnight UTC. One quiet Saturday is not new evidence; 16 Oct closed at $5.45M of revenue, above the $4.45M Version 1 started from. If stakers' share is still under 80% on 28 Oct, the base-case refill date, the base case comes down in the next version."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "off track",
+     "evidence": "Off track on the desk's own number: re-run on 20 Oct the same method gives $0.034, under the $0.081 called, because the reference fell 73% ($6.29M to $1.72M a day on 17–19 Oct) and the market's median bet fell from $200M to $25M. Not dead: $1.72M a day is still 3.9× what the base case needs after the rush ($0.45M in Version 1's frame). Resolves Oct 2027."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "off track",
+     "evidence": "Re-run on 27 Oct gives $0.014 against the $0.081 called: the three-day reference fell another 60% ($1.72M to $0.68M a day on 24–26 Oct), and the new mint rule live since 21 Oct adds supply with no ceiling (−7% on its own). Revenue over the last seven days, $0.77M a day, is still 1.7× what Version 1's base case needs after the rush ($0.44M). Resolves Oct 2027."
+    }
+   ]
+  },
+  {
+   "id": "bull-value",
+   "made": "2026-10-14",
+   "text": "Bull case: $0.49 (Version 2: $0.72; Version 3: $0.21; Version 4: $0.079)",
+   "due": "2027-10-14",
+   "kind": "manual",
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "on track",
+     "evidence": "The call as made."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "on track",
+     "evidence": "Revenue is above the bull case's requirement so far ($6.3M a day against $1.5M after the rush). Too early to count; the rush has not faded."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "off track",
+     "evidence": "Re-run on 20 Oct gives $0.21 against the $0.49 called. The three-day revenue ($1.72M a day) has dropped under the $2.14M the bull case needed after the rush in Version 2 and sits barely above Version 1's $1.51M; the market's bet went from $0.025 to $0.003 per PAPER."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "off track",
+     "evidence": "Re-run on 27 Oct gives $0.079 against the $0.49 called (the new mint rule alone takes 17% off the bull case, whose revenue mints the most). Revenue over the last seven days ($0.77M a day) is half the $1.51M Version 1's bull case needs after the rush, and money on platform is $31.5M against the $138M the bull case wants back by 30 Nov."
+    }
+   ]
+  },
+  {
+   "id": "bear-value",
+   "made": "2026-10-14",
+   "text": "Bear case: $0.011 (Version 2: $0.013; Version 3: $0.0038; Version 4: $0.0015)",
+   "due": "2027-10-14",
+   "kind": "manual",
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "on track",
+     "evidence": "The call as made."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "off track",
+     "evidence": "Reality sits above the bear inputs on every line. The market bet ($0.025 on live supply) is still nearer bear than base."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "on track",
+     "evidence": "The evidence now points its way: the re-run's bear case is $0.0038 and the market's median bet ($25M for all PAPER) is about $0.003 per PAPER, both under the $0.011 called. Revenue alone still sits 19× above what the bear case needs after the rush."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "on track",
+     "evidence": "The evidence still points its way: the re-run's base case ($0.014) now sits near the $0.011 called and its bear case is $0.0015; the market's median bet (at most $25M) is about $0.003 per PAPER. Revenue over the last seven days is 8.7× what Version 1's bear case needs after the rush, so this is not settled."
+    }
+   ]
+  },
+  {
+   "id": "cap-10m",
+   "made": "2026-10-14",
+   "text": "17 Oct: the pool's payout bar doubles from $5M to $10M",
+   "due": "2026-10-18",
+   "kind": "auto",
+   "rule": {
+    "metric": "cap",
+    "op": ">=",
+    "value": 10000000,
+    "by": "2026-10-17"
+   },
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "on track",
+     "evidence": "Announced by the team for after 18:45 UTC on 17 Oct."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "on track",
+     "evidence": "At 04:46 UTC the on-chain cap still read $5M, the pool held $4.96M, the queue was $0. The page marks this hit or missed itself from the daily contract read."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "missed",
+     "evidence": "Marked missed by the page from the 18 Oct contract read; the cap still read $5,000,000 on 19 and 20 Oct. No announcement of a delay or a new date was found. With no doubling there was no refill pause, so the restart test has had no event to measure."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "missed",
+     "evidence": "Stays missed: the cap read $5,000,000 on every daily contract read from 17 to 27 Oct, and no word from the team on why or when was found in the 20–27 Oct sweep."
+    }
+   ]
+  },
+  {
+   "id": "payout-restart",
+   "made": "2026-10-14",
+   "text": "Surplus payouts to stakers restart by ~20 Oct (bull), ~28 Oct (base) or ~12 Dec (bear) after the bar doubles",
+   "due": "2026-12-12",
+   "kind": "auto",
+   "rule": {
+    "metric": "holder_share",
+    "op": ">=",
+    "value": 0.8,
+    "after": "2026-10-18",
+    "by": "2026-12-12"
+   },
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "on track",
+     "evidence": "The call as made: the restart date tells the case."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "on track",
+     "evidence": "At today's $6.3M a day the pool refills in about a day, so the first reading will likely say bull without separating the cases. The reading that counts comes after the rush fades."
+    },
+    {
+     "date": "2026-10-17",
+     "time": "10:47Z",
+     "status": "on track",
+     "evidence": "Tell at 10:47 UTC: the pool is under the $5M bar before it doubles tonight, so the refill to $10M starts from $4.83M, about $5.2M of net losses. Stakers' income has been near zero since midnight UTC ($20K between 04:46 and 10:47 against $51.2M all time). Traders are ahead $1.0M on open trades; Bitcoin flat at $81.5K. Each case's date stands; the data marks the restart itself."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "hit",
+     "evidence": "The rule marked this hit on the 18 Oct row (holders ÷ revenue 90%), but the desk doubts the rule: that ratio is the split of distributed revenue between stakers and the treasury and read 85–95% on every day since launch, including 17 Oct, and the bar never doubled, so there was nothing to restart. PaperDash's daily allocation to stakers agrees with DefiLlama's holders line to the dollar ($0.78M, $2.12M, $1.69M on 17–19 Oct), so the dollars are real; the ratio is the wrong test. Left as the rule scored it; the fix (a pool-at-the-bar rule on the contract read) is lined up for Insaaf."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "hit",
+     "evidence": "Stands as the rule scored it; the question of what to do with it is still with Insaaf (BOARD 19). Holders ÷ revenue ranged 50–97% on 20–26 Oct: the two dips (21 Oct 50%, 25 Oct 66%) were days when traders were ahead and the pool sat under the $5M bar. PaperDash's daily allocation agrees with DefiLlama's holders line to the dollar except 25 Oct ($41K against $48K)."
+    }
+   ]
+  },
+  {
+   "id": "mint-10",
+   "made": "2026-10-14",
+   "text": "Mint rate falls under 10 PAPER per $1: bull ~14 Nov, base ~29 Jan 2027",
+   "due": "2027-01-29",
+   "kind": "auto",
+   "rule": {
+    "metric": "mint_rate",
+    "op": "<",
+    "value": 10,
+    "by": "2027-01-29"
+   },
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "on track",
+     "evidence": "The call as made."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "on track",
+     "evidence": "Running early: the live contract puts the rate at ~12 per $1 on 17 Oct (16.6 reported on 16 Oct)."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "on track",
+     "evidence": "10.3 PAPER per $1 on the 20 Oct contract read (high-water mark $254M; the rate crosses under 10 at $259.5M). At the current pace it crosses within about a day, three weeks ahead of the bull date, for the same reason the stop line came early: the curve runs on gross flow. The page marks it from the daily read."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "hit",
+     "evidence": "Marked itself hit on the 21 Oct contract read: 9.93 PAPER per $1 once the old curve's high-water mark passed $259.5M ($260.7M), about three weeks before the bull date. Hours later, at 22:00 UTC, the upgrade retired that curve: each $1 lost now mints a fixed share of supply, 9.80 per $1 at the switch and 9.94 today, rising as supply grows, so it passes 10 again at 9.08B. The hit stands as scored; the call's premise (a falling rate) no longer holds."
+    }
+   ]
+  },
+  {
+   "id": "stop-base",
+   "made": "2026-10-14",
+   "text": "Farming stop line, base case: ~12 PAPER per $1 around 2 Jan 2027",
+   "due": "2027-01-02",
+   "kind": "manual",
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "on track",
+     "evidence": "The call as made."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "missed",
+     "evidence": "Came 2½ months early: the rate reached ~12 per $1 by 17 Oct because the curve counts gross flow into the pool, not net losses. Version 2's base stop line is 8.8 per $1, around 11 Nov 2026."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "missed",
+     "evidence": "Stays missed. Under Version 3 the base-case stop line is 29.6 PAPER per $1 and already past: at 10.3 per $1, losing on purpose no longer pays in the base case. Bull stop line 4.9 per $1, around 28 Dec 2026."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "missed",
+     "evidence": "Stays missed. Under Version 4 every case's stop line is above today's rate: base 69.6 PAPER per $1, bull 12.7, against 9.94 minted per $1 lost under the new rule. Losing on purpose no longer pays even in the bull case."
+    }
+   ]
+  },
+  {
+   "id": "tvl-138",
+   "made": "2026-10-14",
+   "text": "Money on platform back above $138M by 30 Nov (the bull tell)",
+   "due": "2026-11-30",
+   "kind": "auto",
+   "rule": {
+    "metric": "tvl",
+    "op": ">=",
+    "value": 138000000,
+    "by": "2026-11-30"
+   },
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "off track",
+     "evidence": "$64M on 13 Oct against $138M deposited before launch."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "off track",
+     "evidence": "$68.6M on 17 Oct, up 7% since 13 Oct. Half the way with six weeks left."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "off track",
+     "evidence": "$63.8M on 19 Oct (DefiLlama), down from $68.7M on 17 Oct; 46% of the $138M bull tell with six weeks left, and moving the wrong way."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "off track",
+     "evidence": "$31.5M on 26 Oct (DefiLlama), 23% of the $138M bull tell with five weeks left; it was $63.8M on 19 Oct and has fallen on almost every day since."
+    }
+   ]
+  },
+  {
+   "id": "queue-zero",
+   "made": "2026-10-14",
+   "text": "The payout queue stays at zero",
+   "due": null,
+   "kind": "auto",
+   "rule": {
+    "metric": "queue",
+    "op": "==",
+    "value": 0,
+    "continuous": true
+   },
+   "history": [
+    {
+     "date": "2026-10-14",
+     "status": "hit",
+     "evidence": "Empty through the launch (The Defiant, 12 Oct)."
+    },
+    {
+     "date": "2026-10-17",
+     "status": "hit",
+     "evidence": "$0 throughout 10–17 Oct (PaperDash). Checked daily from here."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "hit",
+     "evidence": "$0 on every daily contract read, 17–20 Oct (PaperDash). Held through the quietest days since launch."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "hit",
+     "evidence": "$0 on every daily contract read from 17 to 27 Oct (PaperDash), including 21 Oct, when the house gave back about $2.7M. Every winner has been paid."
+    }
+   ]
+  },
+  {
+   "id": "restart-base",
+   "made": "2026-10-17",
+   "text": "Tell: stakers' share back above 80% on a closed day by 28 Oct, the base-case refill date set in Version 1. If not, the base case comes down in the next version",
+   "due": "2026-10-28",
+   "kind": "auto",
+   "rule": {
+    "metric": "holder_share",
+    "op": ">=",
+    "value": 0.8,
+    "after": "2026-10-18",
+    "by": "2026-10-28"
+   },
+   "history": [
+    {
+     "date": "2026-10-17",
+     "time": "10:47Z",
+     "status": "on track",
+     "evidence": "Made the afternoon the pool slipped under the bar. Once the bar doubles, about $5.2M of net trader losses refills it from $4.83M: about 8 days at the base case's $629K a day, about a day at the last three days' actual rate, but today's net losses are near zero. The daily data marks this hit or missed by itself."
+    },
+    {
+     "date": "2026-10-20",
+     "status": "hit",
+     "evidence": "Marked hit by the rule on 18 Oct (90%), for the reason given on the surplus-payouts call: the ratio measures the fee split, not a restart, and the bar never doubled. The pool spent 17–20 Oct touching the $5M bar and sweeping (29 of 300 readings in the 24h to 20 Oct at or above it; low $4.55M), so stakers were paid throughout: $0.78M, $2.12M, $1.69M on 17–19 Oct. The 17 Oct tell was a dip between sweeps, driven by traders being ahead on open bets, not a pause. The base case was not cut on this call; it came down because revenue fell."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "hit",
+     "evidence": "Stands as the rule scored it on 18 Oct (rule doubted, BOARD 19); due 28 Oct and nothing in the data changes it. The base case came down again in this version because revenue fell, not because of this call."
+    }
+   ]
+  },
+  {
+   "id": "skew-15",
+   "made": "2026-10-20",
+   "text": "Tell (the throttle): the bets lean one way by less than 15× the house money on every closed day",
+   "due": null,
+   "kind": "auto",
+   "rule": {
+    "metric": "skew_x_house",
+    "op": "<=",
+    "value": 15,
+    "continuous": true,
+    "after": "2026-10-20"
+   },
+   "history": [
+    {
+     "date": "2026-10-20",
+     "status": "on track",
+     "evidence": "Made with Version 3 from Insaaf's 17 Oct thesis, tempered by the desk: the house is the counterparty to every bet, so the lean of the bets against the house money is the exposure that decides whether traders can get in and out at size. Latest reading 10.2× on the 20 Oct read (bets $208M long against $107M short; house money $9.82M); 7.7× on 17 Oct, 11.9× on 18 Oct, 8.1× on 19 Oct. The page checks it daily from the contract read."
+    },
+    {
+     "date": "2026-10-27",
+     "status": "missed",
+     "evidence": "Marked itself missed: 17.9× the house money on the 20 Oct row and 18.4× on 21 Oct, so it broke on either reading of 20 Oct (the job replaced that morning's 10.2× read with a later one, BOARD 23). The house gave back about $2.7M between those two reads. Since then the lean has eased as the bets shrank: 14.5× on 22 Oct, then 11.0×, 6.4×, 6.6×, 7.1× and 4.95× on the 27 Oct read, with open bets down from $315M to $164M."
+    }
+   ]
+  }
+ ]
+}
