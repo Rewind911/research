@@ -140,6 +140,43 @@
    "page": "/paper-valuation/",
    "note": "Method change: the timelocked upgrade went live on 21 Oct, so supply now follows the contract's new mint rule (each $1M of loss mints 0.110% of supply, no ceiling), read from the contract. Inputs re-read on 27 Oct: reference = average of 24–26 Oct ($1.34M, $0.07M, $0.63M), down 60% again; stakers' share 95%; mint basis $3.3 per $1 of revenue since the upgrade; market bet ~$25M, with every strike now under 50%. The payout bar is still $5M.",
    "method": "new mint rule"
+  },
+  {
+   "v": 5,
+   "date": "2026-11-10",
+   "data_through": "2026-11-09",
+   "inputs": {
+    "R0": 0.4377,
+    "hold": 97,
+    "cum0": 72.24,
+    "hr": 3.7,
+    "poly": 25,
+    "hedge": 0.14,
+    "S0": 9.2833,
+    "c": 1.101002e-09
+   },
+   "cases": {
+    "bull": [
+     34,
+     12
+    ],
+    "base": [
+     10,
+     6
+    ],
+    "bear": [
+     2,
+     3
+    ]
+   },
+   "ref_days": {
+    "2026-11-07": 60180,
+    "2026-11-08": 745428,
+    "2026-11-09": 507570
+   },
+   "page": "/paper-valuation/",
+   "note": "Same method as Version 4, inputs re-read on 10 Nov: reference = average of 7–9 Nov ($0.06M, $0.75M, $0.51M), down 36%; stakers' share 97%; mint basis $3.7 per $1 of revenue over the 19 days since the upgrade; supply 9.28B. The payout bar is still $5M and the queue $0; the market bet stays at most ~$25M. Ran a week late: the 3 Nov run hit the desk's usage limit.",
+   "method": "new mint rule (since Version 4)"
   }
  ],
  "timeline": [
@@ -198,15 +235,39 @@
    "kind": "event"
   },
   {
+   "date": "2026-10-29",
+   "title": "Best day in ten",
+   "text": "Revenue $2.02M, the highest closed day since 18 Oct and 34 times 27 Oct's $59.9K; stakers got 96% of it. One day moved the three-day average 2.7×, the swing the reference question is about.",
+   "kind": "event"
+  },
+  {
+   "date": "2026-10-31",
+   "title": "Quietest days yet",
+   "text": "Revenue $19.3K on 31 Oct and $19.8K on 1 Nov, the two lowest closed days since launch. The pool read under the $5M bar on both days' contract reads, and stakers got 50% of revenue, the fee split alone. Money on platform $28.3M.",
+   "kind": "event"
+  },
+  {
    "date": "2026-11-03",
-   "title": "Version 5",
-   "text": "Weekly re-run. Does revenue hold near $0.7M a day, has the payout bar moved, and how fast does supply grow under the new mint rule?",
-   "kind": "upcoming"
+   "title": "Version 5 slips a week",
+   "text": "The scheduled re-run did not start: the desk hit its weekly usage limit (the 3–5 Nov daily checks too). The daily data job kept writing, so no reading was lost; Version 5 ran on 10 Nov.",
+   "kind": "event"
+  },
+  {
+   "date": "2026-11-05",
+   "title": "House money at its low",
+   "text": "The daily read put house money at $5.91M (pool $3.19M, reserve $2.72M), the lowest on file, while the bets leaned 6.6× the house money. The queue stayed at $0, and a day later the house was back at $8.17M.",
+   "kind": "key"
   },
   {
    "date": "2026-11-11",
-   "title": "Base-case stop line",
-   "text": "Version 2's base-case stop line date (8.8 PAPER per $1). Under Version 4 every case's stop line is above today's 9.9 PAPER per $1, and under the new mint rule the rate rises with supply instead of falling. A version runs that day.",
+   "title": "Version 6 · base-case stop line",
+   "text": "Version 2's base-case stop line date (8.8 PAPER per $1). Under Version 5 every case's stop line is above today's 10.2 PAPER per $1 (bull 18.3), and under the new mint rule the rate rises with supply. A version runs that day.",
+   "kind": "upcoming"
+  },
+  {
+   "date": "2026-11-17",
+   "title": "Version 7",
+   "text": "Weekly re-run. Does revenue hold near $0.45M a day, and has the payout bar or the mint constant moved in the timelock?",
    "kind": "upcoming"
   },
   {
