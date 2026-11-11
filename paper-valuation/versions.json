@@ -177,6 +177,43 @@
    "page": "/paper-valuation/",
    "note": "Same method as Version 4, inputs re-read on 10 Nov: reference = average of 7–9 Nov ($0.06M, $0.75M, $0.51M), down 36%; stakers' share 97%; mint basis $3.7 per $1 of revenue over the 19 days since the upgrade; supply 9.28B. The payout bar is still $5M and the queue $0; the market bet stays at most ~$25M. Ran a week late: the 3 Nov run hit the desk's usage limit.",
    "method": "new mint rule (since Version 4)"
+  },
+  {
+   "v": 6,
+   "date": "2026-11-11",
+   "data_through": "2026-11-10",
+   "inputs": {
+    "R0": 0.7508,
+    "hold": 97,
+    "cum0": 73.24,
+    "hr": 3.5,
+    "poly": 25,
+    "hedge": 0.14,
+    "S0": 9.3035,
+    "c": 1.101002e-09
+   },
+   "cases": {
+    "bull": [
+     34,
+     12
+    ],
+    "base": [
+     10,
+     6
+    ],
+    "bear": [
+     2,
+     3
+    ]
+   },
+   "ref_days": {
+    "2026-11-08": 745428,
+    "2026-11-09": 507570,
+    "2026-11-10": 999535
+   },
+   "page": "/paper-valuation/",
+   "note": "Same method as Versions 4 and 5, inputs re-read on 11 Nov, one day after Version 5 (a key date: Version 2's base-case stop line): reference = average of 8–10 Nov ($0.75M, $0.51M, $1.00M), up 72% because one day changed (10 Nov's $1.00M in, 7 Nov's $0.06M out); stakers' share 97%; mint basis $3.5 per $1 of revenue over the 20 days since the upgrade; supply 9.30B. The payout bar is still $5M and the queue $0; the market bet stays at most ~$25M. An upgrade (a new Exchange, contract set 3) was queued the same morning and can run from 12 Nov; it sets neither the bar nor the mint constant.",
+   "method": "new mint rule (since Version 4)"
   }
  ],
  "timeline": [
@@ -259,15 +296,27 @@
    "kind": "key"
   },
   {
+   "date": "2026-11-10",
+   "title": "Best day since 29 Oct",
+   "text": "Revenue $1.00M, the highest closed day since 29 Oct's $2.02M, 97% of it to stakers. It replaced 7 Nov's $60K in the three-day reference, which rose 72% overnight: the swing the reference question (BOARD 18) is about. House money read $8.52M, the queue $0.",
+   "kind": "event"
+  },
+  {
    "date": "2026-11-11",
-   "title": "Version 6 · base-case stop line",
-   "text": "Version 2's base-case stop line date (8.8 PAPER per $1). Under Version 5 every case's stop line is above today's 10.2 PAPER per $1 (bull 18.3), and under the new mint rule the rate rises with supply. A version runs that day.",
+   "title": "Upgrade queued: contract set 3",
+   "text": "At 00:47 UTC the team queued a seven-call batch in the timelock: a new Exchange (by the docs' own definition, contract set 3), PaperStaking and BatchExecutor code, idle USDC lent on HyperCore with the interest to stakers, and a donateToLp path with the team's multisig as donor; staked-PAPER transfers to whitelisted contracts are coded but \"unused for now\". Nothing in it sets the payout bar or the mint constant. Its first post since 25 Oct announced it. It can run from 12 Nov 00:47 UTC.",
+   "kind": "key"
+  },
+  {
+   "date": "2026-11-12",
+   "title": "Upgrade can run",
+   "text": "The queued batch can execute from 00:47 UTC. The daily read then shows whether the bar, the mint constant or the dashboard's readings moved; a version follows within a week (Version 7, 17 Nov).",
    "kind": "upcoming"
   },
   {
    "date": "2026-11-17",
    "title": "Version 7",
-   "text": "Weekly re-run. Does revenue hold near $0.45M a day, and has the payout bar or the mint constant moved in the timelock?",
+   "text": "Weekly re-run. Does revenue hold near $0.6M a day (seven-day average $0.59M on 10 Nov), and has the payout bar or the mint constant moved in the timelock?",
    "kind": "upcoming"
   },
   {
