@@ -10,7 +10,7 @@
   {
    "id": "base-value",
    "made": "2026-10-14",
-   "text": "Base case: $0.081 per PAPER by Oct 2027 (Version 2: $0.11; Version 3: $0.034; Version 4: $0.014; Version 5: $0.0094; Version 6: $0.015)",
+   "text": "Base case: $0.081 per PAPER by Oct 2027 (Version 2: $0.11; Version 3: $0.034; Version 4: $0.014; Version 5: $0.0094; Version 6: $0.015; Version 7: $0.00070)",
    "due": "2027-10-14",
    "kind": "manual",
    "history": [
@@ -49,13 +49,18 @@
      "date": "2026-11-11",
      "status": "off track",
      "evidence": "Re-run on 11 Nov gives $0.015 against the $0.081 called (Version 5: $0.0094). The rise is one day: 10 Nov's $1.00M replaced 7 Nov's $60K in the three-day reference (+72%). Against Version 1's fixed bars the last seven days ($0.59M a day) sit nearest base, 1.3× its $0.44M bar."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "off track",
+     "evidence": "Re-run on 17 Nov gives $0.00070 against the $0.081 called (Version 6: $0.015). The three-day reference fell 92% (14–16 Nov: $90K, $56K, $31K) and stakers' share fell to 51%, both because the pool sat under the bar after a $2.14M win on 13 Nov. With both inputs over seven days the base would be $0.0085. Against Version 1's fixed bars, the last seven days ($0.42M a day) sit nearest base, 0.94× its $0.44M bar."
     }
    ]
   },
   {
    "id": "bull-value",
    "made": "2026-10-14",
-   "text": "Bull case: $0.49 (Version 2: $0.72; Version 3: $0.21; Version 4: $0.079; Version 5: $0.055; Version 6: $0.082)",
+   "text": "Bull case: $0.49 (Version 2: $0.72; Version 3: $0.21; Version 4: $0.079; Version 5: $0.055; Version 6: $0.082; Version 7: $0.0046)",
    "due": "2027-10-14",
    "kind": "manual",
    "history": [
@@ -88,13 +93,18 @@
      "date": "2026-11-11",
      "status": "off track",
      "evidence": "Re-run on 11 Nov gives $0.082 against the $0.49 called. Revenue over the last seven days ($0.59M a day) is 39% of the $1.51M Version 1's bull case needs after the rush, and money on platform is $24.0M against the $138M the bull case wants back by 30 Nov."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "off track",
+     "evidence": "Re-run on 17 Nov gives $0.0046 against the $0.49 called. Revenue over the last seven days ($0.42M a day) is 28% of the $1.51M Version 1's bull case needs after the rush, and money on platform is $21.3M against the $138M the bull case wants back by 30 Nov."
     }
    ]
   },
   {
    "id": "bear-value",
    "made": "2026-10-14",
-   "text": "Bear case: $0.011 (Version 2: $0.013; Version 3: $0.0038; Version 4: $0.0015; Version 5: $0.0010; Version 6: $0.0017)",
+   "text": "Bear case: $0.011 (Version 2: $0.013; Version 3: $0.0038; Version 4: $0.0015; Version 5: $0.0010; Version 6: $0.0017; Version 7: $0.000070)",
    "due": "2027-10-14",
    "kind": "manual",
    "history": [
@@ -127,6 +137,11 @@
      "date": "2026-11-11",
      "status": "on track",
      "evidence": "Still points its way, less firmly: the re-run's base case ($0.015) now sits 36% above the $0.011 called, its bear case is $0.0017, and the market's bet (at most $25M) is about $0.0027 per PAPER. Of Version 1's three values, $0.011 is the nearest to the re-run's base and bear and to the market's bet."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "on track",
+     "evidence": "Points its way more firmly: the re-run's base ($0.00070) and bear ($0.000070) are both below the $0.011 called, the seven-day shadow's base ($0.0085) too, and the market's bet (at most $25M) is about $0.0027 per PAPER. Revenue over the last seven days is still 4.7× what Version 1's bear case needs after the rush, so this is not settled."
     }
    ]
   },
@@ -172,6 +187,11 @@
      "date": "2026-11-11",
      "status": "missed",
      "evidence": "Stays missed: the cap read $5,000,000 on every daily contract read from 17 Oct to 11 Nov (25 days late), and nothing touching it was queued in the timelock at the 11 Nov sweep."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "missed",
+     "evidence": "Stays missed: the cap read $5,000,000 on every daily read from 17 Oct to 17 Nov (31 days late), including after contract set 3 went live on 12 Nov; the mint-and-cap contract was not upgraded and nothing touching the cap is queued in the timelock."
     }
    ]
   },
@@ -224,6 +244,11 @@
      "date": "2026-11-11",
      "status": "hit",
      "evidence": "Stands as the rule scored it; the question is still with Insaaf (BOARD 19). Holders ÷ revenue read 97.3% on 10 Nov and 89–97% on every closed day since 4 Nov. The bar never doubled, so there was still nothing to restart."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "hit",
+     "evidence": "Stands as the rule scored it; the question is still with Insaaf (BOARD 19). Holders ÷ revenue read 50.0%, 50.5% and 52.2% on 14–16 Nov with the pool under the bar on every read since the 13 Nov payout: the ratio follows the pool, not a restart."
     }
    ]
   },
@@ -269,6 +294,11 @@
      "date": "2026-11-11",
      "status": "hit",
      "evidence": "Stands: it marked itself hit on the 21 Oct read on the old curve. Under the new rule the rate is supply × c and rises with supply: 10.24 PAPER per $1 on 11 Nov (9.305B PAPER). The job's mint_rate field still prints the retired curve's 9.80 (BOARD 25)."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "hit",
+     "evidence": "Stands: it marked itself hit on the 21 Oct read on the old curve. Under the live rule the rate is supply × c and rises with supply: 10.36 PAPER per $1 on 17 Nov (9.407B PAPER). From the 17 Nov row the job's mint_rate field computes the live rule (BOARD 25); earlier rows keep the retired curve's value."
     }
    ]
   },
@@ -308,6 +338,11 @@
      "date": "2026-11-11",
      "status": "missed",
      "evidence": "Stays missed. Today is Version 2's base-case stop-line date (8.8 PAPER per $1); the rate is 10.24 and rises with supply. Under Version 6 every case's stop line is above it: bull 12.2 PAPER per $1, base 64.8. Losing on purpose does not pay in any case, though the bull gap narrowed (18.3 on 10 Nov)."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "missed",
+     "evidence": "Stays missed. Under Version 7 every case's stop line is far above today's rate: bull 216 PAPER per $1, base 1,435, against 10.36 minted per $1 lost. Losing on purpose does not pay in any case."
     }
    ]
   },
@@ -353,6 +388,11 @@
      "date": "2026-11-11",
      "status": "off track",
      "evidence": "$24.0M on 10 Nov (DefiLlama), 17% of the $138M bull tell with 19 days left; it was $31.5M on 26 Oct and has not been above $31M since."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "off track",
+     "evidence": "$21.3M on 16 Nov (DefiLlama), 15% of the $138M bull tell with 13 days left; 15 Nov closed at $19.7M, the lowest on file, partly because DefiLlama's count missed the USDC the Exchange started lending on HyperCore (fixed 16 Nov). The chain and PaperDash read $20.7M on 17 Nov."
     }
    ]
   },
@@ -398,6 +438,11 @@
      "date": "2026-11-11",
      "status": "hit",
      "evidence": "$0 on every daily contract read from 17 Oct to 11 Nov (PaperDash), including 5 Nov, when house money fell to $5.91M. Every winner has been paid."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "hit",
+     "evidence": "$0 on every daily read from 17 Oct to 17 Nov, including 13 Nov, when the house paid one trader $2,137,629 (it reached the trader's wallet at 09:44:01 UTC). After contract set 3 the reading still comes from a live contract getter (totalQueued)."
     }
    ]
   },
@@ -440,6 +485,11 @@
      "date": "2026-11-11",
      "status": "hit",
      "evidence": "Resolved on its 28 Oct due date as the rule scored it on 18 Oct (rule doubted, BOARD 19). Version 6's base case rose because one day of revenue changed, not because of this call."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "hit",
+     "evidence": "Resolved on its 28 Oct due date as the rule scored it on 18 Oct (rule doubted, BOARD 19). Version 7's base fell because the pool is refilling under the bar, which is what this tell was about; it resolved before that happened."
     }
    ]
   },
@@ -476,6 +526,32 @@
      "date": "2026-11-11",
      "status": "missed",
      "evidence": "Stays missed (broke on 20 and 21 Oct). Since then the lean has stayed under the line on every daily read: at most 14.5× on 22 Oct, 1.82× on 11 Nov ($42.2M long, $25.9M short, $8.96M of house money)."
+    },
+    {
+     "date": "2026-11-17",
+     "status": "missed",
+     "evidence": "Stays missed (broke on 20 and 21 Oct). Since then the lean has stayed under the line on every daily read: at most 3.9× since contract set 3 (12 Nov row), 2.83× on 17 Nov ($31.7M long, $11.3M short, $7.22M of house money)."
+    }
+   ]
+  },
+  {
+   "id": "share-80-v8",
+   "made": "2026-11-17",
+   "text": "Tell: the pool refills past the $5M bar and stakers' share is back above 80% on a closed day by 24 Nov (Version 8). If not, Version 8's share stays near 50%",
+   "due": "2026-11-24",
+   "kind": "auto",
+   "rule": {
+    "metric": "holder_share",
+    "op": ">=",
+    "value": 0.8,
+    "after": "2026-11-17",
+    "by": "2026-11-24"
+   },
+   "history": [
+    {
+     "date": "2026-11-17",
+     "status": "on track",
+     "evidence": "Made with Version 7. The pool read $4.00M at 07:04 UTC, $1.0M under the bar; it needs about $1.0M of net trader losses. At the 14–17 Nov pace (+$0.24M in three days) that is about 12 days, too late; one day like 13 Nov's early hours does it at once (our arithmetic). Stakers' share read 50.0%, 50.5% and 52.2% on 14–16 Nov. The daily data marks this hit or missed by itself."
     }
    ]
   }

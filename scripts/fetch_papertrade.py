@@ -64,7 +64,13 @@ def contract_snapshot(now):
             "date": now.date().isoformat(),
             "cap": wei(p.get("cap")), "lp": wei(p.get("trackedLp")), "queue": wei(b.get("queue")),
             "supply": wei(p.get("supply")), "staked": wei(p.get("staked")), "tail": tail,
-            "mint_rate": (rate * (decay / (decay + tail)) ** 2) if tail is not None else None,
+            # Mint rate, PAPER per $1 of loss basis. Contract set 2 (live 21 Oct 2026 22:00 UTC) mints supply x (e^(c*g) - 1),
+            # c = rebateC36 / 1e36, so the first dollar mints supply x c. The retired curve, 100 x (120M / (120M + tail))^2, is
+            # used only when the contract read carries no rebateC36. New definition from the 17 Nov 2026 row (BOARD 25);
+            # earlier rows keep the value they were written with.
+            "mint_rate": (wei(p.get("supply")) * int(p["rebateC36"]) / 1e36) if p.get("rebateC36") is not None and p.get("supply") is not None
+                         else ((rate * (decay / (decay + tail)) ** 2) if tail is not None else None),
+            "mint_rule": "supply x rebateC36/1e36" if p.get("rebateC36") is not None else "retired curve",
             "margin": wei(b.get("margin")), "stale": False,
         }
         if snap["cap"] is None or snap["supply"] is None:

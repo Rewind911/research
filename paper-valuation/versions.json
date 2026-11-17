@@ -214,6 +214,43 @@
    "page": "/paper-valuation/",
    "note": "Same method as Versions 4 and 5, inputs re-read on 11 Nov, one day after Version 5 (a key date: Version 2's base-case stop line): reference = average of 8–10 Nov ($0.75M, $0.51M, $1.00M), up 72% because one day changed (10 Nov's $1.00M in, 7 Nov's $0.06M out); stakers' share 97%; mint basis $3.5 per $1 of revenue over the 20 days since the upgrade; supply 9.30B. The payout bar is still $5M and the queue $0; the market bet stays at most ~$25M. An upgrade (a new Exchange, contract set 3) was queued the same morning and can run from 12 Nov; it sets neither the bar nor the mint constant.",
    "method": "new mint rule (since Version 4)"
+  },
+  {
+   "v": 7,
+   "date": "2026-11-17",
+   "data_through": "2026-11-16",
+   "inputs": {
+    "R0": 0.0592,
+    "hold": 51,
+    "cum0": 75.16,
+    "hr": 3.8,
+    "poly": 25,
+    "hedge": 0.14,
+    "S0": 9.4059,
+    "c": 1.101002e-09
+   },
+   "cases": {
+    "bull": [
+     34,
+     12
+    ],
+    "base": [
+     10,
+     6
+    ],
+    "bear": [
+     2,
+     3
+    ]
+   },
+   "ref_days": {
+    "2026-11-14": 90348,
+    "2026-11-15": 56328,
+    "2026-11-16": 31053
+   },
+   "page": "/paper-valuation/",
+   "note": "Same method as Versions 4–6, inputs re-read on 17 Nov: reference = average of 14–16 Nov ($90K, $56K, $31K), $0.059M a day, down 92%; stakers' share 51%, because the pool sat under the $5M bar all three days and stakers got only the fee split; mint basis $3.8 per $1 of revenue over the 26 days since the 21 Oct upgrade; supply 9.41B. The three days are a refill: on 13 Nov the house paid one trader $2.14M, the pool fell under the bar, and below it traders' losses refill the pool instead of counting as revenue, while volume held at $1.4–2.5B a day. Contract set 3 went live on 12 Nov and changed neither the bar nor the mint constant. Over seven days, both inputs ($0.42M a day, 93%) would give a base of $0.0085; the window is Insaaf's call on 30 Nov.",
+   "method": "new mint rule (since Version 4)"
   }
  ],
  "timeline": [
@@ -309,14 +346,26 @@
   },
   {
    "date": "2026-11-12",
-   "title": "Upgrade can run",
-   "text": "The queued batch can execute from 00:47 UTC. The daily read then shows whether the bar, the mint constant or the dashboard's readings moved; a version follows within a week (Version 7, 17 Nov).",
-   "kind": "upcoming"
+   "title": "Upgrade live: contract set 3",
+   "text": "At 17:58 UTC the queued batch ran: a new Exchange, PaperStaking and BatchExecutor. The mint contract was not upgraded; the payout bar ($5M), the mint constant and the payout queue ($0) read unchanged. From 14 Nov the Exchange lent its idle USDC on HyperCore ($20.65M by 17 Nov).",
+   "kind": "key"
   },
   {
-   "date": "2026-11-17",
-   "title": "Version 7",
-   "text": "Weekly re-run. Does revenue hold near $0.6M a day (seven-day average $0.59M on 10 Nov), and has the payout bar or the mint constant moved in the timelock?",
+   "date": "2026-11-13",
+   "title": "A $2.14M win; the pool drops under the bar",
+   "text": "Revenue $1.22M, the best day since 29 Oct, mostly in the early hours. At 09:44 UTC the house paid $2,137,629 to one trader closing three shorts (a team member posted them: ETH and BTC, $1.98M of profit). The pool fell from $5.55M to $3.33M by the afternoon read and has stayed under the $5M bar since; the queue stayed at $0.",
+   "kind": "key"
+  },
+  {
+   "date": "2026-11-14",
+   "title": "Three quiet days: the pool refills",
+   "text": "Revenue $90K, $56K and $31K on 14–16 Nov, half of it to stakers, while volume held at $1.4–2.5B a day: with the pool under the bar, traders' losses refill it and do not count as revenue. The three days became Version 7's reference.",
+   "kind": "event"
+  },
+  {
+   "date": "2026-11-24",
+   "title": "Version 8",
+   "text": "Weekly re-run. Has the pool refilled past the $5M bar, so that stakers' share is back above 80% on a closed day (the call made on 17 Nov)?",
    "kind": "upcoming"
   },
   {
