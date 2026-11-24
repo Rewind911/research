@@ -28,7 +28,15 @@ SRC = {
     "contract": "https://paperdash-api.onrender.com/api/overview",
     "assets": "https://paperdash-api.onrender.com/api/assets",
     "positions": "https://paperdash-api.onrender.com/api/position-metrics",
+    "rpc": "https://rpc.hyperlend.finance/archive",  # HyperEVM archive node; accepts 50,000-block log ranges
 }
+# Papertrade's timelock: every owner change (the payout bar, the mint constant, an upgrade) is scheduled here
+# and waits 24 hours before it can run. Its events (custom, not OpenZeppelin's): 0x0b9c64b5... = a batch
+# scheduled (11 Nov 2026: contract set 3; 15 Nov: six builder approvals); 0xaa1510ac... = a batch executed
+# (18 Nov 17:00 UTC on the 15 Nov op; isOperationDone reads true after it). Since 24 Nov 2026 (BOARD 26).
+TIMELOCK = "0xB915Fa41e824D6aA31BB833Ee81220C0F2c8EA0F"
+TIMELOCK_TOPICS = {"0x0b9c64b5": "scheduled", "0xaa1510ac": "executed"}
+TIMELOCK_BLOCKS = 100000  # about 27 hours of HyperEVM blocks, so each daily run overlaps the last
 WEI = 10 ** 18
 CONTRACT_KEEP = 400  # days of contract snapshots kept in the data file
 FIELDS = ("revenue", "holders", "tvl")
@@ -78,12 +86,45 @@ def contract_snapshot(now):
         snap["reserve"] = wei(p.get("reserve"))
         snap["house"] = (snap["lp"] or 0) + (snap["reserve"] or 0) if snap["lp"] is not None else None
         snap.update(throttle_readings())
+        snap.update(timelock_read())
         if snap.get("oi_long") is not None and snap.get("oi_short") is not None and snap.get("house"):
             snap["skew_x_house"] = (snap["oi_long"] - snap["oi_short"]) / snap["house"]
         return snap
     except Exception as e:  # noqa: BLE001 - any failure means "no fresh read", never a guess
         print(f"contract read failed: {e}", file=sys.stderr)
         return None
+
+
+def rpc(method, params):
+    req = urllib.request.Request(SRC["rpc"], data=json.dumps({"jsonrpc": "2.0", "id": 1, "method": method, "params": params}).encode(),
+                                 headers={"Content-Type": "application/json", "User-Agent": "research.2rewind.com daily data fetch"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        out = json.load(r)
+    if "error" in out:
+        raise RuntimeError(f"{method}: {out['error']}")
+    return out["result"]
+
+
+def timelock_read():
+    """Events on the timelock in the last TIMELOCK_BLOCKS blocks, read from the chain. Additive: a failure
+    leaves the fields None (unknown), never 0 and never the whole snapshot."""
+    out = {"timelock_events": None, "timelock_last": None}
+    try:
+        head = int(rpc("eth_blockNumber", []), 16)
+        logs = []
+        for lo in range(head - TIMELOCK_BLOCKS, head, 50000):
+            logs += rpc("eth_getLogs", [{"address": TIMELOCK, "fromBlock": hex(lo + 1), "toBlock": hex(min(lo + 50000, head))}])
+        out["timelock_events"] = len(logs)
+        if logs:
+            e = logs[-1]
+            ts = int(rpc("eth_getBlockByNumber", [e["blockNumber"], False])["timestamp"], 16)
+            out["timelock_last"] = {
+                "time": dt.datetime.fromtimestamp(ts, dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "block": int(e["blockNumber"], 16), "kind": TIMELOCK_TOPICS.get(e["topics"][0][:10], "other"),
+                "topic": e["topics"][0], "op": e["topics"][1] if len(e["topics"]) > 1 else None, "tx": e["transactionHash"]}
+    except Exception as e:  # noqa: BLE001
+        print(f"timelock read failed: {e}", file=sys.stderr)
+    return out
 
 
 def throttle_readings():
