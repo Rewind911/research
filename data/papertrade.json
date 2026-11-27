@@ -1,45 +1,38 @@
 {
  "contract": {
-  "asof": "2026-11-26T16:49:26Z",
-  "avg_hold_min": 41.738362714759305,
-  "avg_leverage": 394.2920891844071,
+  "asof": "2026-11-27T06:47:58Z",
+  "avg_hold_min": 41.74083018265489,
+  "avg_leverage": 394.3077367536506,
   "cap": 5000000.0,
-  "date": "2026-11-26",
-  "house": 8469823.64522169,
-  "lp": 4979621.890727667,
-  "margin": 1145165.8103717433,
-  "mint_rate": 10.495412249697573,
+  "date": "2026-11-27",
+  "house": 8176608.410591087,
+  "lp": 4806739.541490241,
+  "margin": 1581805.3573329414,
+  "mint_rate": 10.498317923195717,
   "mint_rule": "supply x rebateC36/1e36",
   "oi_by_asset": {
    "BTC": {
-    "long": 7076662.355210433,
-    "short": 3865950.6057439996
+    "long": 14035418.116105434,
+    "short": 2459874.638136
    },
    "ETH": {
-    "long": 9483534.974048,
-    "short": 3362198.024048
+    "long": 14078068.974472,
+    "short": 2801725.644472
    }
   },
-  "oi_long": 16560197.329258433,
-  "oi_short": 7228148.629791999,
-  "open_positions": 618,
-  "positions_all_time": 2399702,
+  "oi_long": 28113487.09057743,
+  "oi_short": 5261600.282608001,
+  "open_positions": 754,
+  "positions_all_time": 2407418,
   "queue": 0.0,
-  "reserve": 3490201.754494023,
-  "skew_x_house": 1.1017996466468547,
-  "staked": 9461393245.692152,
+  "reserve": 3369868.8691008464,
+  "skew_x_house": 2.794787968367127,
+  "staked": 9463554984.274479,
   "stale": false,
-  "supply": 9532602554.63817,
+  "supply": 9535241672.564402,
   "tail": 263336521.87698057,
-  "timelock_events": 3,
-  "timelock_last": {
-   "block": 52227099,
-   "kind": "executed",
-   "op": "0x8303461a8bc3a40fe78d576c73a28fa7cb21a92a0b7417517987a4eda59ba0c8",
-   "time": "2026-11-25T17:32:12Z",
-   "topic": "0xaa1510acf32db51981a900a90589bafbf6f442c657a0b916fd3afe22c1474bcd",
-   "tx": "0xecaa18fea75f3e00479da126c010801a91be30d63b48f60c8be963f2575b97c3"
-  }
+  "timelock_events": 0,
+  "timelock_last": null
  },
  "contract_history": [
   {
@@ -1390,6 +1383,41 @@
     "topic": "0xaa1510acf32db51981a900a90589bafbf6f442c657a0b916fd3afe22c1474bcd",
     "tx": "0xecaa18fea75f3e00479da126c010801a91be30d63b48f60c8be963f2575b97c3"
    }
+  },
+  {
+   "asof": "2026-11-27T06:47:58Z",
+   "avg_hold_min": 41.74083018265489,
+   "avg_leverage": 394.3077367536506,
+   "cap": 5000000.0,
+   "date": "2026-11-27",
+   "house": 8176608.410591087,
+   "lp": 4806739.541490241,
+   "margin": 1581805.3573329414,
+   "mint_rate": 10.498317923195717,
+   "mint_rule": "supply x rebateC36/1e36",
+   "oi_by_asset": {
+    "BTC": {
+     "long": 14035418.116105434,
+     "short": 2459874.638136
+    },
+    "ETH": {
+     "long": 14078068.974472,
+     "short": 2801725.644472
+    }
+   },
+   "oi_long": 28113487.09057743,
+   "oi_short": 5261600.282608001,
+   "open_positions": 754,
+   "positions_all_time": 2407418,
+   "queue": 0.0,
+   "reserve": 3369868.8691008464,
+   "skew_x_house": 2.794787968367127,
+   "staked": 9463554984.274479,
+   "stale": false,
+   "supply": 9535241672.564402,
+   "tail": 263336521.87698057,
+   "timelock_events": 0,
+   "timelock_last": null
   }
  ],
  "daily": [
@@ -1674,10 +1702,16 @@
    "holders": 441352,
    "revenue": 456605,
    "tvl": 19774160
+  },
+  {
+   "date": "2026-11-26",
+   "holders": 68277,
+   "revenue": 78661,
+   "tvl": 19719380
   }
  ],
- "data_through": "2026-11-25",
- "fetched_at": "2026-11-26T16:49:26Z",
+ "data_through": "2026-11-26",
+ "fetched_at": "2026-11-27T06:47:58Z",
  "sources": {
   "assets": "https://paperdash-api.onrender.com/api/assets",
   "contract": "https://paperdash-api.onrender.com/api/overview",
@@ -1688,16 +1722,16 @@
   "tvl": "https://api.llama.fi/protocol/papertrade"
  },
  "today_so_far": {
-  "date": "2026-11-26",
-  "holders": 94044,
-  "revenue": 106735,
-  "tvl": 19380999
+  "date": "2026-11-27",
+  "holders": 68632,
+  "revenue": 79366,
+  "tvl": 19355868
  },
  "totals": {
-  "holders_24h": 94044,
-  "holders_all_time": 72340726,
-  "revenue_24h": 106735,
-  "revenue_all_time": 78287339,
-  "tvl_now": 19380999.51777
+  "holders_24h": 68632,
+  "holders_all_time": 72409003,
+  "revenue_24h": 79366,
+  "revenue_all_time": 78366000,
+  "tvl_now": 19355868.26319
  }
 }
