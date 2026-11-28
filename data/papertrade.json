@@ -1,35 +1,35 @@
 {
  "contract": {
-  "asof": "2026-11-28T06:47:29Z",
-  "avg_hold_min": 41.86564838356502,
-  "avg_leverage": 394.2170263684821,
+  "asof": "2026-11-28T15:27:17Z",
+  "avg_hold_min": 41.89404980603227,
+  "avg_leverage": 394.1545450263247,
   "cap": 5000000.0,
   "date": "2026-11-28",
-  "house": 8594428.082199575,
-  "lp": 4999637.86652552,
-  "margin": 1307702.813515125,
-  "mint_rate": 10.508549832340142,
+  "house": 8597743.897164285,
+  "lp": 4997462.904033749,
+  "margin": 1314174.532437315,
+  "mint_rate": 10.509983239920453,
   "mint_rule": "supply x rebateC36/1e36",
   "oi_by_asset": {
    "BTC": {
-    "long": 10304964.598492082,
-    "short": 8960134.243492
+    "long": 17377030.39391858,
+    "short": 2799147.912064
    },
    "ETH": {
-    "long": 6750645.25028,
-    "short": 3027159.67028
+    "long": 7162243.56448,
+    "short": 3496328.51448
    }
   },
-  "oi_long": 17055609.848772082,
-  "oi_short": 11987293.913772,
-  "open_positions": 656,
-  "positions_all_time": 2417697,
+  "oi_long": 24539273.95839858,
+  "oi_short": 6295476.426543999,
+  "open_positions": 709,
+  "positions_all_time": 2420162,
   "queue": 0.0,
-  "reserve": 3594790.2156740557,
-  "skew_x_house": 0.5897211410143008,
-  "staked": 9471073063.609402,
+  "reserve": 3600280.9931305363,
+  "skew_x_house": 2.121928467521784,
+  "staked": 9472688245.766476,
   "stale": false,
-  "supply": 9544534944.798826,
+  "supply": 9545836856.95214,
   "tail": 263336521.87698057,
   "timelock_events": 4,
   "timelock_last": {
@@ -1427,36 +1427,36 @@
    "timelock_last": null
   },
   {
-   "asof": "2026-11-28T06:47:29Z",
-   "avg_hold_min": 41.86564838356502,
-   "avg_leverage": 394.2170263684821,
+   "asof": "2026-11-28T15:27:17Z",
+   "avg_hold_min": 41.89404980603227,
+   "avg_leverage": 394.1545450263247,
    "cap": 5000000.0,
    "date": "2026-11-28",
-   "house": 8594428.082199575,
-   "lp": 4999637.86652552,
-   "margin": 1307702.813515125,
-   "mint_rate": 10.508549832340142,
+   "house": 8597743.897164285,
+   "lp": 4997462.904033749,
+   "margin": 1314174.532437315,
+   "mint_rate": 10.509983239920453,
    "mint_rule": "supply x rebateC36/1e36",
    "oi_by_asset": {
     "BTC": {
-     "long": 10304964.598492082,
-     "short": 8960134.243492
+     "long": 17377030.39391858,
+     "short": 2799147.912064
     },
     "ETH": {
-     "long": 6750645.25028,
-     "short": 3027159.67028
+     "long": 7162243.56448,
+     "short": 3496328.51448
     }
    },
-   "oi_long": 17055609.848772082,
-   "oi_short": 11987293.913772,
-   "open_positions": 656,
-   "positions_all_time": 2417697,
+   "oi_long": 24539273.95839858,
+   "oi_short": 6295476.426543999,
+   "open_positions": 709,
+   "positions_all_time": 2420162,
    "queue": 0.0,
-   "reserve": 3594790.2156740557,
-   "skew_x_house": 0.5897211410143008,
-   "staked": 9471073063.609402,
+   "reserve": 3600280.9931305363,
+   "skew_x_house": 2.121928467521784,
+   "staked": 9472688245.766476,
    "stale": false,
-   "supply": 9544534944.798826,
+   "supply": 9545836856.95214,
    "tail": 263336521.87698057,
    "timelock_events": 4,
    "timelock_last": {
@@ -1766,7 +1766,7 @@
   }
  ],
  "data_through": "2026-11-27",
- "fetched_at": "2026-11-28T06:47:29Z",
+ "fetched_at": "2026-11-28T15:27:17Z",
  "sources": {
   "assets": "https://paperdash-api.onrender.com/api/assets",
   "contract": "https://paperdash-api.onrender.com/api/overview",
@@ -1778,15 +1778,15 @@
  },
  "today_so_far": {
   "date": "2026-11-28",
-  "holders": 244883,
-  "revenue": 256934,
-  "tvl": 19352736
+  "holders": 449317,
+  "revenue": 461683,
+  "tvl": 19557208
  },
  "totals": {
-  "holders_24h": 244883,
+  "holders_24h": 449317,
   "holders_all_time": 72656427,
-  "revenue_24h": 256934,
+  "revenue_24h": 461683,
   "revenue_all_time": 78628032,
-  "tvl_now": 19352736.88043
+  "tvl_now": 19557208.24047
  }
 }
